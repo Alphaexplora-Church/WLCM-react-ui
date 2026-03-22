@@ -1,9 +1,9 @@
-import React from 'react';
 import { motion } from 'framer-motion';
+import type { Variants } from 'framer-motion';
 
 const Events = () => {
   // Animation Variants
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -11,7 +11,7 @@ const Events = () => {
     }
   };
 
-  const cardVariants = {
+  const cardVariants: Variants = {
     hidden: { opacity: 0, x: -20 },
     visible: {
       opacity: 1,
@@ -20,7 +20,7 @@ const Events = () => {
     }
   };
 
-  const announcementVariants = {
+  const announcementVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,

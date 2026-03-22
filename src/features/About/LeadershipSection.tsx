@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const nationalTeam = [
@@ -11,25 +11,6 @@ const nationalTeam = [
   { name: "Pastor Arnold Pacis", role: "Magnification Department Head", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800" },
 ];
 
-const pastors = [
-  { name: "Bernardine, Micah", role: "Lead Pastor of Caba" },
-  { name: "Carbonell, Ramon", role: "Lead Pastor of Baguio" },
-  { name: "Carillo, Jezz", role: "Lead Pastor of Binangonan" },
-  { name: "Fantonial, Dindo", role: "Lead Pastor of Benabaye" },
-  { name: "Fantonial, Jim", role: "Lead Pastor of Ormoc" },
-  { name: "Feranil, Sonny", role: "Lead Pastor of Sto. Tomas" },
-  { name: "Garbe, Hermie", role: "Lead Pastor of Liloan and Libagon" },
-  { name: "Mercado, Roderick", role: "Lead Pastor of Batangas" },
-  { name: "Meralles, Danilo", role: "Lead Pastor of Libjo" },
-  { name: "Monencillo, Tony", role: "Lead Pastor of Palompon" },
-  { name: "Nool, Nilo", role: "Lead Pastor of Davao" },
-  { name: "Orbiso, Jude", role: "Lead Pastor of Marikina" },
-  { name: "Orbiso, Nicasio", role: "Lead Pastor of Sta. Rita and Sto. Niño" },
-  { name: "Pajaron, Novie", role: "Lead Pastor of RM Tan" },
-  { name: "Sarco, Rudy", role: "Lead Pastor of Elijan" },
-  { name: "Velasquez, Jimmy", role: "Lead Pastor of Luzon Ave" },
-  { name: "Yango, Reynante", role: "Lead Pastor of Pendulonan and Lanao del Norte" },
-];
 
 export default function LeadershipSection() {
   const [width, setWidth] = useState(0);

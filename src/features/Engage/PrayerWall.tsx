@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface PrayerNote {
@@ -166,7 +166,7 @@ export default function PrayerWall() {
                 layoutId={`note-${note.id}`}
                 drag
                 dragMomentum={false}
-                onDragEnd={(e, info) => {
+                onDragEnd={(_, info) => {
                   updateNotePosition(note.id, note.x + info.offset.x, note.y + info.offset.y);
                 }}
                 whileDrag={{ scale: 1.05, zIndex: 10, boxShadow: "0 20px 25px -5px rgb(0 0 0 / 0.5)" }}
