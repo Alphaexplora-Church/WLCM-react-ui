@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+
 import { motion, AnimatePresence } from 'framer-motion';
 
 const GivingModal = ({ isOpen, fundName, onClose }: { isOpen: boolean, fundName: string, onClose: () => void }) => {

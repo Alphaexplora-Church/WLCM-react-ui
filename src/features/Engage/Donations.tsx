@@ -1,12 +1,3 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-
-interface GivingTab {
-  id: string;
-  label: string;
-  icon: string;
-}
-
 // const tabs: GivingTab[] = [
 //   { id: 'gcash', label: 'GCash', icon: 'G' },
 //   { id: 'bank', label: 'Bank Transfer', icon: 'B' },

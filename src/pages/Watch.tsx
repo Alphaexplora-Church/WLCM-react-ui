@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navigation from '../components/Navigation';
 
@@ -39,39 +39,14 @@ function useCountdown(target: Date) {
     return { d, h, m, s };
 }
 
-// ── Sample sermon archive ────────────────────────────────────────────────────
-type Language = 'English' | 'Tagalog';
-interface Sermon {
-    title: string; speaker: string; date: string; summary: string; duration: string; series: string;
-}
-const archive: Record<Language, Sermon[]> = {
-    English: [
-        { title: "Know God, Find Freedom", speaker: "Pastor Josef Zabarte", date: "Feb 23, 2026", summary: "Understanding God's design for our lives and the freedom found in relationship with Him.", duration: "44 min", series: "Mission Pathway" },
-        { title: "Walking in Purpose", speaker: "Pastor Josef Zabarte", date: "Feb 16, 2026", summary: "How every believer is uniquely gifted and called to a specific role in God's kingdom.", duration: "41 min", series: "Mission Pathway" },
-        { title: "The Power of Community", speaker: "Pastor Grace Zabarte", date: "Feb 09, 2026", summary: "Why authentic Christian fellowship is essential for spiritual growth and personal healing.", duration: "38 min", series: "Family of Faith" },
-        { title: "Making a Difference", speaker: "Pastor Jude Orbiso", date: "Feb 02, 2026", summary: "How serving others is not just a duty but the greatest source of lasting joy and impact.", duration: "46 min", series: "Mission Pathway" },
-    ],
-    Tagalog: [
-        { title: "Kilala ang Diyos", speaker: "Pastor Josef Zabarte", date: "Feb 23, 2026", summary: "Pag-unawa sa disenyo ng Diyos para sa ating buhay at ang kalayaang matatagpuan sa pakikipugnayan sa Kanya.", duration: "48 min", series: "Mission Pathway" },
-        { title: "Kalayaan sa Pananampalataya", speaker: "Pastor Arnold Pacis", date: "Feb 16, 2026", summary: "Ang espirituwal na kalayaan na hatid ng tunay na relasyon sa Diyos.", duration: "42 min", series: "Landas ng Misyon" },
-        { title: "Ang Kapangyarihan ng Komunidad", speaker: "Pastor Yoly Iriman", date: "Feb 09, 2026", summary: "Bakit mahalaga ang tunay na pakikiisa sa kapwa Kristiyano para sa paglago at kagalingan.", duration: "40 min", series: "Pamilya ng Pananampalataya" },
-    ],
-};
 
 // ── Component ────────────────────────────────────────────────────────────────
 const Watch = () => {
-    const [notifyEmail, setNotifyEmail] = useState('');
-    const [notified, setNotified] = useState(false);
-    const [lang, setLang] = useState<Language>('English');
     const [isLive, setIsLive] = useState(false);
 
     const next = getNextStream();
     const { d, h, m, s } = useCountdown(next.target);
 
-    const handleNotify = (e: React.FormEvent) => {
-        e.preventDefault();
-        setNotified(true);
-    };
 
     // ── Check if currently within service hours ────────────────────────────
     useEffect(() => {

@@ -1,11 +1,11 @@
-import React, { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 import { Link } from 'react-router-dom'; // Added this import
 
 const CommunityPulse = () => {
   const [constraints, setConstraints] = useState({ left: 0, right: 0 });
   const [isMobile, setIsMobile] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState<any>(null);
   const [isPaused, setIsPaused] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -95,7 +95,7 @@ const CommunityPulse = () => {
     }
   }, []);
 
-  const getCardHeight = (orientation) => {
+  const getCardHeight = (orientation: string) => {
     switch(orientation) {
       case 'landscape': return 'h-[45vh] sm:h-[50vh] md:h-[480px] lg:h-[520px]';
       case 'square': return 'h-[50vh] sm:h-[55vh] md:h-[520px] lg:h-[560px]';
@@ -104,7 +104,7 @@ const CommunityPulse = () => {
     }
   };
 
-  const getCardWidth = (orientation) => {
+  const getCardWidth = (orientation: string) => {
     switch(orientation) {
       case 'landscape': return 'w-[85vw] sm:w-[75vw] md:w-[520px] lg:w-[600px]';
       case 'square': return 'w-[82vw] sm:w-[70vw] md:w-[480px] lg:w-[560px]';

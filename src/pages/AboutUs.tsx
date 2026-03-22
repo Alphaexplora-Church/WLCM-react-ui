@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import Lenis from '@studio-freight/lenis';
 import { useInView } from 'framer-motion';
@@ -6,10 +6,8 @@ import { useInView } from 'framer-motion';
 // IMPORTS
 import Navigation from '../components/Navigation';
 import Manifesto from '../features/About/Manifesto';
-import HistorySection from '../features/About/HistorySection';
 import LeadershipSection from '../features/About/LeadershipSection';
 import DaughterChurchesSection from '../features/About/DaughterChurchesSection'; // <-- NEW
-import BeliefsSection from '../features/About/BeliefsSection';
 
 export default function AboutUs() {
   const location = useLocation();

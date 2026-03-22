@@ -1,12 +1,12 @@
-import React from 'react';
 import { motion } from 'framer-motion';
+import type { Variants } from 'framer-motion';
 
 export default function VerseOfDay() {
   const verseText = "Therefore, if anyone is in Christ, he is a new creation. The old has passed away; behold, the new has come. — 2 Corinthians 5:17";
   const words = verseText.split(" ");
 
   // Container variants to control the sequential "highlighting"
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -18,7 +18,7 @@ export default function VerseOfDay() {
   };
 
   // Individual word variants
-  const wordVariants = {
+  const wordVariants: Variants = {
     hidden: { opacity: 0.15, y: 20 },
     visible: { 
       opacity: 1, 
