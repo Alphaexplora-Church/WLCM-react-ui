@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
+import { useEventsViewModel } from './useEventsViewModel';
 
 const Events = () => {
+  const { events, announcements, isLoading, error } = useEventsViewModel();
   // Animation Variants
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -29,81 +31,7 @@ const Events = () => {
     }
   };
 
-  // --- DATA ---
-  const events = [
-    {
-      day: "FRIDAY",
-      date: "WEEKLY",
-      location: "CENTER",
-      title: "Prayer Night",
-      subtitle: "Prayer & Worship",
-      time: "7 PM",
-      align: "right",
-      color: "orange",
-      img: "/events/crowd-1.jpg"
-    },
-
-    {
-      day: "SUNDAY",
-      date: "MAR 29",
-      location: "TEATRINO GREENHILLS",
-      title: "Pulse Service",
-      subtitle: "Youth",
-      time: "12 PM",
-      align: "left",
-      color: "",
-      img: "https://images.unsplash.com/photo-1455849318743-b2233052fcff?q=80&w=2000&auto=format&fit=crop"
-    },
-
-    {
-      day: "THURSDAY - SATURDAY",
-      date: "AUG 20-22",
-      location: "BAGUIO PALACE HOTEL",
-      title: "The Fire of God",
-      subtitle: "Conference",
-      time: "",
-      align: "right",
-      color: "",
-      img: "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=2000&auto=format&fit=crop"
-    },
-
-    {
-      day: "FRIDAY",
-      date: "MARCH 20",
-      location: "WLCM CENTER",
-      title: "Women Called to Walk",
-      subtitle: "A four-part session by A Women's Forum",
-      time: "2 PM",
-      align: "left",
-      color: "orange",
-      img: "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=2000&auto=format&fit=crop"
-    },
-
-
-
-
-  ];
-
-  const announcements = [
-    {
-      category: "IMPORTANT",
-      date: "DEC 24",
-      title: "Holiday Office Closure",
-      desc: "The church offices will be closed from Dec 24-26 for the Christmas holiday."
-    },
-    {
-      category: "FINANCE",
-      date: "JAN 31",
-      title: "Year-End Giving",
-      desc: "2025 contribution statements will be mailed out by the end of January."
-    },
-    {
-      category: "VOLUNTEER",
-      date: "FEB 02",
-      title: "New Team Orientation",
-      desc: "Interested in serving? Join us for a quick orientation after the 11am service."
-    }
-  ];
+  // --- DATA is now fetched via useEventsViewModel ---
 
   return (
     <section className="py-24 px-4 md:px-6 bg-[#002E38] relative overflow-hidden">
@@ -131,14 +59,23 @@ const Events = () => {
         </motion.div>
 
         {/* --- EVENTS LIST (Zig-Zag) --- */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="flex flex-col gap-8 mb-32"
-        >
-          {events.map((event, i) => (
+        {isLoading ? (
+          <div className="flex flex-col gap-8 mb-32 items-center justify-center w-full h-48 md:h-56 bg-[#E6EDEF]/5 rounded-2xl border border-[#E6EDEF]/10 animate-pulse">
+            <span className="text-[#E6EDEF]/70 text-lg">Loading events...</span>
+          </div>
+        ) : error ? (
+          <div className="text-center text-[#F5841A] py-12 text-lg mb-32">{error}</div>
+        ) : events.length === 0 ? (
+          <div className="text-center text-[#E6EDEF]/70 py-12 text-lg mb-32">No upcoming events.</div>
+        ) : (
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            className="flex flex-col gap-8 mb-32"
+          >
+            {events.map((event, i) => (
             <motion.div
               key={i}
               variants={cardVariants}
@@ -177,9 +114,9 @@ const Events = () => {
                     • {event.location}
                   </span>
                 </div>
-                <h3 className="font-serif text-3xl md:text-5xl text-[#E6EDEF] leading-none mb-1 uppercase drop-shadow-lg opacity-90">
+                {/* <h3 className="font-serif text-3xl md:text-5xl text-[#E6EDEF] leading-none mb-1 uppercase drop-shadow-lg opacity-90">
                   {event.day}
-                </h3>
+                </h3> */}
                 <div className={`flex flex-col ${event.align === 'left' ? 'items-start' : 'items-end'}`}>
                   <p className="text-white font-bold text-lg md:text-2xl uppercase tracking-wide leading-tight">
                     {event.title}
@@ -190,8 +127,9 @@ const Events = () => {
                 </div>
               </div>
             </motion.div>
-          ))}
-        </motion.div>
+            ))}
+          </motion.div>
+        )}
 
 
         {/* --- PREMIUM ANNOUNCEMENTS (Glass Cards) --- */}
@@ -202,14 +140,21 @@ const Events = () => {
             <span className="text-[#E6EDEF]/40 font-sans text-xs uppercase tracking-widest mb-1">Announcements</span>
           </div>
 
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="grid grid-cols-1 gap-6"
-          >
-            {announcements.map((note, i) => (
+          {isLoading ? (
+            <div className="text-[#E6EDEF]/70 py-12 animate-pulse text-center bg-[#E6EDEF]/5 backdrop-blur-sm border border-[#E6EDEF]/10 rounded-xl">Loading announcements...</div>
+          ) : error ? (
+            <div className="text-[#F5841A] py-8 text-center">{error}</div>
+          ) : announcements.length === 0 ? (
+            <div className="text-[#E6EDEF]/70 py-8 text-center">No announcements at this time.</div>
+          ) : (
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="grid grid-cols-1 gap-6"
+            >
+              {announcements.map((note, i) => (
               <motion.div
                 key={i}
                 variants={announcementVariants}
@@ -250,8 +195,9 @@ const Events = () => {
                 </div>
 
               </motion.div>
-            ))}
-          </motion.div>
+              ))}
+            </motion.div>
+          )}
         </div>
 
       </div>
