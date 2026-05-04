@@ -11,6 +11,8 @@ import Give from './pages/Give';
 import Watch from './pages/Watch';
 import PrayerWall from './features/Engage/PrayerWall';
 import Contact from './features/Engage/Contact';
+import Login from './pages/Login';
+import AdminDashboard from './features/Admin/AdminDashboard';
 
 export default function App() {
   const location = useLocation();
@@ -33,6 +35,8 @@ export default function App() {
         <Route path="/churches" element={<AboutUs />} />
         <Route path="/watch" element={<Watch />} />
         <Route path="/prayer" element={<PrayerWall />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
       </Routes>
     </AnimatePresence>
   );
