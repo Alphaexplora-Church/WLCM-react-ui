@@ -8,7 +8,7 @@ const expects = [
     {
         img: "/events/passover-4.jpg",
         label: "The Service",
-        title: "75–90 min of worship & teaching.",
+        title: "30 min worship and 45 min preaching.",
     },
     {
         img: "/events/kids-1.jpg",

@@ -3,10 +3,10 @@ import { motion } from 'framer-motion';
 
 const nationalTeam = [
   { name: "Pastor Josef Zabarte", role: "Senior Pastor", img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800" },
+  { name: "Pastor Grace Zabarte", role: "Ministries Department Head", img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800" },
   { name: "Doc. Angel Concepcion", role: "Management Department Head", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800" },
   { name: "Pastor Jude Orbiso", role: "Missions Department Head", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=800" },
   { name: "Nice Pacis", role: "Membership Department Head", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=800" },
-  { name: "Pastor Grace Zabarte", role: "Ministries Department Head", img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800" },
   { name: "Pastor Yoly Iriman", role: "Maturity Department Head", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=800" },
   { name: "Pastor Arnold Pacis", role: "Magnification Department Head", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800" },
 ];
