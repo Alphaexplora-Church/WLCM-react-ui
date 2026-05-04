@@ -149,7 +149,7 @@ const PlanVisitModal = ({ isOpen, onClose }: PlanVisitModalProps) => {
                                 onChange={handleChange}
                                 className="sr-only"
                               />
-                              <span className="font-sans text-xs sm:text-sm text-midnight-teal capitalize">{type === 'guest' ? 'First-time Guest' : 'Returning Member'}</span>
+                              <span className="font-sans text-xs sm:text-sm text-midnight-teal capitalize">{type === 'guest' ? 'First-time Guest' : 'Returning Guest'}</span>
                             </label>
                           ))}
                         </div>
