@@ -94,24 +94,7 @@ export default function AboutUs() {
               >
                 Contact us.
               </motion.h2>
-              <motion.p
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-                className="font-sans text-xs text-midnight-teal/50 max-w-xs leading-relaxed md:text-right"
-              >
-                Reach out to our ministry teams or follow us online — we'd love to hear from you.
-              </motion.p>
             </div>
-            <motion.div
-              initial={{ scaleX: 0 }}
-              whileInView={{ scaleX: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.25, duration: 0.8, ease: [0.77, 0, 0.175, 1] }}
-              style={{ originX: 0 }}
-              className="mt-6 h-px bg-midnight-teal/10"
-            />
           </div>
 
           {/* Grid */}
