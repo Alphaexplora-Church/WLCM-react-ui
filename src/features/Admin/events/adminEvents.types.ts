@@ -1,5 +1,7 @@
 // ─── Admin Events: Types (Model) ────────────────────────────────────────────
 
+export type ContentTab = 'event' | 'announcement';
+
 export interface EventFormData {
     title: string;
     description: string;

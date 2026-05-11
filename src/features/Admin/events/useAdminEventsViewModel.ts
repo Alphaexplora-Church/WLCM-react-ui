@@ -1,14 +1,20 @@
 // ─── Admin Events: ViewModel ─────────────────────────────────────────────────
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { ChurchEvent } from '../../Experience/events/events.types';
-import type { EventFormData } from './adminEvents.types';
+import type { ChurchEvent, Announcement } from '../../Experience/events/events.types';
+import type { ContentTab, EventFormData } from './adminEvents.types';
 import { AdminEventsService } from './adminEvents.service';
 
 export interface AdminEventsViewModel {
+    // Tab
+    activeTab: ContentTab;
+    setActiveTab: (tab: ContentTab) => void;
+
     // Data
     events: ChurchEvent[];
-    filtered: ChurchEvent[];
+    announcements: Announcement[];
+    filteredEvents: ChurchEvent[];
+    filteredAnnouncements: Announcement[];
     isLoading: boolean;
     error: string | null;
 
@@ -16,7 +22,7 @@ export interface AdminEventsViewModel {
     search: string;
     setSearch: (v: string) => void;
 
-    // Stats (derived)
+    // Stats (derived — per active tab)
     stats: { total: number; withImages: number; categories: number };
 
     // Modal state
@@ -42,7 +48,9 @@ export function useAdminEventsViewModel(): AdminEventsViewModel {
     const navigate = useNavigate();
 
     // ── State ──────────────────────────────────────────────────────────────
+    const [activeTab, setActiveTab] = useState<ContentTab>('event');
     const [events, setEvents] = useState<ChurchEvent[]>([]);
+    const [announcements, setAnnouncements] = useState<Announcement[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [search, setSearch] = useState('');
@@ -58,18 +66,25 @@ export function useAdminEventsViewModel(): AdminEventsViewModel {
         if (!localStorage.getItem('token')) navigate('/login');
     }, [navigate]);
 
-    // ── Initial load ───────────────────────────────────────────────────────
-    useEffect(() => { loadEvents(); }, []);
+    // ── Initial load — fetch both in parallel ──────────────────────────────
+    useEffect(() => { loadAll(); }, []);
+
+    // ── Reset search when switching tabs ───────────────────────────────────
+    useEffect(() => { setSearch(''); }, [activeTab]);
 
     // ── Internal helpers ───────────────────────────────────────────────────
-    const loadEvents = async () => {
+    const loadAll = async () => {
         setIsLoading(true);
         setError(null);
         try {
-            const data = await AdminEventsService.fetchEvents();
-            setEvents(data);
+            const [eventsData, announcementsData] = await Promise.all([
+                AdminEventsService.fetchEvents(),
+                AdminEventsService.fetchAnnouncements(),
+            ]);
+            setEvents(eventsData);
+            setAnnouncements(announcementsData);
         } catch {
-            setError('Could not load events. Make sure the backend is running.');
+            setError('Could not load content. Make sure the backend is running.');
         } finally {
             setIsLoading(false);
         }
@@ -80,18 +95,33 @@ export function useAdminEventsViewModel(): AdminEventsViewModel {
         setTimeout(() => setToast(null), 3000);
     };
 
-    // ── Derived values ─────────────────────────────────────────────────────
-    const filtered = events.filter(e =>
-        e.title.toLowerCase().includes(search.toLowerCase()) ||
-        (e.location ?? '').toLowerCase().includes(search.toLowerCase()) ||
-        (e.category_content ?? '').toLowerCase().includes(search.toLowerCase())
+    // ── Derived: filtered lists ────────────────────────────────────────────
+    const q = search.toLowerCase();
+
+    const filteredEvents = events.filter(e =>
+        e.title.toLowerCase().includes(q) ||
+        (e.location ?? '').toLowerCase().includes(q) ||
+        (e.category_content ?? '').toLowerCase().includes(q)
     );
 
-    const stats = {
-        total: events.length,
-        withImages: events.filter(e => e.media && e.media.length > 0).length,
-        categories: new Set(events.map(e => e.category_content).filter(Boolean)).size,
-    };
+    const filteredAnnouncements = announcements.filter(a =>
+        a.title.toLowerCase().includes(q) ||
+        (a.category_content ?? '').toLowerCase().includes(q) ||
+        (a.description ?? '').toLowerCase().includes(q)
+    );
+
+    // ── Derived: stats (per active tab) ────────────────────────────────────
+    const stats = activeTab === 'event'
+        ? {
+            total: events.length,
+            withImages: events.filter(e => e.media && e.media.length > 0).length,
+            categories: new Set(events.map(e => e.category_content).filter(Boolean)).size,
+        }
+        : {
+            total: announcements.length,
+            withImages: announcements.filter(a => a.media && a.media.length > 0).length,
+            categories: new Set(announcements.map(a => a.category_content).filter(Boolean)).size,
+        };
 
     // ── Handlers ───────────────────────────────────────────────────────────
     const openCreateModal = () => { setEditTarget(null); setShowModal(true); };
@@ -107,10 +137,10 @@ export function useAdminEventsViewModel(): AdminEventsViewModel {
                 showToast(`"${data.title}" updated successfully.`);
             } else {
                 await AdminEventsService.createEvent(data);
-                showToast(`"${data.title}" event created.`);
+                showToast(`"${data.title}" created.`);
             }
             closeModal();
-            await loadEvents();
+            await loadAll();
         } catch {
             showToast('An error occurred. Please try again.', 'error');
         }
@@ -124,13 +154,17 @@ export function useAdminEventsViewModel(): AdminEventsViewModel {
             showToast(`"${deleteTarget.title}" deleted.`);
             closeDeleteModal();
         } catch {
-            showToast('Failed to delete event.', 'error');
+            showToast('Failed to delete.', 'error');
         }
     };
 
     return {
+        activeTab,
+        setActiveTab,
         events,
-        filtered,
+        announcements,
+        filteredEvents,
+        filteredAnnouncements,
         isLoading,
         error,
         search,
@@ -147,6 +181,6 @@ export function useAdminEventsViewModel(): AdminEventsViewModel {
         closeDeleteModal,
         handleSave,
         handleDelete,
-        retry: loadEvents,
+        retry: loadAll,
     };
 }

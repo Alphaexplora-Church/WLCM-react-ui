@@ -11,6 +11,9 @@ const FALLBACK_IMAGE =
 export default function AdminEvents() {
     const vm = useAdminEventsViewModel();
 
+    const isEvent = vm.activeTab === 'event';
+    const label = isEvent ? 'Event' : 'Announcement';
+
     return (
         <div className="flex min-h-screen bg-soft-linen">
             <AdminSidebar />
@@ -23,8 +26,14 @@ export default function AdminEvents() {
                     {/* ── Page Title ─────────────────────────────────── */}
                     <div className="flex items-center justify-between">
                         <div>
-                            <h1 className="text-2xl font-serif text-midnight-teal">Events</h1>
-                            <p className="text-sm text-gray-400 mt-0.5">Manage all church events and programs.</p>
+                            <h1 className="text-2xl font-serif text-midnight-teal">
+                                {isEvent ? 'Events' : 'Announcements'}
+                            </h1>
+                            <p className="text-sm text-gray-400 mt-0.5">
+                                {isEvent
+                                    ? 'Manage all church events and programs.'
+                                    : 'Manage church-wide announcements and news.'}
+                            </p>
                         </div>
                         <button
                             onClick={vm.openCreateModal}
@@ -33,14 +42,50 @@ export default function AdminEvents() {
                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                             </svg>
-                            New Event
+                            New {label}
+                        </button>
+                    </div>
+
+                    {/* ── Tab Toggle ─────────────────────────────────── */}
+                    <div className="flex gap-1 bg-white border border-gray-200 rounded-xl p-1 w-fit shadow-sm">
+                        <button
+                            onClick={() => vm.setActiveTab('event')}
+                            className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-bold transition-all duration-200
+                                ${isEvent
+                                    ? 'bg-midnight-teal text-soft-linen shadow'
+                                    : 'text-gray-400 hover:text-midnight-teal'}`}
+                        >
+                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            Events
+                            <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${isEvent ? 'bg-white/20' : 'bg-gray-100 text-gray-500'}`}>
+                                {vm.events.length}
+                            </span>
+                        </button>
+                        <button
+                            onClick={() => vm.setActiveTab('announcement')}
+                            className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-bold transition-all duration-200
+                                ${!isEvent
+                                    ? 'bg-midnight-teal text-soft-linen shadow'
+                                    : 'text-gray-400 hover:text-midnight-teal'}`}
+                        >
+                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+                            </svg>
+                            Announcements
+                            <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${!isEvent ? 'bg-white/20' : 'bg-gray-100 text-gray-500'}`}>
+                                {vm.announcements.length}
+                            </span>
                         </button>
                     </div>
 
                     {/* ── Stats ──────────────────────────────────────── */}
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                         <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-                            <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-1">Total Events</p>
+                            <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-1">
+                                Total {label}s
+                            </p>
                             <p className="text-3xl font-serif text-midnight-teal">{vm.stats.total}</p>
                         </div>
                         <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
@@ -61,12 +106,14 @@ export default function AdminEvents() {
                         <input
                             value={vm.search}
                             onChange={e => vm.setSearch(e.target.value)}
-                            placeholder="Search by title, location or category…"
+                            placeholder={isEvent
+                                ? 'Search by title, location or category…'
+                                : 'Search by title, category or description…'}
                             className="w-full bg-white border border-gray-200 rounded-xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-midnight-teal/30 shadow-sm"
                         />
                     </div>
 
-                    {/* ── Events List ────────────────────────────────── */}
+                    {/* ── Content List ───────────────────────────────── */}
                     {vm.isLoading ? (
                         <div className="flex flex-col gap-3">
                             {[...Array(3)].map((_, i) => (
@@ -82,110 +129,61 @@ export default function AdminEvents() {
                             </button>
                         </div>
 
-                    ) : vm.filtered.length === 0 ? (
-                        <div className="bg-white rounded-2xl p-12 text-center border border-gray-100 shadow-sm">
-                            <div className="w-14 h-14 rounded-full bg-soft-linen flex items-center justify-center mx-auto mb-4">
-                                <svg className="w-7 h-7 text-midnight-teal/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
+                    ) : isEvent ? (
+                        /* ── Events ── */
+                        vm.filteredEvents.length === 0 ? (
+                            <EmptyState label="event" />
+                        ) : (
+                            <div className="flex flex-col gap-3">
+                                {vm.filteredEvents.map(event => {
+                                    const thumb = event.media?.length > 0 ? event.media[0].file_url : FALLBACK_IMAGE;
+                                    return (
+                                        <ContentCard
+                                            key={event.id}
+                                            thumb={thumb}
+                                            title={event.title}
+                                            category={event.category_content}
+                                            meta={[
+                                                event.start_date ? `${event.start_date.date} · ${event.start_date.time}` : null,
+                                                event.location ?? null,
+                                            ].filter(Boolean) as string[]}
+                                            imageCount={event.media?.length ?? 0}
+                                            description={event.description}
+                                            onEdit={() => vm.openEditModal(event)}
+                                            onDelete={() => vm.openDeleteModal(event)}
+                                        />
+                                    );
+                                })}
                             </div>
-                            <p className="font-serif text-lg text-midnight-teal">No events found</p>
-                            <p className="text-sm text-gray-400 mt-1">Try a different search, or add a new event.</p>
-                        </div>
+                        )
 
                     ) : (
-                        <div className="flex flex-col gap-3">
-                            {vm.filtered.map(event => {
-                                const thumb = event.media && event.media.length > 0
-                                    ? event.media[0].file_url
-                                    : FALLBACK_IMAGE;
-
-                                return (
-                                    <div
-                                        key={event.id}
-                                        className="bg-white rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4 p-4 hover:shadow-md transition-shadow group"
-                                    >
-                                        {/* Thumbnail */}
-                                        <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 bg-gray-100">
-                                            <img
-                                                src={thumb}
-                                                alt={event.title}
-                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                                onError={e => { (e.currentTarget as HTMLImageElement).src = FALLBACK_IMAGE; }}
-                                            />
-                                        </div>
-
-                                        {/* Info */}
-                                        <div className="flex-1 min-w-0">
-                                            <div className="flex items-center gap-2 flex-wrap mb-0.5">
-                                                <h3 className="font-serif text-midnight-teal text-base font-semibold truncate">
-                                                    {event.title}
-                                                </h3>
-                                                {event.category_content && (
-                                                    <span className="text-[10px] font-bold uppercase tracking-widest text-harvest-orange border border-harvest-orange/30 px-2 py-0.5 rounded-full whitespace-nowrap">
-                                                        {event.category_content}
-                                                    </span>
-                                                )}
-                                            </div>
-
-                                            <div className="flex items-center gap-3 flex-wrap text-xs text-gray-400 font-sans">
-                                                {event.start_date && (
-                                                    <span className="flex items-center gap-1">
-                                                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                                        </svg>
-                                                        {event.start_date.date} · {event.start_date.time}
-                                                    </span>
-                                                )}
-                                                {event.location && (
-                                                    <span className="flex items-center gap-1">
-                                                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                        </svg>
-                                                        {event.location}
-                                                    </span>
-                                                )}
-                                                {event.media && event.media.length > 0 && (
-                                                    <span className="flex items-center gap-1 text-green-500">
-                                                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                                        </svg>
-                                                        {event.media.length} image{event.media.length > 1 ? 's' : ''}
-                                                    </span>
-                                                )}
-                                            </div>
-
-                                            {event.description && (
-                                                <p className="text-xs text-gray-400 mt-1 line-clamp-1">{event.description}</p>
-                                            )}
-                                        </div>
-
-                                        {/* Actions */}
-                                        <div className="flex items-center gap-2 flex-shrink-0">
-                                            <button
-                                                onClick={() => vm.openEditModal(event)}
-                                                title="Edit"
-                                                className="w-9 h-9 rounded-lg flex items-center justify-center text-midnight-teal/60 hover:bg-midnight-teal/10 hover:text-midnight-teal transition-colors"
-                                            >
-                                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                                </svg>
-                                            </button>
-                                            <button
-                                                onClick={() => vm.openDeleteModal(event)}
-                                                title="Delete"
-                                                className="w-9 h-9 rounded-lg flex items-center justify-center text-red-400/70 hover:bg-red-50 hover:text-red-500 transition-colors"
-                                            >
-                                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
+                        /* ── Announcements ── */
+                        vm.filteredAnnouncements.length === 0 ? (
+                            <EmptyState label="announcement" />
+                        ) : (
+                            <div className="flex flex-col gap-3">
+                                {vm.filteredAnnouncements.map(note => {
+                                    const thumb = note.media?.length > 0 ? note.media[0].file_url : FALLBACK_IMAGE;
+                                    const dateStr = note.start_date
+                                        ? new Date(note.start_date).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })
+                                        : null;
+                                    return (
+                                        <ContentCard
+                                            key={note.id}
+                                            thumb={thumb}
+                                            title={note.title}
+                                            category={note.category_content}
+                                            meta={[dateStr, note.status ? `Status: ${note.status}` : null].filter(Boolean) as string[]}
+                                            imageCount={note.media?.length ?? 0}
+                                            description={note.description}
+                                            onEdit={() => { /* TODO: open announcement edit modal */ }}
+                                            onDelete={() => { /* TODO: open announcement delete modal */ }}
+                                        />
+                                    );
+                                })}
+                            </div>
+                        )
                     )}
                 </main>
             </div>
@@ -219,6 +217,101 @@ export default function AdminEvents() {
                 onCancel={vm.closeDeleteModal}
                 onConfirm={vm.handleDelete}
             />
+        </div>
+    );
+}
+
+// ─── Shared sub-components ────────────────────────────────────────────────────
+
+function EmptyState({ label }: { label: string }) {
+    return (
+        <div className="bg-white rounded-2xl p-12 text-center border border-gray-100 shadow-sm">
+            <div className="w-14 h-14 rounded-full bg-soft-linen flex items-center justify-center mx-auto mb-4">
+                <svg className="w-7 h-7 text-midnight-teal/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+            </div>
+            <p className="font-serif text-lg text-midnight-teal">No {label}s found</p>
+            <p className="text-sm text-gray-400 mt-1">Try a different search, or add a new {label}.</p>
+        </div>
+    );
+}
+
+interface ContentCardProps {
+    thumb: string;
+    title: string;
+    category?: string;
+    meta: string[];
+    imageCount: number;
+    description?: string;
+    onEdit: () => void;
+    onDelete: () => void;
+}
+
+function ContentCard({ thumb, title, category, meta, imageCount, description, onEdit, onDelete }: ContentCardProps) {
+    return (
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4 p-4 hover:shadow-md transition-shadow group">
+            {/* Thumbnail */}
+            <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 bg-gray-100">
+                <img
+                    src={thumb}
+                    alt={title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    onError={e => { (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=400&auto=format&fit=crop'; }}
+                />
+            </div>
+
+            {/* Info */}
+            <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 flex-wrap mb-0.5">
+                    <h3 className="font-serif text-midnight-teal text-base font-semibold truncate">{title}</h3>
+                    {category && (
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-harvest-orange border border-harvest-orange/30 px-2 py-0.5 rounded-full whitespace-nowrap">
+                            {category}
+                        </span>
+                    )}
+                </div>
+
+                <div className="flex items-center gap-3 flex-wrap text-xs text-gray-400 font-sans">
+                    {meta.map((m, i) => (
+                        <span key={i}>{m}</span>
+                    ))}
+                    {imageCount > 0 && (
+                        <span className="flex items-center gap-1 text-green-500">
+                            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            {imageCount} image{imageCount > 1 ? 's' : ''}
+                        </span>
+                    )}
+                </div>
+
+                {description && (
+                    <p className="text-xs text-gray-400 mt-1 line-clamp-1">{description}</p>
+                )}
+            </div>
+
+            {/* Actions */}
+            <div className="flex items-center gap-2 flex-shrink-0">
+                <button
+                    onClick={onEdit}
+                    title="Edit"
+                    className="w-9 h-9 rounded-lg flex items-center justify-center text-midnight-teal/60 hover:bg-midnight-teal/10 hover:text-midnight-teal transition-colors"
+                >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                </button>
+                <button
+                    onClick={onDelete}
+                    title="Delete"
+                    className="w-9 h-9 rounded-lg flex items-center justify-center text-red-400/70 hover:bg-red-50 hover:text-red-500 transition-colors"
+                >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                </button>
+            </div>
         </div>
     );
 }

@@ -1,5 +1,5 @@
 // ─── Admin Events: Service (Model) ──────────────────────────────────────────
-import type { ChurchEvent } from '../../Experience/events/events.types';
+import type { ChurchEvent, Announcement } from '../../Experience/events/events.types';
 import type { EventFormData } from './adminEvents.types';
 
 const API_BASE = 'http://localhost:4000';
@@ -13,6 +13,16 @@ export const AdminEventsService = {
         if (!response.ok) throw new Error('Failed to fetch events');
         const json = await response.json();
         return (json.data ?? []) as ChurchEvent[];
+    },
+
+    /**
+     * Fetches all active announcements (public endpoint — no auth required).
+     */
+    fetchAnnouncements: async (): Promise<Announcement[]> => {
+        const response = await fetch(`${API_BASE}/api/contents/public/announcements`);
+        if (!response.ok) throw new Error('Failed to fetch announcements');
+        const json = await response.json();
+        return (json.data ?? []) as Announcement[];
     },
 
     /**
