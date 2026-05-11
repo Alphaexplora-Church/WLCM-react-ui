@@ -75,59 +75,68 @@ const Events = () => {
             viewport={{ once: true, margin: "-100px" }}
             className="flex flex-col gap-8 mb-32"
           >
-            {events.map((event, i) => (
-            <motion.div
-              key={i}
-              variants={cardVariants}
-              whileHover={{ scale: 1.01 }}
-              className={`relative h-48 md:h-56 rounded-2xl overflow-hidden flex ${event.align === 'left' ? 'flex-row' : 'flex-row-reverse'} items-center group cursor-pointer border border-[#E6EDEF]/10 shadow-2xl`}
-            >
-              <img src={event.img} alt={event.title} className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+            {events.map((event, i) => {
+              const align = i % 2 === 0 ? 'right' : 'left';
+              const color = i % 2 === 0 ? 'orange' : 'teal';
+              const bgImage = event.media && event.media.length > 0
+                ? event.media[0].file_url
+                : 'https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=2000&auto=format&fit=crop';
 
-              <div className={`absolute inset-0 mix-blend-multiply transition-opacity duration-500 opacity-90 group-hover:opacity-80
-                ${event.color === 'orange'
-                  ? 'bg-gradient-to-r from-[#F5841A] to-[#8a4a0e]'
-                  : 'bg-gradient-to-r from-[#004e5e] to-[#002E38]'
-                }`}
-              />
+              return (
+              <motion.div
+                key={event.id}
+                variants={cardVariants}
+                whileHover={{ scale: 1.01 }}
+                className={`relative h-48 md:h-56 rounded-2xl overflow-hidden flex ${align === 'left' ? 'flex-row' : 'flex-row-reverse'} items-center group cursor-pointer border border-[#E6EDEF]/10 shadow-2xl`}
+              >
+                <img src={bgImage} alt={event.title} className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
 
-              {/* Time Capsule */}
-              <div className={`relative z-20 h-full w-14 md:w-20 bg-[#E6EDEF] flex flex-col items-center justify-center
-                ${event.align === 'left' ? 'rounded-r-2xl mr-auto' : 'rounded-l-2xl ml-auto'}
-              `}>
-                <span className={`text-lg md:text-xl font-bold tracking-widest -rotate-90 whitespace-nowrap
-                  ${event.color === 'orange' ? 'text-[#F5841A]' : 'text-[#002E38]'}
+                <div className={`absolute inset-0 mix-blend-multiply transition-opacity duration-500 opacity-90 group-hover:opacity-80
+                  ${color === 'orange'
+                    ? 'bg-gradient-to-r from-[#F5841A] to-[#8a4a0e]'
+                    : 'bg-gradient-to-r from-[#004e5e] to-[#002E38]'
+                  }`}
+                />
+
+                {/* Time Capsule */}
+                <div className={`relative z-20 h-full w-14 md:w-20 bg-[#E6EDEF] flex flex-col items-center justify-center
+                  ${align === 'left' ? 'rounded-r-2xl mr-auto' : 'rounded-l-2xl ml-auto'}
                 `}>
-                  {event.time}
-                </span>
-              </div>
+                  <span className={`text-lg md:text-xl font-bold tracking-widest -rotate-90 whitespace-nowrap
+                    ${color === 'orange' ? 'text-[#F5841A]' : 'text-[#002E38]'}
+                  `}>
+                    {event.start_date?.time ?? ''}
+                  </span>
+                </div>
 
-              {/* Text Content */}
-              <div className={`relative z-10 flex flex-col justify-center px-6 md:px-10 w-full h-full
-                ${event.align === 'left' ? 'items-start text-left pl-8' : 'items-end text-right pr-8'}
-              `}>
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-[#F5841A] bg-black/20 px-2 py-1 rounded text-[10px] md:text-xs font-bold uppercase tracking-widest backdrop-blur-sm border border-[#F5841A]/30">
-                    {event.date}
-                  </span>
-                  <span className="text-[#E6EDEF]/70 text-[10px] md:text-xs font-bold uppercase tracking-widest">
-                    • {event.location}
-                  </span>
+                {/* Text Content */}
+                <div className={`relative z-10 flex flex-col justify-center px-6 md:px-10 w-full h-full
+                  ${align === 'left' ? 'items-start text-left pl-8' : 'items-end text-right pr-8'}
+                `}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-[#F5841A] bg-black/20 px-2 py-1 rounded text-[10px] md:text-xs font-bold uppercase tracking-widest backdrop-blur-sm border border-[#F5841A]/30">
+                      {event.start_date?.date ?? ''}
+                    </span>
+                    {event.location && (
+                      <span className="text-[#E6EDEF]/70 text-[10px] md:text-xs font-bold uppercase tracking-widest">
+                        • {event.location}
+                      </span>
+                    )}
+                  </div>
+                  <div className={`flex flex-col ${align === 'left' ? 'items-start' : 'items-end'}`}>
+                    <p className="text-white font-bold text-lg md:text-2xl uppercase tracking-wide leading-tight">
+                      {event.title}
+                    </p>
+                    {event.description && (
+                      <p className="text-[#E6EDEF]/70 font-sans text-xs uppercase tracking-[0.2em] mt-1 line-clamp-2">
+                        {event.description}
+                      </p>
+                    )}
+                  </div>
                 </div>
-                {/* <h3 className="font-serif text-3xl md:text-5xl text-[#E6EDEF] leading-none mb-1 uppercase drop-shadow-lg opacity-90">
-                  {event.day}
-                </h3> */}
-                <div className={`flex flex-col ${event.align === 'left' ? 'items-start' : 'items-end'}`}>
-                  <p className="text-white font-bold text-lg md:text-2xl uppercase tracking-wide leading-tight">
-                    {event.title}
-                  </p>
-                  <p className="text-[#E6EDEF]/70 font-sans text-xs uppercase tracking-[0.2em] mt-1">
-                    {event.subtitle}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-            ))}
+              </motion.div>
+              );
+            })}
           </motion.div>
         )}
 
@@ -154,44 +163,53 @@ const Events = () => {
               viewport={{ once: true }}
               className="grid grid-cols-1 gap-6"
             >
-              {announcements.map((note, i) => (
+              {announcements.map((note) => (
               <motion.div
-                key={i}
+                key={note.id}
                 variants={announcementVariants}
                 whileHover={{ y: -5, backgroundColor: "rgba(230, 237, 239, 0.08)" }}
                 className="group relative bg-[#E6EDEF]/5 backdrop-blur-sm border border-[#E6EDEF]/10 p-8 rounded-xl cursor-pointer transition-all duration-300 overflow-hidden"
               >
-                {/* 1. Subtle Orange Glow on Hover */}
+                {/* Subtle Orange Glow on Hover */}
                 <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-[#F5841A] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
 
-                  {/* LEFT: Meta Info (Tag & Date) */}
+                  {/* LEFT: Media Thumbnail (if available) */}
+                  {note.media && note.media.length > 0 && (
+                    <div className="w-full md:w-24 h-24 md:h-20 rounded-lg overflow-hidden flex-shrink-0">
+                      <img
+                        src={note.media[0].file_url}
+                        alt={note.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                  )}
+
+                  {/* Meta Info (Tag & Date) */}
                   <div className="flex md:flex-col items-center md:items-start gap-3 md:gap-1 min-w-[120px]">
-                    <span className="text-[#F5841A] text-[10px] font-bold uppercase tracking-[0.2em] border border-[#F5841A]/30 px-2 py-1 rounded">
-                      {note.category}
-                    </span>
-                    <span className="text-[#E6EDEF]/50 font-mono text-xs uppercase tracking-widest mt-1">
-                      {note.date}
-                    </span>
+                    {note.category_content && (
+                      <span className="text-[#F5841A] text-[10px] font-bold uppercase tracking-[0.2em] border border-[#F5841A]/30 px-2 py-1 rounded">
+                        {note.category_content}
+                      </span>
+                    )}
+                    {note.start_date && (
+                      <span className="text-[#E6EDEF]/50 font-mono text-xs uppercase tracking-widest mt-1">
+                        {new Date(note.start_date).toLocaleDateString('en-US', { month: 'short', day: '2-digit' }).toUpperCase()}
+                      </span>
+                    )}
                   </div>
 
                   {/* CENTER: Title & Description */}
                   <div className="flex-grow">
-                    <h4 className="font-serif text-2xl text-[#E6EDEF] group-hover:text-white transition-colors mb-2">
+                    <h4 className="font-serif text-2xl text-[#E6EDEF] group-hover:text-white transition-colors mb-2 capitalize">
                       {note.title}
                     </h4>
                     <p className="text-[#E6EDEF]/70 font-sans text-sm leading-relaxed max-w-2xl group-hover:text-[#E6EDEF]/90 transition-colors">
-                      {note.desc}
+                      {note.description}
                     </p>
                   </div>
 
-                  {/* RIGHT: Action Arrow */}
-                  {/* <div className="hidden md:flex h-10 w-10 rounded-full border border-[#E6EDEF]/20 items-center justify-center text-[#F5841A] opacity-50 group-hover:opacity-100 group-hover:border-[#F5841A] transition-all duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
-                    </svg>
-                  </div> */}
                 </div>
 
               </motion.div>

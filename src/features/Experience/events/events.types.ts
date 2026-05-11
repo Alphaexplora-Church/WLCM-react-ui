@@ -1,20 +1,36 @@
-export interface ChurchEvent {
-  id?: string | number; // Added optional ID for mapping
-  day: string;
+export interface ContentMedia {
+  id: number;
+  content_id: number;
+  media_type: string;
+  file_url: string;
+  created_at: string;
+}
+
+export interface EventDate {
   date: string;
-  location: string;
-  title: string;
-  subtitle: string;
   time: string;
-  align: 'left' | 'right' | string;
-  color: 'orange' | string;
-  img: string;
+  day: string;
+}
+
+export interface ChurchEvent {
+  id: number;
+  type_content: string;
+  title: string;
+  category_content: string;
+  description: string;
+  location: string;
+  start_date: EventDate | null;
+  end_date: EventDate | null;
+  media: ContentMedia[];
 }
 
 export interface Announcement {
-  id?: string | number;
-  category: string;
-  date: string;
+  id: number;
+  type_content: string;
   title: string;
-  desc: string;
+  category_content: string;
+  status: string;
+  description: string;
+  start_date: string | null;
+  media: ContentMedia[];
 }
