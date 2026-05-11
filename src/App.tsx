@@ -14,6 +14,7 @@ import Contact from './features/Engage/Contact';
 import DiscoverPurpose from './features/Engage/DiscoverPurpose';
 import Login from './pages/Login';
 import AdminDashboard from './features/Admin/AdminDashboard';
+import AdminEvents from './features/Admin/AdminEvents';
 
 export default function App() {
   const location = useLocation();
@@ -39,6 +40,7 @@ export default function App() {
         <Route path="/prayer" element={<PrayerWall />} />
         <Route path="/login" element={<Login />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/events" element={<AdminEvents />} />
       </Routes>
     </AnimatePresence>
   );
