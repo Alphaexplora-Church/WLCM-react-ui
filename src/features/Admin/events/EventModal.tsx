@@ -23,6 +23,12 @@ export function EventModal({ open, initial, onClose, onSave }: EventModalProps) 
         setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            setForm(prev => ({ ...prev, image: e.target.files![0] }));
+        }
+    };
+
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
             <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden">
@@ -55,7 +61,7 @@ export function EventModal({ open, initial, onClose, onSave }: EventModalProps) 
 
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-xs font-bold uppercase tracking-widest text-midnight-teal mb-1">Date</label>
+                            <label className="block text-xs font-bold uppercase tracking-widest text-midnight-teal mb-1">Start Date</label>
                             <input
                                 type="date"
                                 name="start_date_date"
@@ -65,11 +71,34 @@ export function EventModal({ open, initial, onClose, onSave }: EventModalProps) 
                             />
                         </div>
                         <div>
-                            <label className="block text-xs font-bold uppercase tracking-widest text-midnight-teal mb-1">Time</label>
+                            <label className="block text-xs font-bold uppercase tracking-widest text-midnight-teal mb-1">Start Time</label>
                             <input
                                 type="time"
                                 name="start_date_time"
                                 value={form.start_date_time}
+                                onChange={handleChange}
+                                className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-xs font-bold uppercase tracking-widest text-midnight-teal mb-1">End Date</label>
+                            <input
+                                type="date"
+                                name="end_date_date"
+                                value={form.end_date_date}
+                                onChange={handleChange}
+                                className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-xs font-bold uppercase tracking-widest text-midnight-teal mb-1">End Time</label>
+                            <input
+                                type="time"
+                                name="end_date_time"
+                                value={form.end_date_time}
                                 onChange={handleChange}
                                 className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
                             />
@@ -107,6 +136,16 @@ export function EventModal({ open, initial, onClose, onSave }: EventModalProps) 
                             rows={3}
                             placeholder="Brief description of the event..."
                             className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-midnight-teal/40 resize-none"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-xs font-bold uppercase tracking-widest text-midnight-teal mb-1">Image</label>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleFileChange}
+                            className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-midnight-teal/40 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-midnight-teal/10 file:text-midnight-teal hover:file:bg-midnight-teal/20"
                         />
                     </div>
                 </div>

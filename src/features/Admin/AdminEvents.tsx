@@ -196,7 +196,6 @@ export default function AdminEvents() {
                 </div>
             )}
 
-            {/* ── Modals ─────────────────────────────────────── */}
             <EventModal
                 open={vm.showModal}
                 initial={vm.editTarget ? {
@@ -206,6 +205,8 @@ export default function AdminEvents() {
                     category_content: vm.editTarget.category_content ?? '',
                     start_date_date: vm.editTarget.start_date?.date ?? '',
                     start_date_time: vm.editTarget.start_date?.time ?? '',
+                    end_date_date: vm.editTarget.end_date?.date ?? '',
+                    end_date_time: vm.editTarget.end_date?.time ?? '',
                 } : undefined}
                 onClose={vm.closeModal}
                 onSave={vm.handleSave}

@@ -133,10 +133,10 @@ export function useAdminEventsViewModel(): AdminEventsViewModel {
     const handleSave = async (data: EventFormData) => {
         try {
             if (editTarget) {
-                await AdminEventsService.updateEvent(editTarget.id, data);
+                await AdminEventsService.updateEvent(editTarget.id, data, activeTab);
                 showToast(`"${data.title}" updated successfully.`);
             } else {
-                await AdminEventsService.createEvent(data);
+                await AdminEventsService.createEvent(data, activeTab);
                 showToast(`"${data.title}" created.`);
             }
             closeModal();
