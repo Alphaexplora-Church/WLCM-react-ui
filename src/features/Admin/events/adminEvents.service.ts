@@ -2,7 +2,7 @@
 import type { ChurchEvent, Announcement } from '../../Experience/events/events.types';
 import type { EventFormData } from './adminEvents.types';
 
-const API_BASE = 'http://localhost:4000';
+const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 /** Retrieves the stored JWT and builds the Authorization header. */
 const getAuthHeaders = (isFormData: boolean = false): HeadersInit => {
@@ -17,17 +17,26 @@ const getAuthHeaders = (isFormData: boolean = false): HeadersInit => {
         headers['Content-Type'] = 'application/json';
     }
 
-    return headers;
+    return headers; 
 };
 
 const buildFormData = (data: EventFormData, type: string): FormData => {
     const formData = new FormData();
-    formData.append('type', type);
+    formData.append('type_content', type);
+    formData.append('status', 'active');
     formData.append('title', data.title);
 
-    if (data.description) formData.append('description', data.description);
-    if (data.location) formData.append('location', data.location);
-    if (data.category_content) formData.append('category_content', data.category_content);
+    if (data.description) {
+        formData.append('description', data.description);
+    }
+    
+    if (data.location) {
+        formData.append('location', data.location);
+    }
+    
+    if (data.category_content) {
+        formData.append('category_content', data.category_content);
+    }
 
     if (data.start_date_date) {
         const time = data.start_date_time || '00:00';
@@ -81,7 +90,11 @@ export const AdminEventsService = {
             headers: getAuthHeaders(true),
             body: formData,
         });
-        if (!response.ok) throw new Error('Failed to create event');
+        if (!response.ok) {
+            const err = await response.text();
+            console.error('Create Event Error:', err);
+            throw new Error(`Failed to create event: ${err}`);
+        }
     },
 
     /**
@@ -94,7 +107,11 @@ export const AdminEventsService = {
             headers: getAuthHeaders(true),
             body: formData,
         });
-        if (!response.ok) throw new Error('Failed to update event');
+        if (!response.ok) {
+            const err = await response.text();
+            console.error('Update Event Error:', err);
+            throw new Error(`Failed to update event: ${err}`);
+        }
     },
 
     /**

@@ -12,6 +12,7 @@ export interface EventFormData {
     end_date_date: string;
     end_date_time: string;
     image?: File | null;
+    type_content?: string;
 }
 
 export const EMPTY_FORM: EventFormData = {
@@ -24,4 +25,5 @@ export const EMPTY_FORM: EventFormData = {
     end_date_date: '',
     end_date_time: '',
     image: null,
+    type_content: '',
 };

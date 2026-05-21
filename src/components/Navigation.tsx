@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import PlanVisitModal from './PlanVisitModal';
+import { desc, path } from 'framer-motion/client';
 
 interface NavigationProps {
   lightMode?: boolean;
@@ -26,23 +27,24 @@ const navItems = [
     path: '/experience',
     dropdown: [
       // { label: 'Watch', path: '/watch', desc: 'Live & past Sunday messages' },
+      { label:'Experience', path:'/experience#experience', desc: 'Service schedules' },
       { label: 'Events', path: '/experience#events', desc: 'Feasts & national gatherings' },
       { label: 'Ministries', path: '/experience#ministries', desc: 'Life & service ministries' },
-      { label: 'Discover Purpose', path: '/discover-purpose', desc: 'Pre-Encounter & Counter Journey' },
     ],
   },
-  { label: 'Give', path: '/give' },
-  { label: 'Contact', path: '/engage#contact' },
-  // {
-  //   label: 'Next Steps',
-  //   path: '/engage',
-  //   dropdown: [
-  //     { label: 'Find a Mentor', path: '/engage#sermons', desc: 'Caregroups & discipleship' },
-  //     { label: 'Give', path: '/engage#give', desc: 'Support the mission' },
-  //     { label: 'Prayer Wall', path: '/prayer', desc: 'Share your prayer requests' },
-  //     { label: 'Contact', path: '/engage#contact', desc: 'We\'d love to hear from you' },
-  //   ],
-  // },
+  
+  {
+    label: 'Next Steps', 
+    path: '/engage',
+    dropdown: [
+      { label: 'Find a Mentor', path: '/engage#sermons', desc: 'Caregroups & discipleship' },
+      { label: 'Discover Purpose', path: '/discover-purpose', desc: 'Pre-Encounter & Counter Journey' },
+      { label: 'Contact', path: '/engage#contact', desc: 'We\'d love to hear from you' },
+      { label: 'Give', path: '/engage', desc: 'Support the mission' },
+      //{ label: 'Prayer Wall', path: '/prayer', desc: 'Share your prayer requests' },
+
+    ],
+  },
 ];
 
 // ── helpers ───────────────────────────────────────────────────────────────
