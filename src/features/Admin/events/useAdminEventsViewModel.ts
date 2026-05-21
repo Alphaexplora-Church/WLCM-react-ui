@@ -1,9 +1,11 @@
-// ─── Admin Events: ViewModel ─────────────────────────────────────────────────
+    // ─── Admin Events: ViewModel ─────────────────────────────────────────────────
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { ChurchEvent, Announcement } from '../../Experience/events/events.types';
 import type { ContentTab, EventFormData } from './adminEvents.types';
 import { AdminEventsService } from './adminEvents.service';
+
+type ContentItem = ChurchEvent | Announcement;
 
 export interface AdminEventsViewModel {
     // Tab
@@ -27,17 +29,17 @@ export interface AdminEventsViewModel {
 
     // Modal state
     showModal: boolean;
-    editTarget: ChurchEvent | null;
-    deleteTarget: ChurchEvent | null;
+    editTarget: ContentItem | null;
+    deleteTarget: ContentItem | null;
 
     // Toast
     toast: { msg: string; type: 'success' | 'error' } | null;
 
     // Handlers
     openCreateModal: () => void;
-    openEditModal: (event: ChurchEvent) => void;
+    openEditModal: (item: ContentItem) => void;
     closeModal: () => void;
-    openDeleteModal: (event: ChurchEvent) => void;
+    openDeleteModal: (item: ContentItem) => void;
     closeDeleteModal: () => void;
     handleSave: (data: EventFormData) => Promise<void>;
     handleDelete: () => Promise<void>;
@@ -56,8 +58,8 @@ export function useAdminEventsViewModel(): AdminEventsViewModel {
     const [search, setSearch] = useState('');
 
     const [showModal, setShowModal] = useState(false);
-    const [editTarget, setEditTarget] = useState<ChurchEvent | null>(null);
-    const [deleteTarget, setDeleteTarget] = useState<ChurchEvent | null>(null);
+    const [editTarget, setEditTarget] = useState<ContentItem | null>(null);
+    const [deleteTarget, setDeleteTarget] = useState<ContentItem | null>(null);
 
     const [toast, setToast] = useState<{ msg: string; type: 'success' | 'error' } | null>(null);
 
@@ -125,9 +127,9 @@ export function useAdminEventsViewModel(): AdminEventsViewModel {
 
     // ── Handlers ───────────────────────────────────────────────────────────
     const openCreateModal = () => { setEditTarget(null); setShowModal(true); };
-    const openEditModal = (event: ChurchEvent) => { setEditTarget(event); setShowModal(true); };
+    const openEditModal = (item: ContentItem) => { setEditTarget(item); setShowModal(true); };
     const closeModal = () => { setShowModal(false); setEditTarget(null); };
-    const openDeleteModal = (event: ChurchEvent) => setDeleteTarget(event);
+    const openDeleteModal = (item: ContentItem) => setDeleteTarget(item);
     const closeDeleteModal = () => setDeleteTarget(null);
 
     const handleSave = async (data: EventFormData) => {
@@ -150,7 +152,11 @@ export function useAdminEventsViewModel(): AdminEventsViewModel {
         if (!deleteTarget) return;
         try {
             await AdminEventsService.deleteEvent(deleteTarget.id);
-            setEvents(prev => prev.filter(e => e.id !== deleteTarget.id));
+            if (activeTab === 'announcement') {
+                setAnnouncements(prev => prev.filter(a => a.id !== deleteTarget.id));
+            } else {
+                setEvents(prev => prev.filter(e => e.id !== deleteTarget.id));
+            }
             showToast(`"${deleteTarget.title}" deleted.`);
             closeDeleteModal();
         } catch {

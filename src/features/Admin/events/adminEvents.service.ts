@@ -90,7 +90,7 @@ export const AdminEventsService = {
     updateEvent: async (id: number, data: EventFormData, type: string = 'event'): Promise<void> => {
         const formData = buildFormData(data, type);
         const response = await fetch(`${API_BASE}/api/contents/admin/${id}`, {
-            method: 'PUT',
+            method: 'PATCH',
             headers: getAuthHeaders(true),
             body: formData,
         });

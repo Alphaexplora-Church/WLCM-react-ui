@@ -14,6 +14,32 @@ export default function AdminEvents() {
     const isEvent = vm.activeTab === 'event';
     const label = isEvent ? 'Event' : 'Announcement';
 
+    const parseStartValue = (item: any, part: 'date' | 'time') => {
+        const value = item?.start_date;
+        if (!value) return '';
+        if (typeof value === 'string') {
+            const date = new Date(value);
+            if (Number.isNaN(date.getTime())) return '';
+            return part === 'date' ? date.toISOString().slice(0, 10) : date.toISOString().slice(11, 16);
+        }
+        return part === 'date' ? value.date : value.time;
+    };
+
+    const modalTitle = vm.activeTab === 'announcement'
+        ? (vm.editTarget ? 'Edit Announcement' : 'New Announcement')
+        : (vm.editTarget ? 'Edit Event' : 'New Event');
+
+    const modalInitial = vm.editTarget ? {
+        title: vm.editTarget.title,
+        description: vm.editTarget.description ?? '',
+        location: 'location' in vm.editTarget ? vm.editTarget.location ?? '' : '',
+        category_content: vm.editTarget.category_content ?? '',
+        start_date_date: parseStartValue(vm.editTarget, 'date'),
+        start_date_time: parseStartValue(vm.editTarget, 'time'),
+        end_date_date: 'end_date' in vm.editTarget && vm.editTarget.end_date ? vm.editTarget.end_date.date : '',
+        end_date_time: 'end_date' in vm.editTarget && vm.editTarget.end_date ? vm.editTarget.end_date.time : '',
+    } : undefined;
+
     return (
         <div className="flex min-h-screen bg-soft-linen">
             <AdminSidebar />
@@ -166,7 +192,7 @@ export default function AdminEvents() {
                                 {vm.filteredAnnouncements.map(note => {
                                     const thumb = note.media?.length > 0 ? note.media[0].file_url : FALLBACK_IMAGE;
                                     const dateStr = note.start_date
-                                        ? new Date(note.start_date).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })
+                                        ? `${note.start_date.date} · ${note.start_date.time}`
                                         : null;
                                     return (
                                         <ContentCard
@@ -177,8 +203,8 @@ export default function AdminEvents() {
                                             meta={[dateStr, note.status ? `Status: ${note.status}` : null].filter(Boolean) as string[]}
                                             imageCount={note.media?.length ?? 0}
                                             description={note.description}
-                                            onEdit={() => { /* TODO: open announcement edit modal */ }}
-                                            onDelete={() => { /* TODO: open announcement delete modal */ }}
+                                            onEdit={() => vm.openEditModal(note)}
+                                            onDelete={() => vm.openDeleteModal(note)}
                                         />
                                     );
                                 })}
@@ -198,16 +224,8 @@ export default function AdminEvents() {
 
             <EventModal
                 open={vm.showModal}
-                initial={vm.editTarget ? {
-                    title: vm.editTarget.title,
-                    description: vm.editTarget.description ?? '',
-                    location: vm.editTarget.location ?? '',
-                    category_content: vm.editTarget.category_content ?? '',
-                    start_date_date: vm.editTarget.start_date?.date ?? '',
-                    start_date_time: vm.editTarget.start_date?.time ?? '',
-                    end_date_date: vm.editTarget.end_date?.date ?? '',
-                    end_date_time: vm.editTarget.end_date?.time ?? '',
-                } : undefined}
+                title={modalTitle}
+                initial={modalInitial}
                 onClose={vm.closeModal}
                 onSave={vm.handleSave}
             />

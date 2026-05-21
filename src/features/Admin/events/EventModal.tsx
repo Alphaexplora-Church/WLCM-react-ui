@@ -5,12 +5,13 @@ import { EMPTY_FORM } from './adminEvents.types';
 
 interface EventModalProps {
     open: boolean;
+    title: string;
     initial?: EventFormData;
     onClose: () => void;
     onSave: (data: EventFormData) => void;
 }
 
-export function EventModal({ open, initial, onClose, onSave }: EventModalProps) {
+export function EventModal({ open, title, initial, onClose, onSave }: EventModalProps) {
     const [form, setForm] = useState<EventFormData>(initial ?? EMPTY_FORM);
 
     useEffect(() => {
@@ -36,7 +37,7 @@ export function EventModal({ open, initial, onClose, onSave }: EventModalProps) 
                 {/* Header */}
                 <div className="bg-midnight-teal px-6 py-5 flex items-center justify-between">
                     <h2 className="font-serif text-xl text-soft-linen">
-                        {initial ? 'Edit Event' : 'New Event'}
+                        {title}
                     </h2>
                     <button
                         onClick={onClose}

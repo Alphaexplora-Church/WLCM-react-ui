@@ -5,7 +5,7 @@ import StrategyCards from '../features/Home/StrategyCards';
 import WelcomeVideo from '../features/Home/WelcomeVideo';
 import WhatToExpect from '../features/Home/WhatToExpect';
 import WelcomeExperienceFlow from '../features/Home/WelcomeExperienceFlow';
-import PlanVisitForm from '../features/Home/PlanVisitForm';
+// import PlanVisitForm from '../features/Home/PlanVisitForm';
 import FooterCTA from '../features/Home/FooterCTA';
 
 const Home = () => {
@@ -13,8 +13,7 @@ const Home = () => {
     <div className="bg-midnight-teal selection:bg-harvest-orange selection:text-soft-linen relative">
       <Navigation lightMode={false} />
 
-      {/* pb-20 on mobile to clear the fixed bottom CTA bar */}
-      <main className="pb-20 lg:pb-0">
+      <main>
         {/* Hero */}
         <Hero />
 
@@ -34,7 +33,7 @@ const Home = () => {
         <WelcomeExperienceFlow />
 
         {/* Plan a Visit inline form */}
-        <PlanVisitForm />
+        {/* <PlanVisitForm /> */}
 
         {/* Community Photo Gallery */}
         {/* <CommunityPulse /> */}
