@@ -1,17 +1,18 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 /*
- * 3 image cards. Title + 1 sentence only. 
+ * 3 image cards. Title + 1 sentence only.
  * Magazine: photos carry the emotional weight, not paragraphs.
  */
 const expects = [
     {
         img: "/events/passover-4.jpg",
         label: "The Service",
-        title: "30 min worship and 45 min preaching.",
+        title: "30 min worship and 45 min message and teaching.",
     },
     {
-        img: "/events/kids-1.jpg",
+        img: "/events/pulse-1.jpg",
         label: "Kids & Youth",
         title: "Safe, fun, age-appropriate programs.",
     },
@@ -48,7 +49,7 @@ const WhatToExpect = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: '-40px' }}
                         transition={{ delay: i * 0.1 }}
-                        className="group relative h-[55vw] md:h-[28vw] min-h-[220px] rounded-2xl md:rounded-3xl overflow-hidden cursor-default"
+                        className="group relative h-[55vw] md:h-[26vw] min-h-[200px] max-h-[340px] rounded-2xl md:rounded-3xl overflow-hidden cursor-default"
                     >
                         <img
                             src={item.img}
@@ -63,6 +64,36 @@ const WhatToExpect = () => {
                     </motion.div>
                 ))}
             </div>
+
+            {/* Your Next Steps strip */}
+            <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                className="mt-10 md:mt-12 border-t border-midnight-teal/10 pt-8 md:pt-10"
+            >
+                <p className="font-sans text-midnight-teal/40 text-[9px] uppercase tracking-[0.3em] font-bold mb-5">
+                    Your next step
+                </p>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+                    {[
+                        { number: "01", title: "Know God", path: "/" },
+                        { number: "02", title: "Find Freedom", path: "/experience" },
+                        { number: "03", title: "Discover Purpose", path: "/discover-purpose" },
+                        { number: "04", title: "Make a Difference", path: "/experience#ministries" },
+                    ].map((step, i) => (
+                        <Link
+                            key={i}
+                            to={step.path}
+                            className="group flex flex-col gap-1.5 p-4 md:p-5 rounded-2xl border border-midnight-teal/10 hover:border-harvest-orange/40 hover:bg-midnight-teal/[0.03] transition-all duration-300"
+                        >
+                            <span className="font-sans text-midnight-teal/25 text-[9px] uppercase tracking-widest font-bold">{step.number}</span>
+                            <span className="font-serif text-midnight-teal text-base md:text-lg leading-snug group-hover:text-harvest-orange transition-colors duration-200">{step.title}</span>
+                        </Link>
+                    ))}
+                </div>
+            </motion.div>
         </section>
     );
 };

@@ -5,7 +5,7 @@ export const DISCOVER_PURPOSE_PROGRAMS: Program[] = [
     number: '01',
     title: 'Pre-Encounter',
     description:
-      'Begin your spiritual awakening with foundational teachings that prepare your heart for transformation. This intensive retreat experience sets the stage for encountering God`s love and grace.',
+      'A 3-day retreat where everything slows down so you can finally hear from God. Come as you are — leave with a foundation you will build on for the rest of your life.',
     duration: '3-day Retreat',
     tag: 'Foundation',
   },
@@ -13,7 +13,7 @@ export const DISCOVER_PURPOSE_PROGRAMS: Program[] = [
     number: '02',
     title: 'Counter Journey',
     description:
-      'Deepen your relationship with Christ through post-encounter discipleship and mentorship. Integrate your spiritual experience into daily life alongside a community of believers.',
+      'The retreat was just the beginning. Counter Journey walks alongside you through ongoing mentorship and community as you live out your faith, step by step.',
     duration: 'Ongoing Program',
     tag: 'Discipleship',
   },
@@ -25,5 +25,6 @@ export const INITIAL_FORM_STATE = {
   email: '',
   phone: '',
   program: '',
+  inspiration: '',
   hearAboutUs: '',
 };

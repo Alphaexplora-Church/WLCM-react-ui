@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import PlanVisitModal from './PlanVisitModal';
 
 interface NavigationProps {
@@ -91,7 +91,17 @@ export default function Navigation({ lightMode = false }: NavigationProps) {
   const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const location = useLocation();
+  const navigate = useNavigate();
   const dropdownTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleLogoClick = (e: React.MouseEvent) => {
+    if (location.pathname === '/') {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      navigate('/');
+    }
+  };
 
   useEffect(() => { setMenuOpen(false); setActiveDropdown(null); }, [location]);
   useEffect(() => {
@@ -126,7 +136,8 @@ export default function Navigation({ lightMode = false }: NavigationProps) {
           {/* Logo */}
           <Link
             to="/"
-            className={`font-serif text-base md:text-xl tracking-tighter uppercase ${textBase} hover:opacity-70 transition-opacity shrink-0`}
+            onClick={handleLogoClick}
+            className={`font-serif text-base md:text-xl tracking-tighter uppercase ${textBase} hover:opacity-70 transition-opacity shrink-0 cursor-pointer py-2 pr-2`}
           >
             words of life.
           </Link>
@@ -241,8 +252,11 @@ export default function Navigation({ lightMode = false }: NavigationProps) {
           >
             {/* Top bar */}
             <div className="flex items-center justify-between px-6 md:px-14 py-6 md:py-8 shrink-0">
-              <Link to="/" onClick={() => setMenuOpen(false)}
-                className="font-serif text-lg md:text-2xl tracking-tighter lowercase text-soft-linen hover:text-harvest-orange transition-colors">
+              <Link
+                to="/"
+                onClick={(e) => { setMenuOpen(false); handleLogoClick(e); }}
+                className="font-serif text-lg md:text-2xl tracking-tighter lowercase text-soft-linen hover:text-harvest-orange transition-colors cursor-pointer"
+              >
                 words of life.
               </Link>
               <button onClick={() => setMenuOpen(false)} aria-label="Close menu"
@@ -370,6 +384,37 @@ export default function Navigation({ lightMode = false }: NavigationProps) {
       </AnimatePresence>
 
       <PlanVisitModal isOpen={isPlanVisitOpen} onClose={() => setIsPlanVisitOpen(false)} />
+
+      {/* ── MOBILE BOTTOM CTA BAR ──────────────────────────────────── */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden px-3 pb-4 pt-2 bg-gradient-to-t from-midnight-teal/95 to-midnight-teal/0 pointer-events-none">
+        <div className="flex gap-2 pointer-events-auto">
+          <button
+            onClick={() => setIsPlanVisitOpen(true)}
+            className="flex-1 flex items-center justify-center gap-1.5 py-3 rounded-full bg-harvest-orange text-midnight-teal font-sans text-[9px] uppercase tracking-[0.15em] font-bold active:scale-95 transition-all shadow-lg shadow-harvest-orange/30"
+          >
+            <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            Plan a Visit
+          </button>
+          <Link
+            to="/experience#schedule"
+            className="flex-1 flex items-center justify-center gap-1.5 py-3 rounded-full border border-soft-linen/30 bg-midnight-teal/80 backdrop-blur-sm text-soft-linen font-sans text-[9px] uppercase tracking-[0.15em] font-bold active:scale-95 transition-all"
+          >
+            <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            See Schedule
+          </Link>
+          <Link
+            to="/watch"
+            className="flex-1 flex items-center justify-center gap-1.5 py-3 rounded-full border border-soft-linen/30 bg-midnight-teal/80 backdrop-blur-sm text-soft-linen font-sans text-[9px] uppercase tracking-[0.15em] font-bold active:scale-95 transition-all"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-harvest-orange animate-pulse shrink-0" />
+            Watch Live
+          </Link>
+        </div>
+      </div>
     </>
   );
 }

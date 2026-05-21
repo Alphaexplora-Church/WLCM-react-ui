@@ -13,7 +13,8 @@ const Home = () => {
     <div className="bg-midnight-teal selection:bg-harvest-orange selection:text-soft-linen relative">
       <Navigation lightMode={false} />
 
-      <main>
+      {/* pb-20 on mobile to clear the fixed bottom CTA bar */}
+      <main className="pb-20 lg:pb-0">
         {/* Hero */}
         <Hero />
 

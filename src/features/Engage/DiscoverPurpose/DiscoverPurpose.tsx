@@ -3,7 +3,7 @@ import Navigation from '../../../components/Navigation';
 import { useDiscoverPurposeViewModel } from './viewmodels/useDiscoverPurposeViewModel';
 
 const DiscoverPurpose = () => {
-  const { form, isSubmitted, programs, handleChange, handleSubmit, handleReset } =
+  const { form, isSubmitted, isLoading, programs, handleChange, handleSubmit, handleReset } =
     useDiscoverPurposeViewModel();
 
   return (
@@ -227,6 +227,22 @@ const DiscoverPurpose = () => {
                         />
                       </div>
 
+                      {/* Inspiration */}
+                      <div className="flex flex-col gap-1.5">
+                        <label className="font-sans text-[9px] uppercase tracking-[0.25em] font-bold text-midnight-teal/50">
+                          What has inspired or moved you to start this journey with God? *
+                        </label>
+                        <textarea
+                          name="inspiration"
+                          required
+                          value={form.inspiration}
+                          onChange={handleChange}
+                          placeholder="Share what's on your heart…"
+                          rows={3}
+                          className="w-full px-4 py-3 rounded-xl border border-midnight-teal/12 bg-white focus:outline-none focus:border-harvest-orange focus:ring-2 focus:ring-harvest-orange/15 font-sans text-sm text-midnight-teal placeholder:text-midnight-teal/25 transition-all resize-none"
+                        />
+                      </div>
+
                       {/* Program Select */}
                       <div className="flex flex-col gap-1.5">
                         <label className="font-sans text-[9px] uppercase tracking-[0.25em] font-bold text-midnight-teal/50">
@@ -292,11 +308,12 @@ const DiscoverPurpose = () => {
                       {/* Submit */}
                       <motion.button
                         type="submit"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.97 }}
-                        className="mt-1 w-full py-4 rounded-xl bg-midnight-teal text-soft-linen font-sans text-[11px] uppercase tracking-[0.3em] font-bold hover:bg-harvest-orange hover:text-midnight-teal transition-all duration-300 shadow-lg shadow-midnight-teal/20"
+                        disabled={isLoading}
+                        whileHover={isLoading ? {} : { scale: 1.02 }}
+                        whileTap={isLoading ? {} : { scale: 0.97 }}
+                        className="mt-1 w-full py-4 rounded-xl bg-midnight-teal text-soft-linen font-sans text-[11px] uppercase tracking-[0.3em] font-bold hover:bg-harvest-orange hover:text-midnight-teal transition-all duration-300 shadow-lg shadow-midnight-teal/20 disabled:opacity-60 disabled:cursor-not-allowed"
                       >
-                        Get Started
+                        {isLoading ? 'Sending…' : 'Get Started'}
                       </motion.button>
 
                       <p className="text-midnight-teal/35 font-sans text-[10px] text-center leading-relaxed">
