@@ -62,7 +62,7 @@ const WelcomeGrid = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            className="relative md:row-span-2 h-[50vw] md:h-auto min-h-[340px] rounded-2xl md:rounded-3xl overflow-hidden group"
+            className="relative md:row-span-2 h-[50vw] md:h-auto min-h-[200px] rounded-2xl md:rounded-3xl overflow-hidden group"
           >
             <img
               src={photos[0].src}

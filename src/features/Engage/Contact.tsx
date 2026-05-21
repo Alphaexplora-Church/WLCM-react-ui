@@ -26,7 +26,7 @@ const Contact = () => {
           </div>
 
           <div className="group relative">
-            <textarea rows={2} className="w-full bg-transparent border-b border-soft-linen/10 py-4 text-soft-linen focus:border-harvest-orange outline-none transition-all font-serif text-3xl placeholder:text-medium-linen/5 resize-none" placeholder="I'd like to talk about..." />
+            <textarea rows={2} className="w-full bg-transparent border-b border-soft-linen/10 py-4 text-soft-linen focus:border-harvest-orange outline-none transition-all font-serif text-3xl placeholder:text-medium-linen/5 resize-none" placeholder="How can we help you?" />
             <label className="absolute -top-6 left-0 text-[10px] uppercase tracking-widest text-harvest-orange opacity-0 group-focus-within:opacity-100 transition-opacity">Message</label>
           </div>
 

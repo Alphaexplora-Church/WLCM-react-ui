@@ -28,6 +28,7 @@ const navItems = [
       // { label: 'Watch', path: '/watch', desc: 'Live & past Sunday messages' },
       { label: 'Events', path: '/experience#events', desc: 'Feasts & national gatherings' },
       { label: 'Ministries', path: '/experience#ministries', desc: 'Life & service ministries' },
+      { label: 'Discover Purpose', path: '/discover-purpose', desc: 'Pre-Encounter & Counter Journey' },
     ],
   },
   { label: 'Give', path: '/give' },

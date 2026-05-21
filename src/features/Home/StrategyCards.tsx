@@ -25,7 +25,7 @@ const cards = [
     tagline: "You were never meant to do life alone.",
     body: "You were never meant to walk alone. God designed growth to happen in community. Through one-on-one mentoring and Caregroups, you can build relationships that bring encouragement, healing, and accountability in a safe and supportive environment.  ",
     ctas: [
-      { label: "Join a Caregroup", action: "/engage#sermons" },
+      { label: "Join a Caregroup", action: "/engage" },
     ],
     img: "/events/random-4.jpg",
   },
@@ -35,7 +35,7 @@ const cards = [
     tagline: "You were made for more.",
     body: "Every person is created with intention. The WLCM Discipleship Journey helps you grow spiritually, understand your gifts, and discover how your life fits into God’s greater plan.",
     ctas: [
-      { label: "Start the Journey", action: "/engage" },
+      { label: "Start the Journey", action: "/discover-purpose" },
     ],
     img: "/events/random-6.jpg",
   },
