@@ -50,7 +50,7 @@ export default function AboutUs() {
 
       <Navigation lightMode={!isDarkSectionVisible} />
 
-      <main className="flex flex-col pb-20 lg:pb-0">
+      <main className="flex flex-col">
         <div id="manifesto">
           <Manifesto />
         </div>
@@ -72,7 +72,7 @@ export default function AboutUs() {
         </div>
 
         {/* ── FOOTER ───────────────────────────────────────────────── */}
-        <footer id="contact" className="bg-midnight-teal text-soft-linen overflow-hidden">
+        <footer id="contact" className="bg-midnight-teal text-soft-linen overflow-hidden pb-20 lg:pb-0">
 
           {/* Main footer body */}
           <div className="max-w-lg mx-auto px-6 md:px-10 pt-6 md:pt-8 pb-5 md:pb-6 flex flex-col gap-4">
