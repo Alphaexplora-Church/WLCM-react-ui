@@ -11,8 +11,9 @@ const GIVING_CARDS = [
     description:
       'Your gift directly funds outreach, discipleship, and the everyday ministry of Words of Life — helping people Know God, Find Freedom, Discover Purpose, and Make a Difference.',
     cta: 'Give Now',
-    qrPath: '/qr/mission-giving.png',
+    qrPath: 'https://res.cloudinary.com/deu6dav1y/image/upload/q_auto/f_auto/v1779415230/701245607_1488248616091323_7848498694326092451_n_j9kb9j.png',
     qrLabel: 'Scan to give to the church mission',
+    formLink: 'https://forms.gle/zS4RqxHqjc8WFzvQ7',
     icon: (
       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z" />
@@ -27,8 +28,9 @@ const GIVING_CARDS = [
     description:
       'Help keep the digital infrastructure of the church running — from the website and livestream to tools that connect our community online. Every contribution powers the platform.',
     cta: 'Support Us',
-    qrPath: '/qr/tech-giving.png',
+    qrPath: 'https://res.cloudinary.com/deu6dav1y/image/upload/q_auto/f_auto/v1779415249/702422001_27089221534099151_1212396434265671078_n_dwxkbs.png',
     qrLabel: 'Scan to support the tech team',
+    formLink: 'https://forms.gle/NxPUnynYgTjnqFEcA',
     icon: (
       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <rect x="2" y="3" width="20" height="14" rx="2" />
@@ -106,6 +108,15 @@ const QRModal = ({
         <p className="font-sans text-[10px] uppercase tracking-[0.3em] text-soft-linen/40 text-center">
           {card.qrLabel}
         </p>
+
+        <a
+          href={card.formLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-sans text-[10px] uppercase tracking-[0.25em] text-harvest-orange/70 hover:text-harvest-orange transition-colors underline underline-offset-4 text-center"
+        >
+          Can't Scan the QR? Click here
+        </a>
 
         <div className="w-full border-t border-soft-linen/8 pt-4 text-center">
           <p className="font-sans text-soft-linen/50 text-sm leading-relaxed">
