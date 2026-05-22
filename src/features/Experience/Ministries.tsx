@@ -167,9 +167,9 @@ const Ministries: React.FC = () => {
             >
               <h3 className="font-serif text-2xl md:text-3xl uppercase tracking-[0.1em] mb-3 text-[#F5841A]">{filtered[currentIndex]?.tagline}</h3>
               <p className="font-sans text-base opacity-60 italic max-w-md mx-auto">"{filtered[currentIndex]?.story}"</p>
-              <button className="mt-6 px-8 py-2.5 rounded-full border border-[#F5841A]/40 text-[#F5841A] font-sans text-[10px] uppercase tracking-[0.25em] font-bold hover:bg-[#F5841A] hover:text-[#002E38] transition-all">
+              {/* <button className="mt-6 px-8 py-2.5 rounded-full border border-[#F5841A]/40 text-[#F5841A] font-sans text-[10px] uppercase tracking-[0.25em] font-bold hover:bg-[#F5841A] hover:text-[#002E38] transition-all">
                 Join this Ministry
-              </button>
+              </button> */}
             </motion.div>
           </AnimatePresence>
         </div>

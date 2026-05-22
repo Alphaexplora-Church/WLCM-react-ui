@@ -2,7 +2,7 @@
 import type { ChurchEvent, Announcement } from '../../Experience/events/events.types';
 import type { EventFormData } from './adminEvents.types';
 
-const API_BASE = 'http://localhost:4000';
+const API_BASE = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:4000';
 
 /** Retrieves the stored JWT and builds the Authorization header. */
 const getAuthHeaders = (isFormData: boolean = false): HeadersInit => {
@@ -90,7 +90,7 @@ export const AdminEventsService = {
     updateEvent: async (id: number, data: EventFormData, type: string = 'event'): Promise<void> => {
         const formData = buildFormData(data, type);
         const response = await fetch(`${API_BASE}/api/contents/admin/${id}`, {
-            method: 'PUT',
+            method: 'PATCH',
             headers: getAuthHeaders(true),
             body: formData,
         });

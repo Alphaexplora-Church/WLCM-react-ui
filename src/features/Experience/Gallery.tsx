@@ -16,88 +16,88 @@ interface PhotoDef {
 }
 
 const PHOTOS: PhotoDef[] = [
-  // ── Over "W" ──────────────────────────────────────────────────────────────
+  // ── Over "W" — large worship gathering, hands raised ──────────────────────
   {
-    url: 'https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=900',
+    url: 'https://images.unsplash.com/photo-1478147427282-58a87a120781?q=80&w=900',
     top: '7%', left: '1%',
     wClass: 'w-[26vw] md:w-[12vw]', hClass: 'h-[13vh] md:h-[34vh]',
     rotate: -3, z: 3,
   },
-  // ── Over "RDS" ─────────────────────────────────────────────────────────────
+  // ── Over "RDS" — community fellowship, people laughing ────────────────────
   {
-    url: 'https://images.unsplash.com/photo-1507692049790-de58293a4699?q=80&w=900',
+    url: 'https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?q=80&w=900',
     bottom: '7%', left: '18%',
     wClass: 'w-[34vw] md:w-[17vw]', hClass: 'h-[10vh] md:h-[21vh]',
     rotate: 2.5, z: 2,
   },
-  // ── Over "OF" ─────────────────────────────────────────────────────────────
+  // ── Over "OF" — worship band on stage, Praise Chapel ─────────────────────
   {
-    url: 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?q=80&w=900',
-    top: '5%', left: '37%',
+    url: 'https://images.unsplash.com/photo-1507692049790-de58290a4334?q=80&w=900',
+    top: '5%', left: '40%',
     wClass: 'w-[22vw] md:w-[11vw]', hClass: 'h-[14vh] md:h-[36vh]',
     rotate: -2, z: 3,
   },
-  // ── Between "OF" and "LIFE" ───────────────────────────────────────────────
+  // ── Between "OF" and "LIFE" — crowd hands raised in worship ───────────────
   {
-    url: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=900',
-    bottom: '6%', left: '49%',
+    url: 'https://images.unsplash.com/photo-1522158637959-30385a09e0da?q=80&w=900',
+    bottom: '6%', left: '53%',
     wClass: 'w-[28vw] md:w-[15vw]', hClass: 'h-[11vh] md:h-[23vh]',
     rotate: 1.5, z: 2,
   },
-  // ── Over "LI" ─────────────────────────────────────────────────────────────
+  // ── Over "LI" — woman taking notes at church service ─────────────────────
   {
-    url: 'https://images.unsplash.com/photo-1520218508822-998633d997e6?q=80&w=900',
-    top: '4%', left: '62%',
+    url: 'https://images.unsplash.com/photo-1529070538774-1843cb3265df?q=80&w=900',
+    top: '4%', left: '67%',
     wClass: 'w-[24vw] md:w-[12vw]', hClass: 'h-[13vh] md:h-[34vh]',
     rotate: -3.5, z: 3,
   },
-  // ── Over "FE" ─────────────────────────────────────────────────────────────
+  // ── Over "FE" — two men embracing at community event ─────────────────────
   {
-    url: 'https://images.unsplash.com/photo-1483971896012-0e41ce0d380a?q=80&w=900',
-    bottom: '8%', left: '74%',
+    url: 'https://images.unsplash.com/photo-1565813086292-604790c8a97b?q=80&w=900',
+    bottom: '8%', left: '79%',
     wClass: 'w-[30vw] md:w-[15vw]', hClass: 'h-[10vh] md:h-[20vh]',
     rotate: 2, z: 2,
   },
-  // ── Tail ──────────────────────────────────────────────────────────────────
+  // ── Tail — group hands raised indoors, worship ────────────────────────────
   {
-    url: 'https://images.unsplash.com/photo-1529070538774-1843cb3265df?q=80&w=900',
-    top: '8%', left: '84%',
+    url: 'https://images.unsplash.com/photo-1477281765962-ef34e8bb0967?q=80&w=900',
+    top: '8%', left: '90%',
     wClass: 'w-[22vw] md:w-[11vw]', hClass: 'h-[12vh] md:h-[32vh]',
     rotate: -2.5, z: 3,
   },
   {
-    url: 'https://images.unsplash.com/photo-1504052434569-70ad5836ab65?q=80&w=900',
-    bottom: '9%', left: '93%',
+    url: 'https://images.unsplash.com/photo-1580243152089-98da42694285?q=80&w=900',
+    bottom: '9%', left: '99%',
     wClass: 'w-[32vw] md:w-[16vw]', hClass: 'h-[11vh] md:h-[22vh]',
     rotate: 1, z: 2,
   },
   {
-    url: 'https://images.unsplash.com/photo-1519817650390-64a93db51149?q=80&w=900',
-    top: '5%', left: '103%',
+    url: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=900',
+    top: '5%', left: '110%',
     wClass: 'w-[24vw] md:w-[12vw]', hClass: 'h-[13vh] md:h-[35vh]',
     rotate: -1.5, z: 3,
   },
   {
-    url: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=900',
-    bottom: '7%', left: '112%',
+    url: 'https://images.unsplash.com/photo-1579975096649-e773152b04cb?q=80&w=900',
+    bottom: '7%', left: '119%',
     wClass: 'w-[31vw] md:w-[15vw]', hClass: 'h-[11vh] md:h-[21vh]',
     rotate: 2.5, z: 2,
   },
   {
-    url: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=900',
-    top: '6%', left: '121%',
+    url: 'https://images.unsplash.com/photo-1543702404-38c2035462ad?q=80&w=900',
+    top: '6%', left: '129%',
     wClass: 'w-[23vw] md:w-[11vw]', hClass: 'h-[12vh] md:h-[33vh]',
     rotate: -3, z: 3,
   },
   {
-    url: 'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=900',
-    bottom: '8%', left: '130%',
+    url: 'https://images.unsplash.com/photo-1620495137036-fccf4af581bf?q=80&w=900',
+    bottom: '8%', left: '139%',
     wClass: 'w-[29vw] md:w-[14vw]', hClass: 'h-[10vh] md:h-[20vh]',
     rotate: 1.5, z: 2,
   },
   {
-    url: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=900',
-    top: '7%', left: '140%',
+    url: 'https://images.unsplash.com/photo-1614915760393-96de312e2bf5?q=80&w=900',
+    top: '7%', left: '149%',
     wClass: 'w-[25vw] md:w-[12vw]', hClass: 'h-[13vh] md:h-[34vh]',
     rotate: -2, z: 3,
   },
@@ -412,13 +412,13 @@ function DesktopGallery() {
   const x = useTransform(
     scrollYProgress,
     [0, 1],
-    reduced ? ['0vw', '0vw'] : ['0vw', '-240vw'],
+    reduced ? ['0vw', '0vw'] : ['0vw', '-175vw'],
   );
 
   return (
     <section
       ref={containerRef}
-      className="relative hidden md:block h-[600vh] bg-[#002E38]"
+      className="relative hidden md:block h-[350vh] bg-[#002E38]"
     >
       <div className="sticky top-0 h-[100dvh] w-full overflow-x-hidden flex items-center no-scrollbar">
 
@@ -477,6 +477,7 @@ function DesktopGallery() {
               style={{
                 fontFamily: 'Vogun, serif', fontWeight: 500,
                 fontSize: '60vh', color: 'rgba(230,237,239,0.90)',
+                wordSpacing: '0.5em',
               }}
             >
               WORDS OF LIFE
