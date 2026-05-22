@@ -125,7 +125,7 @@ const Donations = () => {
   const modalCard = GIVING_CARDS.find((c) => c.id === activeModal) ?? null;
 
   return (
-    <section id="give" className="py-24 md:py-32 bg-midnight-teal relative overflow-hidden">
+    <section id="give" className="py-10 md:pt-32 md:pb-10 bg-midnight-teal relative overflow-hidden">
 
       <div
         className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none"
@@ -135,7 +135,7 @@ const Donations = () => {
       <div className="max-w-5xl mx-auto px-6 md:px-12">
 
         {/* Header */}
-        <div className="text-center mb-12 md:mb-16">
+        <div className="text-center mb-6 md:mb-8">
           <span className="text-harvest-orange uppercase tracking-[0.4em] text-[10px] font-bold mb-3 block">
             Give
           </span>

@@ -18,7 +18,7 @@ const Engage = () => {
 
       {/* --- NEW HERE? / FIRST TIME GUEST SECTION --- */}
 
-      <div id="contact" className="relative pt-24 md:pt-28">
+      <div id="contact" className="relative pt-4 md:pt-0">
         <Contact />
       </div>
 
