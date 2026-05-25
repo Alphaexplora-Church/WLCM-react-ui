@@ -3,7 +3,22 @@ import type { Variants } from 'framer-motion';
 import { useEventsViewModel } from './useEventsViewModel';
 
 const Events = () => {
-  const { events, announcements, isLoading, error } = useEventsViewModel();
+  const { 
+    events, 
+    announcements, 
+    isLoadingEvents, 
+    errorEvents, 
+    eventsPage, 
+    nextEventsPage, 
+    prevEventsPage, 
+    hasMoreEvents,
+    isLoadingAnnouncements,
+    errorAnnouncements,
+    announcementsPage,
+    nextAnnouncementsPage,
+    prevAnnouncementsPage,
+    hasMoreAnnouncements
+  } = useEventsViewModel();
   // Animation Variants
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -59,12 +74,12 @@ const Events = () => {
         </motion.div>
 
         {/* --- EVENTS LIST (Zig-Zag) --- */}
-        {isLoading ? (
+        {isLoadingEvents ? (
           <div className="flex flex-col gap-8 mb-32 items-center justify-center w-full h-48 md:h-56 bg-[#E6EDEF]/5 rounded-2xl border border-[#E6EDEF]/10 animate-pulse">
             <span className="text-[#E6EDEF]/70 text-lg">Loading events...</span>
           </div>
-        ) : error ? (
-          <div className="text-center text-[#F5841A] py-12 text-lg mb-32">{error}</div>
+        ) : errorEvents ? (
+          <div className="text-center text-[#F5841A] py-12 text-lg mb-32">{errorEvents}</div>
         ) : events.length === 0 ? (
           <div className="text-center text-[#E6EDEF]/70 py-12 text-lg mb-32">No upcoming events.</div>
         ) : (
@@ -152,6 +167,37 @@ const Events = () => {
           </motion.div>
         )}
 
+        {/* Pagination Controls */}
+        {!isLoadingEvents && !errorEvents && (events.length > 0 || eventsPage > 1) && (
+          <div className="flex justify-center items-center gap-4 mb-32">
+            <button
+              onClick={prevEventsPage}
+              disabled={eventsPage === 1}
+              className={`px-6 py-2 rounded-full font-bold uppercase tracking-wider text-sm transition-all ${
+                eventsPage === 1
+                  ? 'bg-[#E6EDEF]/10 text-[#E6EDEF]/30 cursor-not-allowed'
+                  : 'bg-[#004e5e] text-[#E6EDEF] hover:bg-[#005e70] shadow-lg'
+              }`}
+            >
+              Previous
+            </button>
+            <span className="text-[#E6EDEF]/70 font-sans text-sm font-bold uppercase tracking-widest">
+              Page {eventsPage}
+            </span>
+            <button
+              onClick={nextEventsPage}
+              disabled={!hasMoreEvents}
+              className={`px-6 py-2 rounded-full font-bold uppercase tracking-wider text-sm transition-all ${
+                !hasMoreEvents
+                  ? 'bg-[#E6EDEF]/10 text-[#E6EDEF]/30 cursor-not-allowed'
+                  : 'bg-[#F5841A] text-white hover:bg-[#ff9533] shadow-lg'
+              }`}
+            >
+              Next
+            </button>
+          </div>
+        )}
+
 
         {/* --- PREMIUM ANNOUNCEMENTS (Glass Cards) --- */}
         <div className="relative">
@@ -161,10 +207,10 @@ const Events = () => {
             <span className="text-[#E6EDEF]/40 font-sans text-xs uppercase tracking-widest mb-1">Announcements</span>
           </div>
 
-          {isLoading ? (
+          {isLoadingAnnouncements ? (
             <div className="text-[#E6EDEF]/70 py-12 animate-pulse text-center bg-[#E6EDEF]/5 backdrop-blur-sm border border-[#E6EDEF]/10 rounded-xl">Loading announcements...</div>
-          ) : error ? (
-            <div className="text-[#F5841A] py-8 text-center">{error}</div>
+          ) : errorAnnouncements ? (
+            <div className="text-[#F5841A] py-8 text-center">{errorAnnouncements}</div>
           ) : announcements.length === 0 ? (
             <div className="text-[#E6EDEF]/70 py-8 text-center">No announcements at this time.</div>
           ) : (
@@ -227,6 +273,37 @@ const Events = () => {
                 </motion.div>
               ))}
             </motion.div>
+          )}
+
+          {/* Announcements Pagination Controls */}
+          {!isLoadingAnnouncements && !errorAnnouncements && (announcements.length > 0 || announcementsPage > 1) && (
+            <div className="flex justify-center items-center gap-4 mt-12 mb-8">
+              <button
+                onClick={prevAnnouncementsPage}
+                disabled={announcementsPage === 1}
+                className={`px-6 py-2 rounded-full font-bold uppercase tracking-wider text-sm transition-all ${
+                  announcementsPage === 1
+                    ? 'bg-[#E6EDEF]/10 text-[#E6EDEF]/30 cursor-not-allowed'
+                    : 'bg-[#004e5e] text-[#E6EDEF] hover:bg-[#005e70] shadow-lg'
+                }`}
+              >
+                Previous
+              </button>
+              <span className="text-[#E6EDEF]/70 font-sans text-sm font-bold uppercase tracking-widest">
+                Page {announcementsPage}
+              </span>
+              <button
+                onClick={nextAnnouncementsPage}
+                disabled={!hasMoreAnnouncements}
+                className={`px-6 py-2 rounded-full font-bold uppercase tracking-wider text-sm transition-all ${
+                  !hasMoreAnnouncements
+                    ? 'bg-[#E6EDEF]/10 text-[#E6EDEF]/30 cursor-not-allowed'
+                    : 'bg-[#F5841A] text-white hover:bg-[#ff9533] shadow-lg'
+                }`}
+              >
+                Next
+              </button>
+            </div>
           )}
         </div>
 

@@ -44,6 +44,12 @@ export interface AdminEventsViewModel {
     handleSave: (data: EventFormData) => Promise<void>;
     handleDelete: () => Promise<void>;
     retry: () => void;
+
+    // Pagination
+    page: number;
+    nextPage: () => void;
+    prevPage: () => void;
+    hasMore: boolean;
 }
 
 export function useAdminEventsViewModel(): AdminEventsViewModel {
@@ -57,6 +63,9 @@ export function useAdminEventsViewModel(): AdminEventsViewModel {
     const [error, setError] = useState<string | null>(null);
     const [search, setSearch] = useState('');
 
+    const [page, setPage] = useState(1);
+    const limit = 10;
+
     const [showModal, setShowModal] = useState(false);
     const [editTarget, setEditTarget] = useState<ContentItem | null>(null);
     const [deleteTarget, setDeleteTarget] = useState<ContentItem | null>(null);
@@ -69,19 +78,19 @@ export function useAdminEventsViewModel(): AdminEventsViewModel {
     }, [navigate]);
 
     // ── Initial load — fetch both in parallel ──────────────────────────────
-    useEffect(() => { loadAll(); }, []);
+    useEffect(() => { loadAll(page); }, [page]);
 
     // ── Reset search when switching tabs ───────────────────────────────────
-    useEffect(() => { setSearch(''); }, [activeTab]);
+    useEffect(() => { setSearch(''); setPage(1); }, [activeTab]);
 
     // ── Internal helpers ───────────────────────────────────────────────────
-    const loadAll = async () => {
+    const loadAll = async (currentPage: number) => {
         setIsLoading(true);
         setError(null);
         try {
             const [eventsData, announcementsData] = await Promise.all([
-                AdminEventsService.fetchEvents(),
-                AdminEventsService.fetchAnnouncements(),
+                AdminEventsService.fetchEvents(currentPage, limit),
+                AdminEventsService.fetchAnnouncements(currentPage, limit),
             ]);
             setEvents(eventsData);
             setAnnouncements(announcementsData);
@@ -142,9 +151,10 @@ export function useAdminEventsViewModel(): AdminEventsViewModel {
                 showToast(`"${data.title}" created.`);
             }
             closeModal();
-            await loadAll();
-        } catch {
-            showToast('An error occurred. Please try again.', 'error');
+            await loadAll(page);
+        } catch (err: any) {
+            console.error('Save failed:', err);
+            showToast(`Failed to save: ${err.message || 'Unknown error'}`, 'error');
         }
     };
 
@@ -187,6 +197,10 @@ export function useAdminEventsViewModel(): AdminEventsViewModel {
         closeDeleteModal,
         handleSave,
         handleDelete,
-        retry: loadAll,
+        retry: () => loadAll(page),
+        page,
+        nextPage: () => setPage(p => p + 1),
+        prevPage: () => setPage(p => Math.max(1, p - 1)),
+        hasMore: activeTab === 'event' ? events.length === limit : announcements.length === limit,
     };
 }

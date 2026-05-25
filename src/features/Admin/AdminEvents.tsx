@@ -215,6 +215,40 @@ export default function AdminEvents() {
                             </div>
                         )
                     )}
+
+                    {/* ── Pagination ─────────────────────────────────── */}
+                    {!vm.isLoading && !vm.error && (
+                        (isEvent && (vm.filteredEvents.length > 0 || vm.page > 1)) ||
+                        (!isEvent && (vm.filteredAnnouncements.length > 0 || vm.page > 1))
+                    ) && (
+                        <div className="flex items-center justify-between bg-white border border-gray-100 p-4 rounded-2xl shadow-sm mt-6">
+                            <button
+                                onClick={vm.prevPage}
+                                disabled={vm.page === 1}
+                                className={`px-4 py-2 text-sm font-bold rounded-lg transition-colors ${
+                                    vm.page === 1 
+                                        ? 'text-gray-300 cursor-not-allowed bg-gray-50' 
+                                        : 'text-midnight-teal bg-soft-linen hover:bg-midnight-teal hover:text-soft-linen'
+                                }`}
+                            >
+                                Previous
+                            </button>
+                            <span className="text-sm font-bold text-gray-500">
+                                Page {vm.page}
+                            </span>
+                            <button
+                                onClick={vm.nextPage}
+                                disabled={!vm.hasMore}
+                                className={`px-4 py-2 text-sm font-bold rounded-lg transition-colors ${
+                                    !vm.hasMore 
+                                        ? 'text-gray-300 cursor-not-allowed bg-gray-50' 
+                                        : 'text-midnight-teal bg-soft-linen hover:bg-midnight-teal hover:text-soft-linen'
+                                }`}
+                            >
+                                Next
+                            </button>
+                        </div>
+                    )}
                 </main>
             </div>
 

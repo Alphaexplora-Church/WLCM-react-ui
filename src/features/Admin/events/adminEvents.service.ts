@@ -50,8 +50,8 @@ export const AdminEventsService = {
     /**
      * Fetches all events from the admin endpoint (requires authentication).
      */
-    fetchEvents: async (): Promise<ChurchEvent[]> => {
-        const response = await fetch(`${API_BASE}/api/contents/admin/events`, {
+    fetchEvents: async (page: number = 1, limit: number = 10): Promise<ChurchEvent[]> => {
+        const response = await fetch(`${API_BASE}/api/contents/admin/events?page=${page}&limit=${limit}`, {
             headers: getAuthHeaders(),
         });
         if (!response.ok) throw new Error('Failed to fetch events');
@@ -62,8 +62,8 @@ export const AdminEventsService = {
     /**
      * Fetches all announcements from the admin endpoint (requires authentication).
      */
-    fetchAnnouncements: async (): Promise<Announcement[]> => {
-        const response = await fetch(`${API_BASE}/api/contents/admin/announcements`, {
+    fetchAnnouncements: async (page: number = 1, limit: number = 10): Promise<Announcement[]> => {
+        const response = await fetch(`${API_BASE}/api/contents/admin/announcements?page=${page}&limit=${limit}`, {
             headers: getAuthHeaders(),
         });
         if (!response.ok) throw new Error('Failed to fetch announcements');
@@ -81,7 +81,10 @@ export const AdminEventsService = {
             headers: getAuthHeaders(true),
             body: formData,
         });
-        if (!response.ok) throw new Error('Failed to create event');
+        if (!response.ok) {
+            const errorBody = await response.text();
+            throw new Error(`Failed to create event: ${errorBody}`);
+        }
     },
 
     /**
@@ -94,7 +97,10 @@ export const AdminEventsService = {
             headers: getAuthHeaders(true),
             body: formData,
         });
-        if (!response.ok) throw new Error('Failed to update event');
+        if (!response.ok) {
+            const errorBody = await response.text();
+            throw new Error(`Failed to update event: ${errorBody}`);
+        }
     },
 
     /**
