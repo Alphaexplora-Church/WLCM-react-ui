@@ -214,28 +214,34 @@ export default function AdminRegistrations() {
                         <DiscipleshipTable rows={vm.paginatedDiscipleshipRegistrations} />
                     )}
 
-                    {/* ── Pagination Controls ───────────────────────── */}
-                    {!vm.isLoading && !vm.error && vm.totalPages > 1 && (
-                        <div className="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                            <span className="text-sm text-gray-500">
-                                Page <span className="font-bold text-midnight-teal">{vm.page}</span> of {vm.totalPages}
+                    {/* ── Pagination ─────────────────────────────────── */}
+                    {!vm.isLoading && !vm.error && (
+                        <div className="flex items-center justify-between bg-white border border-gray-100 p-4 rounded-2xl shadow-sm mt-6">
+                            <button
+                                onClick={() => vm.setPage(Math.max(1, vm.page - 1))}
+                                disabled={vm.page === 1}
+                                className={`px-4 py-2 text-sm font-bold rounded-lg transition-colors ${
+                                    vm.page === 1 
+                                        ? 'text-gray-300 cursor-not-allowed bg-gray-50' 
+                                        : 'text-midnight-teal bg-soft-linen hover:bg-midnight-teal hover:text-soft-linen'
+                                }`}
+                            >
+                                Previous
+                            </button>
+                            <span className="text-sm font-bold text-gray-500">
+                                Page {vm.page} of {vm.totalPages}
                             </span>
-                            <div className="flex gap-2">
-                                <button
-                                    onClick={() => vm.setPage(Math.max(1, vm.page - 1))}
-                                    disabled={vm.page === 1}
-                                    className="px-4 py-2 text-sm font-bold text-gray-500 bg-gray-50 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                                >
-                                    Previous
-                                </button>
-                                <button
-                                    onClick={() => vm.setPage(Math.min(vm.totalPages, vm.page + 1))}
-                                    disabled={vm.page === vm.totalPages}
-                                    className="px-4 py-2 text-sm font-bold text-white bg-midnight-teal rounded-lg hover:bg-[#004e5e] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                                >
-                                    Next
-                                </button>
-                            </div>
+                            <button
+                                onClick={() => vm.setPage(Math.min(vm.totalPages, vm.page + 1))}
+                                disabled={vm.page === vm.totalPages}
+                                className={`px-4 py-2 text-sm font-bold rounded-lg transition-colors ${
+                                    vm.page === vm.totalPages 
+                                        ? 'text-gray-300 cursor-not-allowed bg-gray-50' 
+                                        : 'text-midnight-teal bg-soft-linen hover:bg-midnight-teal hover:text-soft-linen'
+                                }`}
+                            >
+                                Next
+                            </button>
                         </div>
                     )}
                 </main>
