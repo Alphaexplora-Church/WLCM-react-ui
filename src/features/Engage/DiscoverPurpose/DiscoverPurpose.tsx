@@ -3,7 +3,7 @@ import Navigation from '../../../components/Navigation';
 import { useDiscoverPurposeViewModel } from './viewmodels/useDiscoverPurposeViewModel';
 
 const DiscoverPurpose = () => {
-  const { form, isSubmitted, isLoading, programs, handleChange, handleSubmit, handleReset } =
+  const { form, isSubmitted, isLoading, error, programs, handleChange, handleSubmit, handleReset } =
     useDiscoverPurposeViewModel();
 
   return (
@@ -258,11 +258,11 @@ const DiscoverPurpose = () => {
                             className="w-full px-4 py-3 rounded-xl border border-midnight-teal/12 bg-white focus:outline-none focus:border-harvest-orange focus:ring-2 focus:ring-harvest-orange/15 font-sans text-sm text-midnight-teal appearance-none transition-all"
                           >
                             <option value="">Select an option…</option>
-                            <option value="friend">A Friend or Family Member</option>
-                            <option value="social">Social Media</option>
-                            <option value="church">Through Church</option>
-                            <option value="website">Website / Google</option>
-                            <option value="other">Other</option>
+                            <option value="Friend or Family Member">A Friend or Family Member</option>
+                            <option value="Social Media">Social Media</option>
+                            <option value="Through Church">Through Church</option>
+                            <option value="Website / Google">Website / Google</option>
+                            <option value="Other">Other</option>
                           </select>
                           <svg
                             className="absolute right-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-midnight-teal/35 pointer-events-none"
@@ -275,6 +275,13 @@ const DiscoverPurpose = () => {
                           </svg>
                         </div>
                       </div>
+
+                      {/* Error banner */}
+                      {error && (
+                        <div className="px-4 py-3 rounded-xl bg-red-50 border border-red-200 text-red-600 text-xs font-medium">
+                          ⚠ {error}
+                        </div>
+                      )}
 
                       {/* Submit */}
                       <motion.button

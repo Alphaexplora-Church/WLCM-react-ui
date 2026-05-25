@@ -43,7 +43,13 @@ const TABS: { id: RegistrationTab; label: string; icon: React.ReactNode }[] = [
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 function fmtDate(str: string) {
-    return new Date(str).toLocaleDateString();
+    return new Date(str).toLocaleString(undefined, {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+    });
 }
 function truncate(str: string | null, len = 60) {
     if (!str) return '—';
