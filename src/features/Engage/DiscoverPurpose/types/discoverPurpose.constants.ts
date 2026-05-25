@@ -5,17 +5,25 @@ export const DISCOVER_PURPOSE_PROGRAMS: Program[] = [
     number: '01',
     title: 'Pre-Encounter',
     description:
-      'A 3-day retreat where everything slows down so you can finally hear from God. Come as you are — leave with a foundation you will build on for the rest of your life.',
-    duration: '3-day Retreat',
+      'A dedicated day where everything slows down so you can prepare your heart to hear from God. Come as you are — build a foundation for your journey.',
+    duration: 'Day 1',
     tag: 'Foundation',
   },
   {
     number: '02',
-    title: 'Counter Journey',
+    title: 'Encounter',
     description:
-      'The retreat was just the beginning. Counter Journey walks alongside you through ongoing mentorship and community as you live out your faith, step by step.',
-    duration: 'Ongoing Program',
-    tag: 'Discipleship',
+      'Step into a transformative spiritual experience designed to help you encounter God\'s purpose and grow deeper in your faith.',
+    duration: 'Day 2',
+    tag: 'Experience',
+  },
+  {
+    number: '03',
+    title: 'Post-Encounter',
+    description:
+      'The journey continues. Take your next step of faith through water baptism and walk out your purpose with a renewed spirit.',
+    duration: 'Day 3',
+    tag: 'Water Baptism',
   },
 ];
 

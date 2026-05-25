@@ -170,7 +170,11 @@ export default function AdminEvents() {
                                             title={event.title}
                                             category={event.category_content}
                                             meta={[
-                                                event.start_date ? `${event.start_date.date} · ${event.start_date.time}` : null,
+                                                event.start_date && event.end_date
+                                                    ? (event.start_date.date === event.end_date.date
+                                                        ? `${event.start_date.date} · ${event.start_date.time} - ${event.end_date.time}`
+                                                        : `${event.start_date.date} · ${event.start_date.time} - ${event.end_date.date} · ${event.end_date.time}`)
+                                                    : event.start_date ? `${event.start_date.date} · ${event.start_date.time}` : null,
                                                 event.location ?? null,
                                             ].filter(Boolean) as string[]}
                                             imageCount={event.media?.length ?? 0}

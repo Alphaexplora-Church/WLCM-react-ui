@@ -121,7 +121,7 @@ const DiscoverPurpose = () => {
                   </h2>
                   <p className="text-soft-linen/55 text-sm leading-relaxed">
                     Fill out the form and we'll send you everything you need to
-                    know about the Pre-Encounter and Counter Journey programs —
+                    know about the Pre-Encounter, Encounter, and Post-Encounter programs —
                     and help you find the right fit for where you are right now.
                   </p>
                 </div>
@@ -243,36 +243,7 @@ const DiscoverPurpose = () => {
                         />
                       </div>
 
-                      {/* Program Select */}
-                      <div className="flex flex-col gap-1.5">
-                        <label className="font-sans text-[9px] uppercase tracking-[0.25em] font-bold text-midnight-teal/50">
-                          Program of Interest *
-                        </label>
-                        <div className="relative">
-                          <select
-                            name="program"
-                            required
-                            value={form.program}
-                            onChange={handleChange}
-                            className="w-full px-4 py-3 rounded-xl border border-midnight-teal/12 bg-white focus:outline-none focus:border-harvest-orange focus:ring-2 focus:ring-harvest-orange/15 font-sans text-sm text-midnight-teal appearance-none transition-all"
-                          >
-                            <option value="">Select a program…</option>
-                            <option value="pre-encounter">01 — Pre-Encounter (3-day Retreat)</option>
-                            <option value="counter-journey">02 — Counter Journey (Ongoing)</option>
-                            <option value="both">Both Programs</option>
-                          </select>
-                          {/* Chevron */}
-                          <svg
-                            className="absolute right-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-midnight-teal/35 pointer-events-none"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth={2.5}
-                          >
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                          </svg>
-                        </div>
-                      </div>
+
 
                       {/* How did you hear */}
                       <div className="flex flex-col gap-1.5">

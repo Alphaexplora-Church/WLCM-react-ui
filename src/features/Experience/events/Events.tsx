@@ -109,10 +109,10 @@ const Events = () => {
                   <div className={`relative z-20 h-full w-14 md:w-20 bg-[#E6EDEF] flex flex-col items-center justify-center
                   ${align === 'left' ? 'rounded-r-2xl mr-auto' : 'rounded-l-2xl ml-auto'}
                 `}>
-                    <span className={`text-lg md:text-xl font-bold tracking-widest -rotate-90 whitespace-nowrap
+                    <span className={`text-sm md:text-lg font-bold tracking-widest -rotate-90 whitespace-nowrap
                     ${color === 'orange' ? 'text-[#F5841A]' : 'text-[#002E38]'}
                   `}>
-                      {event.start_date?.time ?? ''}
+                      {event.start_date?.time ?? ''}{event.end_date?.time ? ` - ${event.end_date.time}` : ''}
                     </span>
                   </div>
 
@@ -122,8 +122,13 @@ const Events = () => {
                 `}>
                     <div className="flex items-center gap-2 mb-2">
                       <span className="text-[#F5841A] bg-black/20 px-2 py-1 rounded text-[10px] md:text-xs font-bold uppercase tracking-widest backdrop-blur-sm border border-[#F5841A]/30">
-                        {event.start_date?.date ?? ''}
+                        {event.start_date?.date ?? ''}{event.end_date?.date && event.end_date.date !== event.start_date?.date ? ` - ${event.end_date.date}` : ''}
                       </span>
+                      {event.category_content && (
+                        <span className="text-teal-400 bg-black/20 px-2 py-1 rounded text-[10px] md:text-xs font-bold uppercase tracking-widest backdrop-blur-sm border border-teal-400/30">
+                          {event.category_content}
+                        </span>
+                      )}
                       {event.location && (
                         <span className="text-[#E6EDEF]/70 text-[10px] md:text-xs font-bold uppercase tracking-widest">
                           • {event.location}
@@ -200,9 +205,9 @@ const Events = () => {
                           {note.category_content}
                         </span>
                       )}
-                      {note.start_date && (
+                      {note.start_date?.date && (
                         <span className="text-[#E6EDEF]/50 font-mono text-xs uppercase tracking-widest mt-1">
-                          {new Date(note.start_date).toLocaleDateString('en-US', { month: 'short', day: '2-digit' }).toUpperCase()}
+                          {new Date(note.start_date.date).toLocaleDateString('en-US', { month: 'short', day: '2-digit' }).toUpperCase()}
                         </span>
                       )}
                     </div>
