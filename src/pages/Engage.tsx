@@ -4,7 +4,7 @@ import Navigation from '../components/Navigation';
 import PlanVisitModal from '../components/PlanVisitModal';
 
 // --- MODULAR FEATURES ---
-import Contact from '../features/Engage/Contact';
+import Contact from '../features/Engage/Contact/index';
 
 const Engage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

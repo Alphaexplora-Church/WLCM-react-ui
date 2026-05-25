@@ -14,55 +14,70 @@ const authHeaders = () => {
     };
 };
 
+const parseTotalFromResponse = <T>(json: any): { items: T[]; total: number } => {
+    const items = (json.data ?? []) as T[];
+    const total = json.total ?? json.meta?.total ?? json.pagination?.total ?? json.meta?.pagination?.total ?? items.length;
+    return { items, total };
+};
+
 export const AdminRegistrationsService = {
     /**
-     * Fetches all plan-a-visit registrations (requires authentication).
+     * Fetches plan-a-visit registrations (requires authentication).
      * GET /api/wlcm/registrations
      */
-    fetchAll: async (): Promise<Registration[]> => {
-        const response = await fetch(`${API_BASE}/api/wlcm/registrations`, {
+    fetchAll: async (page: number = 1, limit: number = 10): Promise<{ items: Registration[]; total: number }> => {
+        const response = await fetch(`${API_BASE}/api/wlcm/registrations?page=${page}&limit=${limit}`, {
             headers: authHeaders(),
         });
         if (!response.ok) throw new Error('Failed to fetch plan-a-visit registrations');
         const json = await response.json();
-        const data = json.data ?? [];
-        return data.map((item: any) => ({
-            ...item,
-            submitted_at: item.submitted_at || item.created_at,
-        })) as Registration[];
+        const { items, total } = parseTotalFromResponse<any>(json);
+        return {
+            items: items.map(item => ({
+                ...item,
+                submitted_at: item.submitted_at || item.created_at,
+            })),
+            total,
+        };
     },
 
     /**
-     * Fetches all Encounter (Discover Purpose) registrations.
-     * GET /api/wlcm/encounter-registrations
+     * Fetches Encounter (Discover Purpose) registrations.
+     * GET /api/wlcm/encounter
      */
-    fetchAllEncounter: async (): Promise<EncounterRegistration[]> => {
-        const response = await fetch(`${API_BASE}/api/wlcm/encounter`, {
+    fetchAllEncounter: async (page: number = 1, limit: number = 10): Promise<{ items: EncounterRegistration[]; total: number }> => {
+        const response = await fetch(`${API_BASE}/api/wlcm/encounter?page=${page}&limit=${limit}`, {
             headers: authHeaders(),
         });
         if (!response.ok) throw new Error('Failed to fetch encounter registrations');
         const json = await response.json();
-        const data = json.data ?? [];
-        return data.map((item: any) => ({
-            ...item,
-            submitted_at: item.submitted_at || item.created_at,
-        })) as EncounterRegistration[];
+        const { items, total } = parseTotalFromResponse<any>(json);
+        return {
+            items: items.map(item => ({
+                ...item,
+                submitted_at: item.submitted_at || item.created_at,
+            })),
+            total,
+        };
     },
 
     /**
-     * Fetches all Discipleship (Contact form) submissions.
-     * GET /api/wlcm/contact-submissions
+     * Fetches Discipleship (Contact form) submissions.
+     * GET /api/wlcm/discipleship
      */
-    fetchAllDiscipleship: async (): Promise<DiscipleshipRegistration[]> => {
-        const response = await fetch(`${API_BASE}/api/wlcm/discipleship`, {
+    fetchAllDiscipleship: async (page: number = 1, limit: number = 10): Promise<{ items: DiscipleshipRegistration[]; total: number }> => {
+        const response = await fetch(`${API_BASE}/api/wlcm/discipleship?page=${page}&limit=${limit}`, {
             headers: authHeaders(),
         });
         if (!response.ok) throw new Error('Failed to fetch discipleship submissions');
         const json = await response.json();
-        const data = json.data ?? [];
-        return data.map((item: any) => ({
-            ...item,
-            submitted_at: item.submitted_at || item.created_at,
-        })) as DiscipleshipRegistration[];
+        const { items, total } = parseTotalFromResponse<any>(json);
+        return {
+            items: items.map(item => ({
+                ...item,
+                submitted_at: item.submitted_at || item.created_at,
+            })),
+            total,
+        };
     },
 };

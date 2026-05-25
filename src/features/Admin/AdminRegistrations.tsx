@@ -62,7 +62,7 @@ export default function AdminRegistrations() {
 
     const tabCount = {
         'plan-a-visit': vm.registrations.length,
-        'encounter':    vm.encounterRegistrations.length,
+        'encounter': vm.encounterRegistrations.length,
         'discipleship': vm.discipleshipRegistrations.length,
     };
 
@@ -186,7 +186,7 @@ export default function AdminRegistrations() {
                             onChange={e => vm.setSearch(e.target.value)}
                             placeholder={
                                 vm.activeTab === 'plan-a-visit' ? 'Search by name or email…' :
-                                                                  'Search by name, email or message…'
+                                    'Search by name, email or message…'
                             }
                             className="w-full bg-white border border-gray-200 rounded-xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-midnight-teal/30 shadow-sm"
                         />
@@ -207,11 +207,36 @@ export default function AdminRegistrations() {
                             </button>
                         </div>
                     ) : vm.activeTab === 'plan-a-visit' ? (
-                        <PlanAVisitTable rows={vm.filteredRegistrations} />
+                        <PlanAVisitTable rows={vm.paginatedRegistrations} />
                     ) : vm.activeTab === 'encounter' ? (
-                        <EncounterTable rows={vm.filteredEncounterRegistrations} />
+                        <EncounterTable rows={vm.paginatedEncounterRegistrations} />
                     ) : (
-                        <DiscipleshipTable rows={vm.filteredDiscipleshipRegistrations} />
+                        <DiscipleshipTable rows={vm.paginatedDiscipleshipRegistrations} />
+                    )}
+
+                    {/* ── Pagination Controls ───────────────────────── */}
+                    {!vm.isLoading && !vm.error && vm.totalPages > 1 && (
+                        <div className="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                            <span className="text-sm text-gray-500">
+                                Page <span className="font-bold text-midnight-teal">{vm.page}</span> of {vm.totalPages}
+                            </span>
+                            <div className="flex gap-2">
+                                <button
+                                    onClick={() => vm.setPage(Math.max(1, vm.page - 1))}
+                                    disabled={vm.page === 1}
+                                    className="px-4 py-2 text-sm font-bold text-gray-500 bg-gray-50 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                >
+                                    Previous
+                                </button>
+                                <button
+                                    onClick={() => vm.setPage(Math.min(vm.totalPages, vm.page + 1))}
+                                    disabled={vm.page === vm.totalPages}
+                                    className="px-4 py-2 text-sm font-bold text-white bg-midnight-teal rounded-lg hover:bg-[#004e5e] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                >
+                                    Next
+                                </button>
+                            </div>
+                        </div>
                     )}
                 </main>
             </div>
@@ -259,7 +284,7 @@ function PlanAVisitTable({ rows }: { rows: Registration[] }) {
 
     const serviceLabel = (s: string | null) => {
         if (s === 'sunday-10am') return '10:00 AM';
-        if (s === 'sunday-2pm')  return '2:00 PM';
+        if (s === 'sunday-2pm') return '2:00 PM';
         return s ?? '—';
     };
 
@@ -287,11 +312,10 @@ function PlanAVisitTable({ rows }: { rows: Registration[] }) {
                             {reg.adult_count ?? 0} Adults, {reg.child_count ?? 0} Kids
                         </td>
                         <td className="px-6 py-4">
-                            <span className={`px-2.5 py-1 text-[10px] uppercase font-bold tracking-wider rounded-full ${
-                                reg.visitor_status === 'first_time'
-                                    ? 'bg-harvest-orange/10 text-harvest-orange border border-harvest-orange/20'
-                                    : 'bg-midnight-teal/10 text-midnight-teal border border-midnight-teal/20'
-                            }`}>
+                            <span className={`px-2.5 py-1 text-[10px] uppercase font-bold tracking-wider rounded-full ${reg.visitor_status === 'first_time'
+                                ? 'bg-harvest-orange/10 text-harvest-orange border border-harvest-orange/20'
+                                : 'bg-midnight-teal/10 text-midnight-teal border border-midnight-teal/20'
+                                }`}>
                                 {reg.visitor_status === 'first_time' ? 'First Time' : 'Returning'}
                             </span>
                         </td>

@@ -29,6 +29,14 @@ export interface AdminRegistrationsViewModel {
     search: string;
     setSearch: (s: string) => void;
 
+    // Pagination
+    page: number;
+    setPage: (p: number) => void;
+    totalPages: number;
+    paginatedRegistrations: Registration[];
+    paginatedEncounterRegistrations: EncounterRegistration[];
+    paginatedDiscipleshipRegistrations: DiscipleshipRegistration[];
+
     // Stats (for active tab)
     stats: {
         total: number;
@@ -45,7 +53,9 @@ export function useAdminRegistrationsViewModel(): AdminRegistrationsViewModel {
     const navigate = useNavigate();
 
     const [activeTab, setActiveTabState] = useState<RegistrationTab>('plan-a-visit');
-    const [search, setSearch] = useState('');
+    const [search, setSearchState] = useState('');
+    const [page, setPage] = useState(1);
+    const limit = 10;
 
     const [registrations, setRegistrations] = useState<Registration[]>([]);
     const [encounterRegistrations, setEncounterRegistrations] = useState<EncounterRegistration[]>([]);
@@ -59,13 +69,13 @@ export function useAdminRegistrationsViewModel(): AdminRegistrationsViewModel {
         setError(null);
         try {
             const [pav, enc, dis] = await Promise.allSettled([
-                AdminRegistrationsService.fetchAll(),
-                AdminRegistrationsService.fetchAllEncounter(),
-                AdminRegistrationsService.fetchAllDiscipleship(),
+                AdminRegistrationsService.fetchAll(1, 1000), // Fetch up to 1000 to keep client-side stats working
+                AdminRegistrationsService.fetchAllEncounter(1, 1000),
+                AdminRegistrationsService.fetchAllDiscipleship(1, 1000),
             ]);
-            if (pav.status === 'fulfilled') setRegistrations(pav.value);
-            if (enc.status === 'fulfilled') setEncounterRegistrations(enc.value);
-            if (dis.status === 'fulfilled') setDiscipleshipRegistrations(dis.value);
+            if (pav.status === 'fulfilled') setRegistrations(pav.value.items);
+            if (enc.status === 'fulfilled') setEncounterRegistrations(enc.value.items);
+            if (dis.status === 'fulfilled') setDiscipleshipRegistrations(dis.value.items);
 
             // If ALL failed, surface an error
             if (pav.status === 'rejected' && enc.status === 'rejected' && dis.status === 'rejected') {
@@ -86,10 +96,16 @@ export function useAdminRegistrationsViewModel(): AdminRegistrationsViewModel {
         }
     }, [navigate]);
 
-    // Reset search when switching tabs
+    // Reset search and page when switching tabs
     const setActiveTab = (tab: RegistrationTab) => {
         setActiveTabState(tab);
-        setSearch('');
+        setSearchState('');
+        setPage(1);
+    };
+
+    const setSearch = (s: string) => {
+        setSearchState(s);
+        setPage(1);
     };
 
     // ── Filtered lists ─────────────────────────────────────────────────────────
@@ -97,21 +113,32 @@ export function useAdminRegistrationsViewModel(): AdminRegistrationsViewModel {
 
     const filteredRegistrations = registrations.filter(r =>
         (r.first_name || '').toLowerCase().includes(q) ||
-        (r.last_name  || '').toLowerCase().includes(q) ||
-        (r.email      || '').toLowerCase().includes(q)
+        (r.last_name || '').toLowerCase().includes(q) ||
+        (r.email || '').toLowerCase().includes(q)
     );
 
     const filteredEncounterRegistrations = encounterRegistrations.filter(r =>
         (r.first_name || '').toLowerCase().includes(q) ||
-        (r.last_name  || '').toLowerCase().includes(q) ||
-        (r.email      || '').toLowerCase().includes(q)
+        (r.last_name || '').toLowerCase().includes(q) ||
+        (r.email || '').toLowerCase().includes(q)
     );
 
     const filteredDiscipleshipRegistrations = discipleshipRegistrations.filter(r =>
-        (r.name    || '').toLowerCase().includes(q) ||
-        (r.email   || '').toLowerCase().includes(q) ||
+        (r.name || '').toLowerCase().includes(q) ||
+        (r.email || '').toLowerCase().includes(q) ||
         (r.message || '').toLowerCase().includes(q)
     );
+
+    // ── Pagination ─────────────────────────────────────────────────────────────
+    const paginatedRegistrations = filteredRegistrations.slice((page - 1) * limit, page * limit);
+    const paginatedEncounterRegistrations = filteredEncounterRegistrations.slice((page - 1) * limit, page * limit);
+    const paginatedDiscipleshipRegistrations = filteredDiscipleshipRegistrations.slice((page - 1) * limit, page * limit);
+
+    const totalPages = Math.ceil(
+        (activeTab === 'plan-a-visit' ? filteredRegistrations.length :
+            activeTab === 'encounter' ? filteredEncounterRegistrations.length :
+                filteredDiscipleshipRegistrations.length) / limit
+    ) || 1;
 
     // ── Stats (per active tab) ─────────────────────────────────────────────────
     const stats = (() => {
@@ -156,6 +183,12 @@ export function useAdminRegistrationsViewModel(): AdminRegistrationsViewModel {
         error,
         search,
         setSearch,
+        page,
+        setPage,
+        totalPages,
+        paginatedRegistrations,
+        paginatedEncounterRegistrations,
+        paginatedDiscipleshipRegistrations,
         stats,
         retry: loadAll,
     };
