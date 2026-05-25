@@ -32,7 +32,6 @@ export const INITIAL_FORM_STATE = {
   lastName: '',
   email: '',
   phone: '',
-  program: '',
   inspiration: '',
   hearAboutUs: '',
 };

@@ -134,12 +134,6 @@ export default function AdminRegistrations() {
                                     </p>
                                     <p className="text-3xl font-serif text-harvest-orange">{vm.stats.statA}</p>
                                 </div>
-                                <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-                                    <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-1">
-                                        Programs
-                                    </p>
-                                    <p className="text-3xl font-serif text-midnight-teal">{vm.stats.statB}</p>
-                                </div>
                             </>
                         )}
 
@@ -186,7 +180,6 @@ export default function AdminRegistrations() {
                             onChange={e => vm.setSearch(e.target.value)}
                             placeholder={
                                 vm.activeTab === 'plan-a-visit' ? 'Search by name or email…' :
-                                vm.activeTab === 'encounter'    ? 'Search by name, email or program…' :
                                                                   'Search by name, email or message…'
                             }
                             className="w-full bg-white border border-gray-200 rounded-xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-midnight-teal/30 shadow-sm"
@@ -308,16 +301,6 @@ function PlanAVisitTable({ rows }: { rows: Registration[] }) {
 function EncounterTable({ rows }: { rows: EncounterRegistration[] }) {
     if (rows.length === 0) return <EmptyState message="No encounter registrations found" />;
 
-    const programLabel = (p: string | null) => {
-        if (!p) return '—';
-        const map: Record<string, string> = {
-            'pre-encounter':  'Pre-Encounter',
-            'encounter':      'Encounter',
-            'post-encounter': 'Post-Encounter',
-        };
-        return map[p] ?? p;
-    };
-
     return (
         <TableWrapper>
             <thead className="text-xs text-gray-400 uppercase bg-gray-50 border-b border-gray-100">
@@ -325,7 +308,6 @@ function EncounterTable({ rows }: { rows: EncounterRegistration[] }) {
                     <Th>Name</Th>
                     <Th>Email</Th>
                     <Th>Phone</Th>
-                    <Th>Program</Th>
                     <Th>Inspiration</Th>
                     <Th>Date</Th>
                 </tr>
@@ -338,13 +320,6 @@ function EncounterTable({ rows }: { rows: EncounterRegistration[] }) {
                         </td>
                         <td className="px-6 py-4">{reg.email ?? '—'}</td>
                         <td className="px-6 py-4">{reg.phone ?? '—'}</td>
-                        <td className="px-6 py-4">
-                            {reg.program ? (
-                                <span className="px-2.5 py-1 text-[10px] uppercase font-bold tracking-wider rounded-full bg-harvest-orange/10 text-harvest-orange border border-harvest-orange/20">
-                                    {programLabel(reg.program)}
-                                </span>
-                            ) : '—'}
-                        </td>
                         <td className="px-6 py-4 text-xs text-gray-400 max-w-xs">
                             {truncate(reg.inspiration)}
                         </td>

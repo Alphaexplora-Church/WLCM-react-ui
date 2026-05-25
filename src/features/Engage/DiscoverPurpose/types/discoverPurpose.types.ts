@@ -3,7 +3,6 @@ export interface FormData {
   lastName: string;
   email: string;
   phone: string;
-  program: string;
   inspiration: string;
   hearAboutUs: string;
 }

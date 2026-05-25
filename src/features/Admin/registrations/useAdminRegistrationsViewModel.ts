@@ -104,8 +104,7 @@ export function useAdminRegistrationsViewModel(): AdminRegistrationsViewModel {
     const filteredEncounterRegistrations = encounterRegistrations.filter(r =>
         (r.first_name || '').toLowerCase().includes(q) ||
         (r.last_name  || '').toLowerCase().includes(q) ||
-        (r.email      || '').toLowerCase().includes(q) ||
-        (r.program    || '').toLowerCase().includes(q)
+        (r.email      || '').toLowerCase().includes(q)
     );
 
     const filteredDiscipleshipRegistrations = discipleshipRegistrations.filter(r =>
@@ -126,13 +125,12 @@ export function useAdminRegistrationsViewModel(): AdminRegistrationsViewModel {
             };
         }
         if (activeTab === 'encounter') {
-            const programs = [...new Set(encounterRegistrations.map(r => r.program).filter(Boolean))];
             return {
                 total: encounterRegistrations.length,
-                statA: encounterRegistrations.filter(r => r.program === 'encounter').length,
-                statALabel: 'Encounter',
-                statB: programs.length,
-                statBLabel: 'Programs',
+                statA: encounterRegistrations.length,
+                statALabel: 'Total Sign-ups',
+                statB: 0,
+                statBLabel: '',
             };
         }
         // discipleship
