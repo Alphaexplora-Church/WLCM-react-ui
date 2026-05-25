@@ -56,7 +56,7 @@ export function EventModal({ open, title, initial, onClose, onSave }: EventModal
                             value={form.title}
                             onChange={handleChange}
                             placeholder="e.g. Sunday Worship Service"
-                            className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
+                            className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
                         />
                     </div>
 
@@ -68,7 +68,7 @@ export function EventModal({ open, title, initial, onClose, onSave }: EventModal
                                 name="start_date_date"
                                 value={form.start_date_date}
                                 onChange={handleChange}
-                                className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
+                                className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
                             />
                         </div>
                         <div>
@@ -78,7 +78,7 @@ export function EventModal({ open, title, initial, onClose, onSave }: EventModal
                                 name="start_date_time"
                                 value={form.start_date_time}
                                 onChange={handleChange}
-                                className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
+                                className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
                             />
                         </div>
                     </div>
@@ -91,7 +91,7 @@ export function EventModal({ open, title, initial, onClose, onSave }: EventModal
                                 name="end_date_date"
                                 value={form.end_date_date}
                                 onChange={handleChange}
-                                className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
+                                className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
                             />
                         </div>
                         <div>
@@ -101,7 +101,7 @@ export function EventModal({ open, title, initial, onClose, onSave }: EventModal
                                 name="end_date_time"
                                 value={form.end_date_time}
                                 onChange={handleChange}
-                                className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
+                                className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
                             />
                         </div>
                     </div>
@@ -113,7 +113,7 @@ export function EventModal({ open, title, initial, onClose, onSave }: EventModal
                             value={form.location}
                             onChange={handleChange}
                             placeholder="e.g. Main Sanctuary"
-                            className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
+                            className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
                         />
                     </div>
 
@@ -124,7 +124,7 @@ export function EventModal({ open, title, initial, onClose, onSave }: EventModal
                             value={form.category_content}
                             onChange={handleChange}
                             placeholder="e.g. Worship, Youth, Prayer"
-                            className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
+                            className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
                         />
                     </div>
 
@@ -136,7 +136,7 @@ export function EventModal({ open, title, initial, onClose, onSave }: EventModal
                             onChange={handleChange}
                             rows={3}
                             placeholder="Brief description of the event..."
-                            className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-midnight-teal/40 resize-none"
+                            className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-midnight-teal/40 resize-none"
                         />
                     </div>
 
@@ -146,7 +146,7 @@ export function EventModal({ open, title, initial, onClose, onSave }: EventModal
                             type="file"
                             accept="image/*"
                             onChange={handleFileChange}
-                            className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-midnight-teal/40 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-midnight-teal/10 file:text-midnight-teal hover:file:bg-midnight-teal/20"
+                            className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-midnight-teal/40 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-midnight-teal/10 file:text-midnight-teal hover:file:bg-midnight-teal/20"
                         />
                     </div>
                 </div>

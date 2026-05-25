@@ -22,7 +22,7 @@ const getAuthHeaders = (isFormData: boolean = false): HeadersInit => {
 
 const buildFormData = (data: EventFormData, type: string): FormData => {
     const formData = new FormData();
-    formData.append('type', type);
+    formData.append('type_content', type);
     formData.append('title', data.title);
 
     if (data.description) formData.append('description', data.description);
@@ -46,29 +46,35 @@ const buildFormData = (data: EventFormData, type: string): FormData => {
     return formData;
 };
 
+const parseTotalFromResponse = <T>(json: any): { items: T[]; total: number } => {
+    const items = (json.data ?? []) as T[];
+    const total = json.total ?? json.meta?.total ?? json.pagination?.total ?? json.meta?.pagination?.total ?? items.length;
+    return { items, total };
+};
+
 export const AdminEventsService = {
     /**
      * Fetches all events from the admin endpoint (requires authentication).
      */
-    fetchEvents: async (page: number = 1, limit: number = 10): Promise<ChurchEvent[]> => {
+    fetchEvents: async (page: number = 1, limit: number = 10): Promise<{ items: ChurchEvent[]; total: number }> => {
         const response = await fetch(`${API_BASE}/api/contents/admin/events?page=${page}&limit=${limit}`, {
             headers: getAuthHeaders(),
         });
         if (!response.ok) throw new Error('Failed to fetch events');
         const json = await response.json();
-        return (json.data ?? []) as ChurchEvent[];
+        return parseTotalFromResponse<ChurchEvent>(json);
     },
 
     /**
      * Fetches all announcements from the admin endpoint (requires authentication).
      */
-    fetchAnnouncements: async (page: number = 1, limit: number = 10): Promise<Announcement[]> => {
+    fetchAnnouncements: async (page: number = 1, limit: number = 10): Promise<{ items: Announcement[]; total: number }> => {
         const response = await fetch(`${API_BASE}/api/contents/admin/announcements?page=${page}&limit=${limit}`, {
             headers: getAuthHeaders(),
         });
         if (!response.ok) throw new Error('Failed to fetch announcements');
         const json = await response.json();
-        return (json.data ?? []) as Announcement[];
+        return parseTotalFromResponse<Announcement>(json);
     },
 
     /**

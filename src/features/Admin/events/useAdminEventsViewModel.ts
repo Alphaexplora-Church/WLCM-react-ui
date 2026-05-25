@@ -58,7 +58,9 @@ export function useAdminEventsViewModel(): AdminEventsViewModel {
     // ── State ──────────────────────────────────────────────────────────────
     const [activeTab, setActiveTab] = useState<ContentTab>('event');
     const [events, setEvents] = useState<ChurchEvent[]>([]);
+    const [eventsTotal, setEventsTotal] = useState(0);
     const [announcements, setAnnouncements] = useState<Announcement[]>([]);
+    const [announcementsTotal, setAnnouncementsTotal] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [search, setSearch] = useState('');
@@ -88,12 +90,14 @@ export function useAdminEventsViewModel(): AdminEventsViewModel {
         setIsLoading(true);
         setError(null);
         try {
-            const [eventsData, announcementsData] = await Promise.all([
+            const [eventsResult, announcementsResult] = await Promise.all([
                 AdminEventsService.fetchEvents(currentPage, limit),
                 AdminEventsService.fetchAnnouncements(currentPage, limit),
             ]);
-            setEvents(eventsData);
-            setAnnouncements(announcementsData);
+            setEvents(eventsResult.items);
+            setEventsTotal(eventsResult.total);
+            setAnnouncements(announcementsResult.items);
+            setAnnouncementsTotal(announcementsResult.total);
         } catch {
             setError('Could not load content. Make sure the backend is running.');
         } finally {
@@ -124,12 +128,12 @@ export function useAdminEventsViewModel(): AdminEventsViewModel {
     // ── Derived: stats (per active tab) ────────────────────────────────────
     const stats = activeTab === 'event'
         ? {
-            total: events.length,
+            total: eventsTotal,
             withImages: events.filter(e => e.media && e.media.length > 0).length,
             categories: new Set(events.map(e => e.category_content).filter(Boolean)).size,
         }
         : {
-            total: announcements.length,
+            total: announcementsTotal,
             withImages: announcements.filter(a => a.media && a.media.length > 0).length,
             categories: new Set(announcements.map(a => a.category_content).filter(Boolean)).size,
         };
@@ -201,6 +205,7 @@ export function useAdminEventsViewModel(): AdminEventsViewModel {
         page,
         nextPage: () => setPage(p => p + 1),
         prevPage: () => setPage(p => Math.max(1, p - 1)),
-        hasMore: activeTab === 'event' ? events.length === limit : announcements.length === limit,
-    };
-}
+        hasMore: activeTab === 'event'
+            ? page * limit < eventsTotal
+            : page * limit < announcementsTotal,
+    };}
