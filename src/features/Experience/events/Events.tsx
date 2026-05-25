@@ -1,6 +1,47 @@
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { useEventsViewModel } from './useEventsViewModel';
+import type { EventDate } from './events.types';
+
+// --- Utility Functions for Formatting ---
+const formatDate = (dateString?: string) => {
+  if (!dateString) return '';
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) return dateString;
+  return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+};
+
+const formatTime = (timeString?: string) => {
+  if (!timeString) return '';
+  const match = timeString.match(/^(\d{1,2}):(\d{2})(:\d{2})?$/);
+  if (match) {
+    let hours = parseInt(match[1], 10);
+    const minutes = match[2];
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; 
+    return `${hours}:${minutes} ${ampm}`;
+  }
+  return timeString;
+};
+
+const formatEventDateRange = (start?: EventDate | null, end?: EventDate | null) => {
+  const startStr = formatDate(start?.date);
+  if (!startStr) return '';
+  if (end?.date && end.date !== start?.date) {
+    return `${startStr} - ${formatDate(end.date)}`;
+  }
+  return startStr;
+};
+
+const formatEventTimeRange = (start?: EventDate | null, end?: EventDate | null) => {
+  const startStr = formatTime(start?.time);
+  if (!startStr) return '';
+  if (end?.time && end.time !== start?.time) {
+    return `${startStr} - ${formatTime(end.time)}`;
+  }
+  return startStr;
+};
 
 const Events = () => {
   const { 
@@ -127,7 +168,7 @@ const Events = () => {
                     <span className={`text-sm md:text-lg font-bold tracking-widest -rotate-90 whitespace-nowrap
                     ${color === 'orange' ? 'text-[#F5841A]' : 'text-[#002E38]'}
                   `}>
-                      {event.start_date?.time ?? ''}{event.end_date?.time ? ` - ${event.end_date.time}` : ''}
+                      {formatEventTimeRange(event.start_date, event.end_date)}
                     </span>
                   </div>
 
@@ -137,7 +178,7 @@ const Events = () => {
                 `}>
                     <div className="flex items-center gap-2 mb-2">
                       <span className="text-[#F5841A] bg-black/20 px-2 py-1 rounded text-[10px] md:text-xs font-bold uppercase tracking-widest backdrop-blur-sm border border-[#F5841A]/30">
-                        {event.start_date?.date ?? ''}{event.end_date?.date && event.end_date.date !== event.start_date?.date ? ` - ${event.end_date.date}` : ''}
+                        {formatEventDateRange(event.start_date, event.end_date)}
                       </span>
                       {event.category_content && (
                         <span className="text-teal-400 bg-black/20 px-2 py-1 rounded text-[10px] md:text-xs font-bold uppercase tracking-widest backdrop-blur-sm border border-teal-400/30">
@@ -253,7 +294,7 @@ const Events = () => {
                       )}
                       {note.start_date?.date && (
                         <span className="text-[#E6EDEF]/50 font-mono text-xs uppercase tracking-widest mt-1">
-                          {new Date(note.start_date.date).toLocaleDateString('en-US', { month: 'short', day: '2-digit' }).toUpperCase()}
+                          {formatEventDateRange(note.start_date).toUpperCase()}
                         </span>
                       )}
                     </div>
