@@ -25,7 +25,11 @@ export const AdminRegistrationsService = {
         });
         if (!response.ok) throw new Error('Failed to fetch plan-a-visit registrations');
         const json = await response.json();
-        return (json.data ?? []) as Registration[];
+        const data = json.data ?? [];
+        return data.map((item: any) => ({
+            ...item,
+            submitted_at: item.submitted_at || item.created_at,
+        })) as Registration[];
     },
 
     /**
@@ -33,12 +37,16 @@ export const AdminRegistrationsService = {
      * GET /api/wlcm/encounter-registrations
      */
     fetchAllEncounter: async (): Promise<EncounterRegistration[]> => {
-        const response = await fetch(`${API_BASE}/api/wlcm/encounter-registrations`, {
+        const response = await fetch(`${API_BASE}/api/wlcm/encounter`, {
             headers: authHeaders(),
         });
         if (!response.ok) throw new Error('Failed to fetch encounter registrations');
         const json = await response.json();
-        return (json.data ?? []) as EncounterRegistration[];
+        const data = json.data ?? [];
+        return data.map((item: any) => ({
+            ...item,
+            submitted_at: item.submitted_at || item.created_at,
+        })) as EncounterRegistration[];
     },
 
     /**
@@ -46,11 +54,15 @@ export const AdminRegistrationsService = {
      * GET /api/wlcm/contact-submissions
      */
     fetchAllDiscipleship: async (): Promise<DiscipleshipRegistration[]> => {
-        const response = await fetch(`${API_BASE}/api/wlcm/contact-submissions`, {
+        const response = await fetch(`${API_BASE}/api/wlcm/discipleship`, {
             headers: authHeaders(),
         });
         if (!response.ok) throw new Error('Failed to fetch discipleship submissions');
         const json = await response.json();
-        return (json.data ?? []) as DiscipleshipRegistration[];
+        const data = json.data ?? [];
+        return data.map((item: any) => ({
+            ...item,
+            submitted_at: item.submitted_at || item.created_at,
+        })) as DiscipleshipRegistration[];
     },
 };
