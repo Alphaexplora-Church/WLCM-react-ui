@@ -32,9 +32,9 @@ const Experience = () => {
     <div className="bg-[#002E38] selection:bg-[#E6EDEF] selection:text-[#002E38] relative">
 
       <Navigation lightMode={false} />
-      <main>
+      <main className="pb-20 lg:pb-0">
         {/* HERO */}
-        <section className="relative h-[60vh] flex flex-col items-center justify-center">
+        <section className="relative h-screen flex flex-col items-center justify-center">
           {/* Backgrounds */}
           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=2073&auto=format&fit=crop')] bg-cover bg-center opacity-20 mix-blend-overlay" />
 

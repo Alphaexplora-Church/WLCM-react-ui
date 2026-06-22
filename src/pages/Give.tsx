@@ -12,7 +12,7 @@ const Give = () => {
     <div className="bg-midnight-teal min-h-screen selection:bg-soft-linen selection:text-midnight-teal relative overflow-x-hidden">
       <Navigation lightMode={false} />
 
-      <div id="give" className="relative pt-24 md:pt-28">
+      <div id="give" className="relative pt-4 md:pt-0">
         <Donations />
       </div>
 

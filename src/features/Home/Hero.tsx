@@ -44,6 +44,12 @@ export default function Hero() {
               className="relative z-10 w-full h-full object-contain mix-blend-lighten scale-[1.5] md:scale-[1.8]"
             >
               <source src="/INTRO.webm" type="video/webm" />
+              {/* iOS Safari fallback — WebM is not supported on iOS */}
+              <img
+                src="/logo_transparent.png"
+                alt="Words of Life Christian Ministries"
+                className="w-full h-full object-contain"
+              />
             </video>
           </div>
 

@@ -6,8 +6,8 @@ export const EventsService = {
   /**
    * Fetches the church events from the API.
    */
-  fetchEvents: async (): Promise<ChurchEvent[]> => {
-    const response = await fetch(`${API_BASE}/api/contents/public/events`);
+  fetchEvents: async (page: number = 1, limit: number = 10): Promise<ChurchEvent[]> => {
+    const response = await fetch(`${API_BASE}/api/contents/public/events/2?page=${page}&limit=${limit}`);
     if (!response.ok) throw new Error('Network error when fetching events');
     const json = await response.json();
     return (json.data ?? []) as ChurchEvent[];
@@ -16,8 +16,8 @@ export const EventsService = {
   /**
    * Fetches the church announcements from the API.
    */
-  fetchAnnouncements: async (): Promise<Announcement[]> => {
-    const response = await fetch(`${API_BASE}/api/contents/public/announcements`);
+  fetchAnnouncements: async (page: number = 1, limit: number = 10): Promise<Announcement[]> => {
+    const response = await fetch(`${API_BASE}/api/contents/public/announcements/2?page=${page}&limit=${limit}`);
     if (!response.ok) throw new Error('Network error when fetching announcements');
     const json = await response.json();
     return (json.data ?? []) as Announcement[];

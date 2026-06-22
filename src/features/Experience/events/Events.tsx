@@ -1,9 +1,65 @@
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { useEventsViewModel } from './useEventsViewModel';
+import type { EventDate } from './events.types';
+
+// --- Utility Functions for Formatting ---
+const formatDate = (dateString?: string) => {
+  if (!dateString) return '';
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) return dateString;
+  return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+};
+
+const formatTime = (timeString?: string) => {
+  if (!timeString) return '';
+  const match = timeString.match(/^(\d{1,2}):(\d{2})(:\d{2})?$/);
+  if (match) {
+    let hours = parseInt(match[1], 10);
+    const minutes = match[2];
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; 
+    return `${hours}:${minutes} ${ampm}`;
+  }
+  return timeString;
+};
+
+const formatEventDateRange = (start?: EventDate | null, end?: EventDate | null) => {
+  const startStr = formatDate(start?.date);
+  if (!startStr) return '';
+  if (end?.date && end.date !== start?.date) {
+    return `${startStr} - ${formatDate(end.date)}`;
+  }
+  return startStr;
+};
+
+const formatEventTimeRange = (start?: EventDate | null, end?: EventDate | null) => {
+  const startStr = formatTime(start?.time);
+  if (!startStr) return '';
+  if (end?.time && end.time !== start?.time) {
+    return `${startStr} - ${formatTime(end.time)}`;
+  }
+  return startStr;
+};
 
 const Events = () => {
-  const { events, announcements, isLoading, error } = useEventsViewModel();
+  const { 
+    events, 
+    announcements, 
+    isLoadingEvents, 
+    errorEvents, 
+    eventsPage, 
+    nextEventsPage, 
+    prevEventsPage, 
+    hasMoreEvents,
+    isLoadingAnnouncements,
+    errorAnnouncements,
+    announcementsPage,
+    nextAnnouncementsPage,
+    prevAnnouncementsPage,
+    hasMoreAnnouncements
+  } = useEventsViewModel();
   // Animation Variants
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -59,12 +115,12 @@ const Events = () => {
         </motion.div>
 
         {/* --- EVENTS LIST (Zig-Zag) --- */}
-        {isLoading ? (
+        {isLoadingEvents ? (
           <div className="flex flex-col gap-8 mb-32 items-center justify-center w-full h-48 md:h-56 bg-[#E6EDEF]/5 rounded-2xl border border-[#E6EDEF]/10 animate-pulse">
             <span className="text-[#E6EDEF]/70 text-lg">Loading events...</span>
           </div>
-        ) : error ? (
-          <div className="text-center text-[#F5841A] py-12 text-lg mb-32">{error}</div>
+        ) : errorEvents ? (
+          <div className="text-center text-[#F5841A] py-12 text-lg mb-32">{errorEvents}</div>
         ) : events.length === 0 ? (
           <div className="text-center text-[#E6EDEF]/70 py-12 text-lg mb-32">No upcoming events.</div>
         ) : (
@@ -109,10 +165,10 @@ const Events = () => {
                   <div className={`relative z-20 h-full w-14 md:w-20 bg-[#E6EDEF] flex flex-col items-center justify-center
                   ${align === 'left' ? 'rounded-r-2xl mr-auto' : 'rounded-l-2xl ml-auto'}
                 `}>
-                    <span className={`text-lg md:text-xl font-bold tracking-widest -rotate-90 whitespace-nowrap
+                    <span className={`text-sm md:text-lg font-bold tracking-widest -rotate-90 whitespace-nowrap
                     ${color === 'orange' ? 'text-[#F5841A]' : 'text-[#002E38]'}
                   `}>
-                      {event.start_date?.time ?? ''}
+                      {formatEventTimeRange(event.start_date, event.end_date)}
                     </span>
                   </div>
 
@@ -122,8 +178,13 @@ const Events = () => {
                 `}>
                     <div className="flex items-center gap-2 mb-2">
                       <span className="text-[#F5841A] bg-black/20 px-2 py-1 rounded text-[10px] md:text-xs font-bold uppercase tracking-widest backdrop-blur-sm border border-[#F5841A]/30">
-                        {event.start_date?.date ?? ''}
+                        {formatEventDateRange(event.start_date, event.end_date)}
                       </span>
+                      {event.category_content && (
+                        <span className="text-teal-400 bg-black/20 px-2 py-1 rounded text-[10px] md:text-xs font-bold uppercase tracking-widest backdrop-blur-sm border border-teal-400/30">
+                          {event.category_content}
+                        </span>
+                      )}
                       {event.location && (
                         <span className="text-[#E6EDEF]/70 text-[10px] md:text-xs font-bold uppercase tracking-widest">
                           • {event.location}
@@ -147,6 +208,37 @@ const Events = () => {
           </motion.div>
         )}
 
+        {/* Pagination Controls */}
+        {!isLoadingEvents && !errorEvents && (events.length > 0 || eventsPage > 1) && (
+          <div className="flex justify-center items-center gap-4 mb-32">
+            <button
+              onClick={prevEventsPage}
+              disabled={eventsPage === 1}
+              className={`px-6 py-2 rounded-full font-bold uppercase tracking-wider text-sm transition-all ${
+                eventsPage === 1
+                  ? 'bg-[#E6EDEF]/10 text-[#E6EDEF]/30 cursor-not-allowed'
+                  : 'bg-[#004e5e] text-[#E6EDEF] hover:bg-[#005e70] shadow-lg'
+              }`}
+            >
+              Previous
+            </button>
+            <span className="text-[#E6EDEF]/70 font-sans text-sm font-bold uppercase tracking-widest">
+              Page {eventsPage}
+            </span>
+            <button
+              onClick={nextEventsPage}
+              disabled={!hasMoreEvents}
+              className={`px-6 py-2 rounded-full font-bold uppercase tracking-wider text-sm transition-all ${
+                !hasMoreEvents
+                  ? 'bg-[#E6EDEF]/10 text-[#E6EDEF]/30 cursor-not-allowed'
+                  : 'bg-[#F5841A] text-white hover:bg-[#ff9533] shadow-lg'
+              }`}
+            >
+              Next
+            </button>
+          </div>
+        )}
+
 
         {/* --- PREMIUM ANNOUNCEMENTS (Glass Cards) --- */}
         <div className="relative">
@@ -156,10 +248,10 @@ const Events = () => {
             <span className="text-[#E6EDEF]/40 font-sans text-xs uppercase tracking-widest mb-1">Announcements</span>
           </div>
 
-          {isLoading ? (
+          {isLoadingAnnouncements ? (
             <div className="text-[#E6EDEF]/70 py-12 animate-pulse text-center bg-[#E6EDEF]/5 backdrop-blur-sm border border-[#E6EDEF]/10 rounded-xl">Loading announcements...</div>
-          ) : error ? (
-            <div className="text-[#F5841A] py-8 text-center">{error}</div>
+          ) : errorAnnouncements ? (
+            <div className="text-[#F5841A] py-8 text-center">{errorAnnouncements}</div>
           ) : announcements.length === 0 ? (
             <div className="text-[#E6EDEF]/70 py-8 text-center">No announcements at this time.</div>
           ) : (
@@ -200,9 +292,9 @@ const Events = () => {
                           {note.category_content}
                         </span>
                       )}
-                      {note.start_date && (
+                      {note.start_date?.date && (
                         <span className="text-[#E6EDEF]/50 font-mono text-xs uppercase tracking-widest mt-1">
-                          {new Date(note.start_date).toLocaleDateString('en-US', { month: 'short', day: '2-digit' }).toUpperCase()}
+                          {formatEventDateRange(note.start_date).toUpperCase()}
                         </span>
                       )}
                     </div>
@@ -222,6 +314,37 @@ const Events = () => {
                 </motion.div>
               ))}
             </motion.div>
+          )}
+
+          {/* Announcements Pagination Controls */}
+          {!isLoadingAnnouncements && !errorAnnouncements && (announcements.length > 0 || announcementsPage > 1) && (
+            <div className="flex justify-center items-center gap-4 mt-12 mb-8">
+              <button
+                onClick={prevAnnouncementsPage}
+                disabled={announcementsPage === 1}
+                className={`px-6 py-2 rounded-full font-bold uppercase tracking-wider text-sm transition-all ${
+                  announcementsPage === 1
+                    ? 'bg-[#E6EDEF]/10 text-[#E6EDEF]/30 cursor-not-allowed'
+                    : 'bg-[#004e5e] text-[#E6EDEF] hover:bg-[#005e70] shadow-lg'
+                }`}
+              >
+                Previous
+              </button>
+              <span className="text-[#E6EDEF]/70 font-sans text-sm font-bold uppercase tracking-widest">
+                Page {announcementsPage}
+              </span>
+              <button
+                onClick={nextAnnouncementsPage}
+                disabled={!hasMoreAnnouncements}
+                className={`px-6 py-2 rounded-full font-bold uppercase tracking-wider text-sm transition-all ${
+                  !hasMoreAnnouncements
+                    ? 'bg-[#E6EDEF]/10 text-[#E6EDEF]/30 cursor-not-allowed'
+                    : 'bg-[#F5841A] text-white hover:bg-[#ff9533] shadow-lg'
+                }`}
+              >
+                Next
+              </button>
+            </div>
           )}
         </div>
 

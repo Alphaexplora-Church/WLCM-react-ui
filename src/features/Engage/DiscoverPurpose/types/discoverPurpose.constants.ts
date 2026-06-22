@@ -5,17 +5,25 @@ export const DISCOVER_PURPOSE_PROGRAMS: Program[] = [
     number: '01',
     title: 'Pre-Encounter',
     description:
-      'Begin your spiritual awakening with foundational teachings that prepare your heart for transformation. This intensive retreat experience sets the stage for encountering God`s love and grace.',
-    duration: '3-day Retreat',
+      'A dedicated day where everything slows down so you can prepare your heart to hear from God. Come as you are — build a foundation for your journey.',
+    duration: 'Day 1',
     tag: 'Foundation',
   },
   {
     number: '02',
-    title: 'Counter Journey',
+    title: 'Encounter',
     description:
-      'Deepen your relationship with Christ through post-encounter discipleship and mentorship. Integrate your spiritual experience into daily life alongside a community of believers.',
-    duration: 'Ongoing Program',
-    tag: 'Discipleship',
+      'Step into a transformative spiritual experience designed to help you encounter God\'s purpose and grow deeper in your faith.',
+    duration: 'Day 2',
+    tag: 'Experience',
+  },
+  {
+    number: '03',
+    title: 'Post-Encounter',
+    description:
+      'The journey continues. Take your next step of faith through water baptism and walk out your purpose with a renewed spirit.',
+    duration: 'Day 3',
+    tag: 'Water Baptism',
   },
 ];
 
@@ -24,6 +32,6 @@ export const INITIAL_FORM_STATE = {
   lastName: '',
   email: '',
   phone: '',
-  program: '',
+  inspiration: '',
   hearAboutUs: '',
 };

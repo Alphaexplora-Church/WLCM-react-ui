@@ -5,12 +5,13 @@ import { EMPTY_FORM } from './adminEvents.types';
 
 interface EventModalProps {
     open: boolean;
+    title: string;
     initial?: EventFormData;
     onClose: () => void;
     onSave: (data: EventFormData) => void;
 }
 
-export function EventModal({ open, initial, onClose, onSave }: EventModalProps) {
+export function EventModal({ open, title, initial, onClose, onSave }: EventModalProps) {
     const [form, setForm] = useState<EventFormData>(initial ?? EMPTY_FORM);
 
     useEffect(() => {
@@ -23,6 +24,12 @@ export function EventModal({ open, initial, onClose, onSave }: EventModalProps) 
         setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            setForm(prev => ({ ...prev, image: e.target.files![0] }));
+        }
+    };
+
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
             <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden">
@@ -30,7 +37,7 @@ export function EventModal({ open, initial, onClose, onSave }: EventModalProps) 
                 {/* Header */}
                 <div className="bg-midnight-teal px-6 py-5 flex items-center justify-between">
                     <h2 className="font-serif text-xl text-soft-linen">
-                        {initial ? 'Edit Event' : 'New Event'}
+                        {title}
                     </h2>
                     <button
                         onClick={onClose}
@@ -49,29 +56,52 @@ export function EventModal({ open, initial, onClose, onSave }: EventModalProps) 
                             value={form.title}
                             onChange={handleChange}
                             placeholder="e.g. Sunday Worship Service"
-                            className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
+                            className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
                         />
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-xs font-bold uppercase tracking-widest text-midnight-teal mb-1">Date</label>
+                            <label className="block text-xs font-bold uppercase tracking-widest text-midnight-teal mb-1">Start Date</label>
                             <input
                                 type="date"
                                 name="start_date_date"
                                 value={form.start_date_date}
                                 onChange={handleChange}
-                                className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
+                                className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
                             />
                         </div>
                         <div>
-                            <label className="block text-xs font-bold uppercase tracking-widest text-midnight-teal mb-1">Time</label>
+                            <label className="block text-xs font-bold uppercase tracking-widest text-midnight-teal mb-1">Start Time</label>
                             <input
                                 type="time"
                                 name="start_date_time"
                                 value={form.start_date_time}
                                 onChange={handleChange}
-                                className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
+                                className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-xs font-bold uppercase tracking-widest text-midnight-teal mb-1">End Date</label>
+                            <input
+                                type="date"
+                                name="end_date_date"
+                                value={form.end_date_date}
+                                onChange={handleChange}
+                                className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-xs font-bold uppercase tracking-widest text-midnight-teal mb-1">End Time</label>
+                            <input
+                                type="time"
+                                name="end_date_time"
+                                value={form.end_date_time}
+                                onChange={handleChange}
+                                className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
                             />
                         </div>
                     </div>
@@ -83,7 +113,7 @@ export function EventModal({ open, initial, onClose, onSave }: EventModalProps) 
                             value={form.location}
                             onChange={handleChange}
                             placeholder="e.g. Main Sanctuary"
-                            className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
+                            className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
                         />
                     </div>
 
@@ -94,7 +124,7 @@ export function EventModal({ open, initial, onClose, onSave }: EventModalProps) 
                             value={form.category_content}
                             onChange={handleChange}
                             placeholder="e.g. Worship, Youth, Prayer"
-                            className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
+                            className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
                         />
                     </div>
 
@@ -106,7 +136,17 @@ export function EventModal({ open, initial, onClose, onSave }: EventModalProps) 
                             onChange={handleChange}
                             rows={3}
                             placeholder="Brief description of the event..."
-                            className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-midnight-teal/40 resize-none"
+                            className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-midnight-teal/40 resize-none"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-xs font-bold uppercase tracking-widest text-midnight-teal mb-1">Image</label>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleFileChange}
+                            className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-midnight-teal/40 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-midnight-teal/10 file:text-midnight-teal hover:file:bg-midnight-teal/20"
                         />
                     </div>
                 </div>

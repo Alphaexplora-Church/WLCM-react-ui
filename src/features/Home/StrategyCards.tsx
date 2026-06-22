@@ -23,7 +23,7 @@ const cards = [
     number: "02",
     title: "Find Freedom",
     tagline: "You were never meant to do life alone.",
-    body: "You were never meant to walk alone. God designed growth to happen in community. Through one-on-one mentoring and Caregroups, you can build relationships that bring encouragement, healing, and accountability in a safe and supportive environment.  ",
+    body: "You were never meant to walk this alone. Through mentoring, Caregroups, and discipleship, we walk alongside you — in your faith, your relationships, and your personal growth. Whatever you're carrying right now, how can we help?",
     ctas: [
       { label: "Join a Caregroup", action: "/engage" },
     ],

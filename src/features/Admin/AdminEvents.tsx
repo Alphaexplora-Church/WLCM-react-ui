@@ -14,6 +14,32 @@ export default function AdminEvents() {
     const isEvent = vm.activeTab === 'event';
     const label = isEvent ? 'Event' : 'Announcement';
 
+    const parseStartValue = (item: any, part: 'date' | 'time') => {
+        const value = item?.start_date;
+        if (!value) return '';
+        if (typeof value === 'string') {
+            const date = new Date(value);
+            if (Number.isNaN(date.getTime())) return '';
+            return part === 'date' ? date.toISOString().slice(0, 10) : date.toISOString().slice(11, 16);
+        }
+        return part === 'date' ? value.date : value.time;
+    };
+
+    const modalTitle = vm.activeTab === 'announcement'
+        ? (vm.editTarget ? 'Edit Announcement' : 'New Announcement')
+        : (vm.editTarget ? 'Edit Event' : 'New Event');
+
+    const modalInitial = vm.editTarget ? {
+        title: vm.editTarget.title,
+        description: vm.editTarget.description ?? '',
+        location: 'location' in vm.editTarget ? vm.editTarget.location ?? '' : '',
+        category_content: vm.editTarget.category_content ?? '',
+        start_date_date: parseStartValue(vm.editTarget, 'date'),
+        start_date_time: parseStartValue(vm.editTarget, 'time'),
+        end_date_date: 'end_date' in vm.editTarget && vm.editTarget.end_date ? vm.editTarget.end_date.date : '',
+        end_date_time: 'end_date' in vm.editTarget && vm.editTarget.end_date ? vm.editTarget.end_date.time : '',
+    } : undefined;
+
     return (
         <div className="flex min-h-screen bg-soft-linen">
             <AdminSidebar />
@@ -144,7 +170,11 @@ export default function AdminEvents() {
                                             title={event.title}
                                             category={event.category_content}
                                             meta={[
-                                                event.start_date ? `${event.start_date.date} · ${event.start_date.time}` : null,
+                                                event.start_date && event.end_date
+                                                    ? (event.start_date.date === event.end_date.date
+                                                        ? `${event.start_date.date} · ${event.start_date.time} - ${event.end_date.time}`
+                                                        : `${event.start_date.date} · ${event.start_date.time} - ${event.end_date.date} · ${event.end_date.time}`)
+                                                    : event.start_date ? `${event.start_date.date} · ${event.start_date.time}` : null,
                                                 event.location ?? null,
                                             ].filter(Boolean) as string[]}
                                             imageCount={event.media?.length ?? 0}
@@ -166,7 +196,7 @@ export default function AdminEvents() {
                                 {vm.filteredAnnouncements.map(note => {
                                     const thumb = note.media?.length > 0 ? note.media[0].file_url : FALLBACK_IMAGE;
                                     const dateStr = note.start_date
-                                        ? new Date(note.start_date).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })
+                                        ? `${note.start_date.date} · ${note.start_date.time}`
                                         : null;
                                     return (
                                         <ContentCard
@@ -177,13 +207,47 @@ export default function AdminEvents() {
                                             meta={[dateStr, note.status ? `Status: ${note.status}` : null].filter(Boolean) as string[]}
                                             imageCount={note.media?.length ?? 0}
                                             description={note.description}
-                                            onEdit={() => { /* TODO: open announcement edit modal */ }}
-                                            onDelete={() => { /* TODO: open announcement delete modal */ }}
+                                            onEdit={() => vm.openEditModal(note)}
+                                            onDelete={() => vm.openDeleteModal(note)}
                                         />
                                     );
                                 })}
                             </div>
                         )
+                    )}
+
+                    {/* ── Pagination ─────────────────────────────────── */}
+                    {!vm.isLoading && !vm.error && (
+                        (isEvent && (vm.filteredEvents.length > 0 || vm.page > 1)) ||
+                        (!isEvent && (vm.filteredAnnouncements.length > 0 || vm.page > 1))
+                    ) && (
+                        <div className="flex items-center justify-between bg-white border border-gray-100 p-4 rounded-2xl shadow-sm mt-6">
+                            <button
+                                onClick={vm.prevPage}
+                                disabled={vm.page === 1}
+                                className={`px-4 py-2 text-sm font-bold rounded-lg transition-colors ${
+                                    vm.page === 1 
+                                        ? 'text-gray-300 cursor-not-allowed bg-gray-50' 
+                                        : 'text-midnight-teal bg-soft-linen hover:bg-midnight-teal hover:text-soft-linen'
+                                }`}
+                            >
+                                Previous
+                            </button>
+                            <span className="text-sm font-bold text-gray-500">
+                                Page {vm.page}
+                            </span>
+                            <button
+                                onClick={vm.nextPage}
+                                disabled={!vm.hasMore}
+                                className={`px-4 py-2 text-sm font-bold rounded-lg transition-colors ${
+                                    !vm.hasMore 
+                                        ? 'text-gray-300 cursor-not-allowed bg-gray-50' 
+                                        : 'text-midnight-teal bg-soft-linen hover:bg-midnight-teal hover:text-soft-linen'
+                                }`}
+                            >
+                                Next
+                            </button>
+                        </div>
                     )}
                 </main>
             </div>
@@ -196,17 +260,10 @@ export default function AdminEvents() {
                 </div>
             )}
 
-            {/* ── Modals ─────────────────────────────────────── */}
             <EventModal
                 open={vm.showModal}
-                initial={vm.editTarget ? {
-                    title: vm.editTarget.title,
-                    description: vm.editTarget.description ?? '',
-                    location: vm.editTarget.location ?? '',
-                    category_content: vm.editTarget.category_content ?? '',
-                    start_date_date: vm.editTarget.start_date?.date ?? '',
-                    start_date_time: vm.editTarget.start_date?.time ?? '',
-                } : undefined}
+                title={modalTitle}
+                initial={modalInitial}
                 onClose={vm.closeModal}
                 onSave={vm.handleSave}
             />

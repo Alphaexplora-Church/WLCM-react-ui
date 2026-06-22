@@ -3,7 +3,7 @@ export interface FormData {
   lastName: string;
   email: string;
   phone: string;
-  program: string;
+  inspiration: string;
   hearAboutUs: string;
 }
 
@@ -18,8 +18,10 @@ export interface Program {
 export interface DiscoverPurposeViewModelState {
   form: FormData;
   isSubmitted: boolean;
+  isLoading: boolean;
+  error: string | null;
   programs: Program[];
-  handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
-  handleSubmit: (e: React.FormEvent) => void;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void;
+  handleSubmit: (e: React.FormEvent) => Promise<void>;
   handleReset: () => void;
 }

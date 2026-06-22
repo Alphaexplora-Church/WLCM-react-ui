@@ -31,6 +31,6 @@ export interface Announcement {
   category_content: string;
   status: string;
   description: string;
-  start_date: string | null;
+  start_date: EventDate | null;
   media: ContentMedia[];
 }

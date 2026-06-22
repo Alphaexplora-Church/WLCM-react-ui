@@ -1,17 +1,18 @@
+// ─── Contact (Discipleship): ViewModel ────────────────────────────────────────
 import { useState } from 'react';
-import type { FormData, DiscoverPurposeViewModelState } from '../types/discoverPurpose.types';
-import { DISCOVER_PURPOSE_PROGRAMS, INITIAL_FORM_STATE } from '../types/discoverPurpose.constants';
+import type { ContactFormData, ContactViewModelState } from '../types/contact.types';
+import { INITIAL_CONTACT_FORM_STATE } from '../types/contact.constants';
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:4000';
 
-export const useDiscoverPurposeViewModel = (): DiscoverPurposeViewModelState => {
-  const [form, setForm] = useState<FormData>(INITIAL_FORM_STATE);
+export const useContactViewModel = (): ContactViewModelState => {
+  const [form, setForm] = useState<ContactFormData>(INITIAL_CONTACT_FORM_STATE);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ): void => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
@@ -23,17 +24,14 @@ export const useDiscoverPurposeViewModel = (): DiscoverPurposeViewModelState => 
     setError(null);
     try {
       const payload = {
-        firstName: form.firstName,
-        lastName: form.lastName,
+        name: form.name,
         email: form.email,
-        phone: form.phone || null,
-        inspiration: form.inspiration,
-        hearAboutUs: form.hearAboutUs || null,
+        message: form.message,
       };
 
-      console.log('Submitting encounter payload:', payload);
+      console.log('Submitting discipleship payload:', payload);
 
-      const response = await fetch(`${API_BASE}/api/wlcm/encounter`, {
+      const response = await fetch(`${API_BASE}/api/wlcm/discipleship`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -48,7 +46,7 @@ export const useDiscoverPurposeViewModel = (): DiscoverPurposeViewModelState => 
       }
       setIsSubmitted(true);
     } catch (err) {
-      console.error('Network error submitting encounter registration:', err);
+      console.error('Network error submitting discipleship form:', err);
       setError('A network error occurred. Please try again.');
     } finally {
       setIsLoading(false);
@@ -56,7 +54,7 @@ export const useDiscoverPurposeViewModel = (): DiscoverPurposeViewModelState => 
   };
 
   const handleReset = (): void => {
-    setForm(INITIAL_FORM_STATE);
+    setForm(INITIAL_CONTACT_FORM_STATE);
     setIsSubmitted(false);
     setError(null);
   };
@@ -66,7 +64,6 @@ export const useDiscoverPurposeViewModel = (): DiscoverPurposeViewModelState => 
     isSubmitted,
     isLoading,
     error,
-    programs: DISCOVER_PURPOSE_PROGRAMS,
     handleChange,
     handleSubmit,
     handleReset,

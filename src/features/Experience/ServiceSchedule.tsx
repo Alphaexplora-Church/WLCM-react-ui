@@ -58,7 +58,7 @@ const ServiceSchedule = () => {
           <span className="text-[#F5841A] font-sans text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] mb-4 md:mb-6 block">
             Weekly Gatherings
           </span>
-          <h2 className="font-serif text-4xl md:text-7xl text-[#E6EDEF] lowercase tracking-tight">
+          <h2 className="font-serif text-5xl md:text-8xl text-[#E6EDEF] lowercase tracking-tighter leading-[0.9]">
             service schedule
           </h2>
         </motion.div>

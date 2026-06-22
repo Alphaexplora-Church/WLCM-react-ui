@@ -5,7 +5,7 @@ import StrategyCards from '../features/Home/StrategyCards';
 import WelcomeVideo from '../features/Home/WelcomeVideo';
 import WhatToExpect from '../features/Home/WhatToExpect';
 import WelcomeExperienceFlow from '../features/Home/WelcomeExperienceFlow';
-import PlanVisitForm from '../features/Home/PlanVisitForm';
+// import PlanVisitForm from '../features/Home/PlanVisitForm';
 import FooterCTA from '../features/Home/FooterCTA';
 
 const Home = () => {
@@ -33,7 +33,7 @@ const Home = () => {
         <WelcomeExperienceFlow />
 
         {/* Plan a Visit inline form */}
-        <PlanVisitForm />
+        {/* <PlanVisitForm /> */}
 
         {/* Community Photo Gallery */}
         {/* <CommunityPulse /> */}

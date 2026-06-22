@@ -1,17 +1,17 @@
 import { motion } from 'framer-motion';
 
 /*
- * 3 image cards. Title + 1 sentence only. 
+ * 3 image cards. Title + 1 sentence only.
  * Magazine: photos carry the emotional weight, not paragraphs.
  */
 const expects = [
     {
         img: "/events/passover-4.jpg",
         label: "The Service",
-        title: "30 min worship and 45 min preaching.",
+        title: "30 min worship and 45 min message and teaching.",
     },
     {
-        img: "/events/kids-1.jpg",
+        img: "/events/pulse-1.jpg",
         label: "Kids & Youth",
         title: "Safe, fun, age-appropriate programs.",
     },
@@ -48,7 +48,7 @@ const WhatToExpect = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: '-40px' }}
                         transition={{ delay: i * 0.1 }}
-                        className="group relative h-[55vw] md:h-[28vw] min-h-[220px] rounded-2xl md:rounded-3xl overflow-hidden cursor-default"
+                        className="group relative h-[55vw] md:h-[26vw] min-h-[200px] max-h-[340px] rounded-2xl md:rounded-3xl overflow-hidden cursor-default"
                     >
                         <img
                             src={item.img}
@@ -63,6 +63,7 @@ const WhatToExpect = () => {
                     </motion.div>
                 ))}
             </div>
+
         </section>
     );
 };

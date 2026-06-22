@@ -4,7 +4,7 @@ import Navigation from '../components/Navigation';
 import PlanVisitModal from '../components/PlanVisitModal';
 
 // --- MODULAR FEATURES ---
-import Contact from '../features/Engage/Contact';
+import Contact from '../features/Engage/Contact/index';
 
 const Engage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,7 +18,7 @@ const Engage = () => {
 
       {/* --- NEW HERE? / FIRST TIME GUEST SECTION --- */}
 
-      <div id="contact" className="relative pt-24 md:pt-28">
+      <div id="contact" className="relative pt-4 md:pt-0">
         <Contact />
       </div>
 
