@@ -142,6 +142,7 @@ const PlanVisitModal = ({ isOpen, onClose }: PlanVisitModalProps) => {
                           <option value="">Select a service</option>
                           <option value="sunday-10am">Sunday 10:00 AM — English</option>
                           <option value="sunday-2pm">Sunday 2:00 PM — Tagalog</option>
+                          <option value="sunday-4pm">Sunday 4:00 PM — English</option>
                         </select>
                       </div>
 
