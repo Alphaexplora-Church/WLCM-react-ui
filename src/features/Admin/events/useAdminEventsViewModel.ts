@@ -104,6 +104,13 @@ export function useAdminEventsViewModel(): AdminEventsViewModel {
 
     const [toast, setToast] = useState<{ msg: string; type: 'success' | 'error' } | null>(null);
 
+    // Holds the DB-level KPI counts returned by the /admin/stats endpoint.
+    // Initialised to zeros so the cards render immediately without waiting.
+    const [dbStats, setDbStats] = useState({
+        events: { upcomingMonth: 0, thisWeek: 0, completedMonth: 0 },
+        announcements: { activeLive: 0, postedThisMonth: 0, activeCategories: 0 },
+    });
+
     // ── Auth guard ─────────────────────────────────────────────────────────
     useEffect(() => {
         if (!localStorage.getItem('token')) navigate('/login');
@@ -120,14 +127,16 @@ export function useAdminEventsViewModel(): AdminEventsViewModel {
         setIsLoading(true);
         setError(null);
         try {
-            const [eventsResult, announcementsResult] = await Promise.all([
+            const [eventsResult, announcementsResult, statsResult] = await Promise.all([
                 AdminEventsService.fetchEvents(currentPage, limit),
                 AdminEventsService.fetchAnnouncements(currentPage, limit),
+                AdminEventsService.fetchStats(),
             ]);
             setEvents(eventsResult.items);
             setEventsTotal(eventsResult.total);
             setAnnouncements(announcementsResult.items);
             setAnnouncementsTotal(announcementsResult.total);
+            setDbStats(statsResult);
         } catch {
             setError('Could not load content. Make sure the backend is running.');
         } finally {
@@ -167,10 +176,9 @@ export function useAdminEventsViewModel(): AdminEventsViewModel {
 
     const filteredEvents = searchedEvents.filter(e => {
         if (statusFilter === 'all') return true;
-        const start = toDate(e.start_date);
-        const isUpcoming = start ? start >= todayStart : false;
-        if (statusFilter === 'active') return isUpcoming;
-        if (statusFilter === 'completed') return !isUpcoming;
+        const statusVal = (e as any).status ?? '';
+        if (statusFilter === 'active') return statusVal === 'active';
+        if (statusFilter === 'completed') return statusVal === 'completed';
         return true;
     });
 
@@ -188,54 +196,19 @@ export function useAdminEventsViewModel(): AdminEventsViewModel {
         return true;
     });
 
-    // ── Derived: tab-specific KPI stats ───────────────────────────────────
+    // ── Derived: tab-specific KPI stats (sourced from DB via /admin/stats) ──
     const stats = (() => {
         if (activeTab === 'event') {
-            // KPI 1: Upcoming this month
-            const upcomingMonth = events.filter(e => {
-                const d = toDate(e.start_date);
-                return d && d >= monthStart && d < monthEnd && d >= todayStart;
-            }).length;
-
-            // KPI 2: Happening this week
-            const thisWeek = events.filter(e => {
-                const d = toDate(e.start_date);
-                return d && d >= weekStart && d < weekEnd;
-            }).length;
-
-            // KPI 3: Completed this month (start_date in month, before today)
-            const completedMonth = events.filter(e => {
-                const d = toDate(e.start_date);
-                return d && d >= monthStart && d < todayStart;
-            }).length;
-
             return {
-                kpi1: { label: 'Upcoming (Month)', value: upcomingMonth, accent: 'teal' },
-                kpi2: { label: 'Happening This Week', value: thisWeek, accent: 'orange' },
-                kpi3: { label: 'Completed (Month)', value: completedMonth, accent: 'teal' },
+                kpi1: { label: 'Upcoming (Month)', value: dbStats.events.upcomingMonth, accent: 'teal' },
+                kpi2: { label: 'Happening This Week', value: dbStats.events.thisWeek, accent: 'orange' },
+                kpi3: { label: 'Completed (Month)', value: dbStats.events.completedMonth, accent: 'teal' },
             };
         } else {
-            // KPI 1: Active (live)
-            const activeLive = announcements.filter(a => (a as any).status === 'active').length;
-
-            // KPI 2: Posted this month (created_at or start_date in current month)
-            const postedMonth = announcements.filter(a => {
-                const d = toDate(a.start_date) ?? toDate((a as any).created_at);
-                return d && d >= monthStart && d < monthEnd;
-            }).length;
-
-            // KPI 3: Active categories
-            const activeCategories = new Set(
-                announcements
-                    .filter(a => (a as any).status === 'active')
-                    .map(a => a.category_content)
-                    .filter(Boolean)
-            ).size;
-
             return {
-                kpi1: { label: 'Active (Live)', value: activeLive, accent: 'teal' },
-                kpi2: { label: 'Posted This Month', value: postedMonth, accent: 'orange' },
-                kpi3: { label: 'Active Categories', value: activeCategories, accent: 'teal' },
+                kpi1: { label: 'Active (Live)', value: dbStats.announcements.activeLive, accent: 'teal' },
+                kpi2: { label: 'Posted This Month', value: dbStats.announcements.postedThisMonth, accent: 'orange' },
+                kpi3: { label: 'Active Categories', value: dbStats.announcements.activeCategories, accent: 'teal' },
             };
         }
     })();

@@ -73,12 +73,6 @@ function formatEventDateMeta(start_date: any, end_date: any): string | null {
     return `${startPart}  →  ${endPart}`;
 }
 
-// ─── Quick-filter chip options ────────────────────────────────────────────────
-const STATUS_CHIPS: { value: StatusFilter; label: string }[] = [
-    { value: 'all', label: 'All' },
-    { value: 'active', label: 'Active' },
-    { value: 'completed', label: 'Completed' },
-];
 
 // ─── Main Page Component ──────────────────────────────────────────────────────
 export default function AdminEvents() {
@@ -228,10 +222,14 @@ export default function AdminEvents() {
 
                         {/* ── Quick-Filter Chips ──────────────────────── */}
                         <div className="flex items-center gap-2">
-                            {STATUS_CHIPS.map(chip => (
+                            {[
+                                { value: 'all', label: 'All' },
+                                { value: 'active', label: 'Active' },
+                                { value: 'completed', label: isEvent ? 'Completed' : 'Archived' },
+                            ].map(chip => (
                                 <button
                                     key={chip.value}
-                                    onClick={() => vm.setStatusFilter(chip.value)}
+                                    onClick={() => vm.setStatusFilter(chip.value as StatusFilter)}
                                     className={`px-4 py-1.5 rounded-full text-xs font-bold tracking-wide border transition-all duration-200
                                         ${vm.statusFilter === chip.value
                                             ? 'bg-midnight-teal text-soft-linen border-midnight-teal shadow-sm'
@@ -298,6 +296,7 @@ export default function AdminEvents() {
                                     const dateMeta = normaliseDateValue(note.start_date)
                                         ? `${normaliseDateValue(note.start_date)!.dateStr}${normaliseDateValue(note.start_date)!.timeStr ? ' · ' + normaliseDateValue(note.start_date)!.timeStr : ''}`
                                         : null;
+                                    const isArchived = (note as any).status === 'archived';
                                     return (
                                         <ContentCard
                                             key={note.id}
@@ -308,8 +307,8 @@ export default function AdminEvents() {
                                             meta={[(note as any).status ? `Status: ${(note as any).status}` : null].filter(Boolean) as string[]}
                                             imageCount={note.media?.length ?? 0}
                                             description={note.description}
-                                            onEdit={() => vm.openEditModal(note)}
-                                            onDelete={() => vm.openDeleteModal(note)}
+                                            onEdit={isArchived ? undefined : () => vm.openEditModal(note)}
+                                            onDelete={isArchived ? undefined : () => vm.openDeleteModal(note)}
                                         />
                                     );
                                 })}
@@ -362,6 +361,7 @@ export default function AdminEvents() {
             <EventModal
                 open={vm.showModal}
                 title={modalTitle}
+                isAnnouncement={vm.activeTab === 'announcement'}
                 initial={modalInitial}
                 onClose={vm.closeModal}
                 onSave={vm.handleSave}
@@ -403,8 +403,8 @@ interface ContentCardProps {
     meta: string[];
     imageCount: number;
     description?: string;
-    onEdit: () => void;
-    onDelete: () => void;
+    onEdit?: () => void;
+    onDelete?: () => void;
 }
 
 function ContentCard({ thumb, title, category, dateMeta, meta, imageCount, description, onEdit, onDelete }: ContentCardProps) {
@@ -465,26 +465,32 @@ function ContentCard({ thumb, title, category, dateMeta, meta, imageCount, descr
             </div>
 
             {/* Actions */}
-            <div className="flex items-center gap-2 flex-shrink-0">
-                <button
-                    onClick={onEdit}
-                    title="Edit"
-                    className="w-9 h-9 rounded-lg flex items-center justify-center text-midnight-teal/60 hover:bg-midnight-teal/10 hover:text-midnight-teal transition-colors"
-                >
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                    </svg>
-                </button>
-                <button
-                    onClick={onDelete}
-                    title="Delete"
-                    className="w-9 h-9 rounded-lg flex items-center justify-center text-red-400/70 hover:bg-red-50 hover:text-red-500 transition-colors"
-                >
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                </button>
-            </div>
+            {(onEdit || onDelete) && (
+                <div className="flex items-center gap-2 flex-shrink-0">
+                    {onEdit && (
+                        <button
+                            onClick={onEdit}
+                            title="Edit"
+                            className="w-9 h-9 rounded-lg flex items-center justify-center text-midnight-teal/60 hover:bg-midnight-teal/10 hover:text-midnight-teal transition-colors"
+                        >
+                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                            </svg>
+                        </button>
+                    )}
+                    {onDelete && (
+                        <button
+                            onClick={onDelete}
+                            title="Delete"
+                            className="w-9 h-9 rounded-lg flex items-center justify-center text-red-400/70 hover:bg-red-50 hover:text-red-500 transition-colors"
+                        >
+                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                        </button>
+                    )}
+                </div>
+            )}
         </div>
     );
 }

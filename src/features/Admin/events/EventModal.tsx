@@ -6,12 +6,13 @@ import { EMPTY_FORM } from './adminEvents.types';
 interface EventModalProps {
     open: boolean;
     title: string;
+    isAnnouncement?: boolean;
     initial?: EventFormData;
     onClose: () => void;
     onSave: (data: EventFormData) => Promise<void>;
 }
 
-export function EventModal({ open, title, initial, onClose, onSave }: EventModalProps) {
+export function EventModal({ open, title, isAnnouncement, initial, onClose, onSave }: EventModalProps) {
     const [form, setForm] = useState<EventFormData>(initial ?? EMPTY_FORM);
     const [isSaving, setIsSaving] = useState(false);
     const [saveError, setSaveError] = useState<string | null>(null);
@@ -105,59 +106,65 @@ export function EventModal({ open, title, initial, onClose, onSave }: EventModal
                     </div>
 
                     {/* 3. Start Date & Time */}
-                    <div>
-                        <label className="block text-xs font-bold uppercase tracking-widest text-midnight-teal mb-1">Start Date &amp; Time</label>
-                        <div className="grid grid-cols-2 gap-4">
-                            <input
-                                type="date"
-                                name="start_date_date"
-                                value={form.start_date_date}
-                                onChange={handleChange}
-                                className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
-                            />
-                            <input
-                                type="time"
-                                name="start_date_time"
-                                value={form.start_date_time}
-                                onChange={handleChange}
-                                className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
-                            />
+                    {!isAnnouncement && (
+                        <div>
+                            <label className="block text-xs font-bold uppercase tracking-widest text-midnight-teal mb-1">Start Date &amp; Time</label>
+                            <div className="grid grid-cols-2 gap-4">
+                                <input
+                                    type="date"
+                                    name="start_date_date"
+                                    value={form.start_date_date}
+                                    onChange={handleChange}
+                                    className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
+                                />
+                                <input
+                                    type="time"
+                                    name="start_date_time"
+                                    value={form.start_date_time}
+                                    onChange={handleChange}
+                                    className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
+                                />
+                            </div>
                         </div>
-                    </div>
+                    )}
 
                     {/* 4. End Date & Time */}
-                    <div>
-                        <label className="block text-xs font-bold uppercase tracking-widest text-midnight-teal mb-1">End Date &amp; Time</label>
-                        <div className="grid grid-cols-2 gap-4">
+                    {!isAnnouncement && (
+                        <div>
+                            <label className="block text-xs font-bold uppercase tracking-widest text-midnight-teal mb-1">End Date &amp; Time</label>
+                            <div className="grid grid-cols-2 gap-4">
+                                <input
+                                    type="date"
+                                    name="end_date_date"
+                                    value={form.end_date_date}
+                                    onChange={handleChange}
+                                    min={form.start_date_date || undefined}
+                                    className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
+                                />
+                                <input
+                                    type="time"
+                                    name="end_date_time"
+                                    value={form.end_date_time}
+                                    onChange={handleChange}
+                                    className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
+                                />
+                            </div>
+                        </div>
+                    )}
+
+                    {/* 5. Location */}
+                    {!isAnnouncement && (
+                        <div>
+                            <label className="block text-xs font-bold uppercase tracking-widest text-midnight-teal mb-1">Location</label>
                             <input
-                                type="date"
-                                name="end_date_date"
-                                value={form.end_date_date}
+                                name="location"
+                                value={form.location}
                                 onChange={handleChange}
-                                min={form.start_date_date || undefined}
-                                className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
-                            />
-                            <input
-                                type="time"
-                                name="end_date_time"
-                                value={form.end_date_time}
-                                onChange={handleChange}
+                                placeholder="e.g. Main Sanctuary"
                                 className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
                             />
                         </div>
-                    </div>
-
-                    {/* 5. Location */}
-                    <div>
-                        <label className="block text-xs font-bold uppercase tracking-widest text-midnight-teal mb-1">Location</label>
-                        <input
-                            name="location"
-                            value={form.location}
-                            onChange={handleChange}
-                            placeholder="e.g. Main Sanctuary"
-                            className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-midnight-teal/40"
-                        />
-                    </div>
+                    )}
 
                     {/* 6. Category */}
                     <div>
