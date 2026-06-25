@@ -1,4 +1,4 @@
-    // ─── Admin Events: ViewModel ─────────────────────────────────────────────────
+// ─── Admin Events: ViewModel ─────────────────────────────────────────────────
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { ChurchEvent, Announcement } from '../../Experience/events/events.types';
@@ -6,11 +6,36 @@ import type { ContentTab, EventFormData } from './adminEvents.types';
 import { AdminEventsService } from './adminEvents.service';
 
 type ContentItem = ChurchEvent | Announcement;
+export type StatusFilter = 'all' | 'active' | 'completed';
+
+// ── Date helpers (work with the formatted {date, time, day} objects the API returns)
+function toDate(value: any): Date | null {
+    if (!value) return null;
+    // Formatted object from the backend service
+    if (typeof value === 'object' && value.date) {
+        const parsed = new Date(value.date);
+        return isNaN(parsed.getTime()) ? null : parsed;
+    }
+    // Raw ISO string fallback
+    if (typeof value === 'string') {
+        const parsed = new Date(value);
+        return isNaN(parsed.getTime()) ? null : parsed;
+    }
+    return null;
+}
+
+function startOfDay(d: Date): Date {
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+}
 
 export interface AdminEventsViewModel {
     // Tab
     activeTab: ContentTab;
     setActiveTab: (tab: ContentTab) => void;
+
+    // Status filter (chip)
+    statusFilter: StatusFilter;
+    setStatusFilter: (f: StatusFilter) => void;
 
     // Data
     events: ChurchEvent[];
@@ -24,8 +49,12 @@ export interface AdminEventsViewModel {
     search: string;
     setSearch: (v: string) => void;
 
-    // Stats (derived — per active tab)
-    stats: { total: number; withImages: number; categories: number };
+    // Stats (tab-specific KPIs)
+    stats: {
+        kpi1: { label: string; value: number; accent?: string };
+        kpi2: { label: string; value: number; accent?: string };
+        kpi3: { label: string; value: number; accent?: string };
+    };
 
     // Modal state
     showModal: boolean;
@@ -57,6 +86,7 @@ export function useAdminEventsViewModel(): AdminEventsViewModel {
 
     // ── State ──────────────────────────────────────────────────────────────
     const [activeTab, setActiveTab] = useState<ContentTab>('event');
+    const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
     const [events, setEvents] = useState<ChurchEvent[]>([]);
     const [eventsTotal, setEventsTotal] = useState(0);
     const [announcements, setAnnouncements] = useState<Announcement[]>([]);
@@ -79,11 +109,11 @@ export function useAdminEventsViewModel(): AdminEventsViewModel {
         if (!localStorage.getItem('token')) navigate('/login');
     }, [navigate]);
 
-    // ── Initial load — fetch both in parallel ──────────────────────────────
+    // ── Load on page change ────────────────────────────────────────────────
     useEffect(() => { loadAll(page); }, [page]);
 
-    // ── Reset search when switching tabs ───────────────────────────────────
-    useEffect(() => { setSearch(''); setPage(1); }, [activeTab]);
+    // ── Reset search + filter when switching tabs ──────────────────────────
+    useEffect(() => { setSearch(''); setPage(1); setStatusFilter('all'); }, [activeTab]);
 
     // ── Internal helpers ───────────────────────────────────────────────────
     const loadAll = async (currentPage: number) => {
@@ -110,33 +140,105 @@ export function useAdminEventsViewModel(): AdminEventsViewModel {
         setTimeout(() => setToast(null), 3000);
     };
 
-    // ── Derived: filtered lists ────────────────────────────────────────────
+    // ── Derived: KPI date helpers ──────────────────────────────────────────
+    const now = new Date();
+    const todayStart = startOfDay(now);
+
+    // Start of current month
+    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    // End of current month (exclusive)
+    const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+
+    // Start of current week (Sunday)
+    const weekStart = new Date(todayStart);
+    weekStart.setDate(todayStart.getDate() - todayStart.getDay());
+    // End of current week (Saturday 23:59:59)
+    const weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekStart.getDate() + 7);
+
+    // ── Derived: filtered lists (search + chip) ────────────────────────────
     const q = search.toLowerCase();
 
-    const filteredEvents = events.filter(e =>
+    const searchedEvents = events.filter(e =>
         e.title.toLowerCase().includes(q) ||
         (e.location ?? '').toLowerCase().includes(q) ||
         (e.category_content ?? '').toLowerCase().includes(q)
     );
 
-    const filteredAnnouncements = announcements.filter(a =>
+    const filteredEvents = searchedEvents.filter(e => {
+        if (statusFilter === 'all') return true;
+        const start = toDate(e.start_date);
+        const isUpcoming = start ? start >= todayStart : false;
+        if (statusFilter === 'active') return isUpcoming;
+        if (statusFilter === 'completed') return !isUpcoming;
+        return true;
+    });
+
+    const searchedAnnouncements = announcements.filter(a =>
         a.title.toLowerCase().includes(q) ||
         (a.category_content ?? '').toLowerCase().includes(q) ||
         (a.description ?? '').toLowerCase().includes(q)
     );
 
-    // ── Derived: stats (per active tab) ────────────────────────────────────
-    const stats = activeTab === 'event'
-        ? {
-            total: eventsTotal,
-            withImages: events.filter(e => e.media && e.media.length > 0).length,
-            categories: new Set(events.map(e => e.category_content).filter(Boolean)).size,
+    const filteredAnnouncements = searchedAnnouncements.filter(a => {
+        if (statusFilter === 'all') return true;
+        const statusVal = (a as any).status ?? '';
+        if (statusFilter === 'active') return statusVal === 'active';
+        if (statusFilter === 'completed') return statusVal !== 'active';
+        return true;
+    });
+
+    // ── Derived: tab-specific KPI stats ───────────────────────────────────
+    const stats = (() => {
+        if (activeTab === 'event') {
+            // KPI 1: Upcoming this month
+            const upcomingMonth = events.filter(e => {
+                const d = toDate(e.start_date);
+                return d && d >= monthStart && d < monthEnd && d >= todayStart;
+            }).length;
+
+            // KPI 2: Happening this week
+            const thisWeek = events.filter(e => {
+                const d = toDate(e.start_date);
+                return d && d >= weekStart && d < weekEnd;
+            }).length;
+
+            // KPI 3: Completed this month (start_date in month, before today)
+            const completedMonth = events.filter(e => {
+                const d = toDate(e.start_date);
+                return d && d >= monthStart && d < todayStart;
+            }).length;
+
+            return {
+                kpi1: { label: 'Upcoming (Month)', value: upcomingMonth, accent: 'teal' },
+                kpi2: { label: 'Happening This Week', value: thisWeek, accent: 'orange' },
+                kpi3: { label: 'Completed (Month)', value: completedMonth, accent: 'teal' },
+            };
+        } else {
+            // KPI 1: Active (live)
+            const activeLive = announcements.filter(a => (a as any).status === 'active').length;
+
+            // KPI 2: Posted this month (created_at or start_date in current month)
+            const postedMonth = announcements.filter(a => {
+                const d = toDate(a.start_date) ?? toDate((a as any).created_at);
+                return d && d >= monthStart && d < monthEnd;
+            }).length;
+
+            // KPI 3: Active categories
+            const activeCategories = new Set(
+                announcements
+                    .filter(a => (a as any).status === 'active')
+                    .map(a => a.category_content)
+                    .filter(Boolean)
+            ).size;
+
+            return {
+                kpi1: { label: 'Active (Live)', value: activeLive, accent: 'teal' },
+                kpi2: { label: 'Posted This Month', value: postedMonth, accent: 'orange' },
+                kpi3: { label: 'Active Categories', value: activeCategories, accent: 'teal' },
+            };
         }
-        : {
-            total: announcementsTotal,
-            withImages: announcements.filter(a => a.media && a.media.length > 0).length,
-            categories: new Set(announcements.map(a => a.category_content).filter(Boolean)).size,
-        };
+    })();
 
     // ── Handlers ───────────────────────────────────────────────────────────
     const openCreateModal = () => { setEditTarget(null); setShowModal(true); };
@@ -146,20 +248,15 @@ export function useAdminEventsViewModel(): AdminEventsViewModel {
     const closeDeleteModal = () => setDeleteTarget(null);
 
     const handleSave = async (data: EventFormData) => {
-        try {
-            if (editTarget) {
-                await AdminEventsService.updateEvent(editTarget.id, data, activeTab);
-                showToast(`"${data.title}" updated successfully.`);
-            } else {
-                await AdminEventsService.createEvent(data, activeTab);
-                showToast(`"${data.title}" created.`);
-            }
-            closeModal();
-            await loadAll(page);
-        } catch (err: any) {
-            console.error('Save failed:', err);
-            showToast(`Failed to save: ${err.message || 'Unknown error'}`, 'error');
+        if (editTarget) {
+            await AdminEventsService.updateEvent(editTarget.id, data, activeTab);
+            showToast(`"${data.title}" updated successfully.`);
+        } else {
+            await AdminEventsService.createEvent(data, activeTab);
+            showToast(`"${data.title}" created.`);
         }
+        closeModal();
+        await loadAll(page);
     };
 
     const handleDelete = async () => {
@@ -181,6 +278,8 @@ export function useAdminEventsViewModel(): AdminEventsViewModel {
     return {
         activeTab,
         setActiveTab,
+        statusFilter,
+        setStatusFilter,
         events,
         announcements,
         filteredEvents,
@@ -208,4 +307,5 @@ export function useAdminEventsViewModel(): AdminEventsViewModel {
         hasMore: activeTab === 'event'
             ? page * limit < eventsTotal
             : page * limit < announcementsTotal,
-    };}
+    };
+}

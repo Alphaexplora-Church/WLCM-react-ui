@@ -2,12 +2,85 @@
 import AdminSidebar from '../../components/AdminSidebar';
 import AdminHeader from '../../components/AdminHeader';
 import { useAdminEventsViewModel } from './events/useAdminEventsViewModel';
+import type { StatusFilter } from './events/useAdminEventsViewModel';
 import { EventModal } from './events/EventModal';
 import { ConfirmDeleteModal } from './events/ConfirmDeleteModal';
 
 const FALLBACK_IMAGE =
     'https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=400&auto=format&fit=crop';
 
+// ─── Date formatting helpers ──────────────────────────────────────────────────
+
+/**
+ * Normalise a raw date value that may be:
+ *   - A formatted object: { date: "MAY 23 2026", time: "8:00 AM", day: "Sat" }
+ *   - A raw ISO string
+ *   - null / undefined
+ * Returns { dateStr, timeStr } or null.
+ */
+function normaliseDateValue(value: any): { dateStr: string; timeStr: string } | null {
+    if (!value) return null;
+    if (typeof value === 'object' && value.date) {
+        return { dateStr: value.date as string, timeStr: (value.time as string) ?? '' };
+    }
+    if (typeof value === 'string') {
+        const d = new Date(value);
+        if (isNaN(d.getTime())) return null;
+        const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
+        const timeStr = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+        return { dateStr, timeStr };
+    }
+    return null;
+}
+
+/**
+ * Format the date meta string for an event card using conditional logic:
+ *
+ * Scenario A – Same day:  "MAY 23, 2026 · 8:00 AM - 12:00 PM"
+ * Scenario B – Multi-day: "MAY 28 (4:00 PM) → MAY 29 (1:00 AM)"
+ * Fallback (start only):  "MAY 23, 2026 · 8:00 AM"
+ */
+function formatEventDateMeta(start_date: any, end_date: any): string | null {
+    const start = normaliseDateValue(start_date);
+    if (!start) return null;
+
+    const end = normaliseDateValue(end_date);
+
+    if (!end) {
+        // No end date — just show start
+        return `${start.dateStr}${start.timeStr ? ' · ' + start.timeStr : ''}`;
+    }
+
+    // Determine if same calendar day by comparing the date string
+    const sameDay = start.dateStr === end.dateStr;
+
+    if (sameDay) {
+        // Scenario A: single-day — suppress redundant end date
+        const timePart = start.timeStr && end.timeStr
+            ? `${start.timeStr} - ${end.timeStr}`
+            : start.timeStr;
+        return `${start.dateStr}${timePart ? ' · ' + timePart : ''}`;
+    }
+
+    // Scenario B: multi-day — arrow format, omit year for brevity
+    // Strip the year from dateStr if present (e.g. "MAY 23 2026" → "MAY 23")
+    const stripYear = (s: string) => s.replace(/\s+\d{4}$/, '').trim();
+    const startLabel = stripYear(start.dateStr);
+    const endLabel = stripYear(end.dateStr);
+
+    const startPart = start.timeStr ? `${startLabel} (${start.timeStr})` : startLabel;
+    const endPart = end.timeStr ? `${endLabel} (${end.timeStr})` : endLabel;
+    return `${startPart}  →  ${endPart}`;
+}
+
+// ─── Quick-filter chip options ────────────────────────────────────────────────
+const STATUS_CHIPS: { value: StatusFilter; label: string }[] = [
+    { value: 'all', label: 'All' },
+    { value: 'active', label: 'Active' },
+    { value: 'completed', label: 'Completed' },
+];
+
+// ─── Main Page Component ──────────────────────────────────────────────────────
 export default function AdminEvents() {
     const vm = useAdminEventsViewModel();
 
@@ -106,37 +179,69 @@ export default function AdminEvents() {
                         </button>
                     </div>
 
-                    {/* ── Stats ──────────────────────────────────────── */}
+                    {/* ── Dynamic KPI Stats ───────────────────────────── */}
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        {/* KPI 1 */}
                         <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
                             <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-1">
-                                Total {label}s
+                                {vm.stats.kpi1.label}
                             </p>
-                            <p className="text-3xl font-serif text-midnight-teal">{vm.stats.total}</p>
+                            <p className="text-3xl font-serif text-midnight-teal">
+                                {vm.stats.kpi1.value}
+                            </p>
                         </div>
+                        {/* KPI 2 */}
                         <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-                            <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-1">With Images</p>
-                            <p className="text-3xl font-serif text-harvest-orange">{vm.stats.withImages}</p>
+                            <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-1">
+                                {vm.stats.kpi2.label}
+                            </p>
+                            <p className="text-3xl font-serif text-harvest-orange">
+                                {vm.stats.kpi2.value}
+                            </p>
                         </div>
+                        {/* KPI 3 */}
                         <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 col-span-2 md:col-span-1">
-                            <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-1">Categories</p>
-                            <p className="text-3xl font-serif text-midnight-teal">{vm.stats.categories}</p>
+                            <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-1">
+                                {vm.stats.kpi3.label}
+                            </p>
+                            <p className="text-3xl font-serif text-midnight-teal">
+                                {vm.stats.kpi3.value}
+                            </p>
                         </div>
                     </div>
 
                     {/* ── Search ─────────────────────────────────────── */}
-                    <div className="relative">
-                        <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 11A6 6 0 1 0 5 11a6 6 0 0 0 12 0z" />
-                        </svg>
-                        <input
-                            value={vm.search}
-                            onChange={e => vm.setSearch(e.target.value)}
-                            placeholder={isEvent
-                                ? 'Search by title, location or category…'
-                                : 'Search by title, category or description…'}
-                            className="w-full bg-white border border-gray-200 rounded-xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-midnight-teal/30 shadow-sm"
-                        />
+                    <div className="space-y-3">
+                        <div className="relative">
+                            <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 11A6 6 0 1 0 5 11a6 6 0 0 0 12 0z" />
+                            </svg>
+                            <input
+                                value={vm.search}
+                                onChange={e => vm.setSearch(e.target.value)}
+                                placeholder={isEvent
+                                    ? 'Search by title, location or category…'
+                                    : 'Search by title, category or description…'}
+                                className="w-full bg-white border border-gray-200 rounded-xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-midnight-teal/30 shadow-sm"
+                            />
+                        </div>
+
+                        {/* ── Quick-Filter Chips ──────────────────────── */}
+                        <div className="flex items-center gap-2">
+                            {STATUS_CHIPS.map(chip => (
+                                <button
+                                    key={chip.value}
+                                    onClick={() => vm.setStatusFilter(chip.value)}
+                                    className={`px-4 py-1.5 rounded-full text-xs font-bold tracking-wide border transition-all duration-200
+                                        ${vm.statusFilter === chip.value
+                                            ? 'bg-midnight-teal text-soft-linen border-midnight-teal shadow-sm'
+                                            : 'bg-white text-gray-400 border-gray-200 hover:border-midnight-teal/40 hover:text-midnight-teal'
+                                        }`}
+                                >
+                                    {chip.label}
+                                </button>
+                            ))}
+                        </div>
                     </div>
 
                     {/* ── Content List ───────────────────────────────── */}
@@ -163,20 +268,15 @@ export default function AdminEvents() {
                             <div className="flex flex-col gap-3">
                                 {vm.filteredEvents.map(event => {
                                     const thumb = event.media?.length > 0 ? event.media[0].file_url : FALLBACK_IMAGE;
+                                    const dateMeta = formatEventDateMeta(event.start_date, event.end_date);
                                     return (
                                         <ContentCard
                                             key={event.id}
                                             thumb={thumb}
                                             title={event.title}
                                             category={event.category_content}
-                                            meta={[
-                                                event.start_date && event.end_date
-                                                    ? (event.start_date.date === event.end_date.date
-                                                        ? `${event.start_date.date} · ${event.start_date.time} - ${event.end_date.time}`
-                                                        : `${event.start_date.date} · ${event.start_date.time} - ${event.end_date.date} · ${event.end_date.time}`)
-                                                    : event.start_date ? `${event.start_date.date} · ${event.start_date.time}` : null,
-                                                event.location ?? null,
-                                            ].filter(Boolean) as string[]}
+                                            dateMeta={dateMeta}
+                                            meta={[event.location ?? null].filter(Boolean) as string[]}
                                             imageCount={event.media?.length ?? 0}
                                             description={event.description}
                                             onEdit={() => vm.openEditModal(event)}
@@ -195,8 +295,8 @@ export default function AdminEvents() {
                             <div className="flex flex-col gap-3">
                                 {vm.filteredAnnouncements.map(note => {
                                     const thumb = note.media?.length > 0 ? note.media[0].file_url : FALLBACK_IMAGE;
-                                    const dateStr = note.start_date
-                                        ? `${note.start_date.date} · ${note.start_date.time}`
+                                    const dateMeta = normaliseDateValue(note.start_date)
+                                        ? `${normaliseDateValue(note.start_date)!.dateStr}${normaliseDateValue(note.start_date)!.timeStr ? ' · ' + normaliseDateValue(note.start_date)!.timeStr : ''}`
                                         : null;
                                     return (
                                         <ContentCard
@@ -204,7 +304,8 @@ export default function AdminEvents() {
                                             thumb={thumb}
                                             title={note.title}
                                             category={note.category_content}
-                                            meta={[dateStr, note.status ? `Status: ${note.status}` : null].filter(Boolean) as string[]}
+                                            dateMeta={dateMeta}
+                                            meta={[(note as any).status ? `Status: ${(note as any).status}` : null].filter(Boolean) as string[]}
                                             imageCount={note.media?.length ?? 0}
                                             description={note.description}
                                             onEdit={() => vm.openEditModal(note)}
@@ -221,34 +322,32 @@ export default function AdminEvents() {
                         (isEvent && (vm.filteredEvents.length > 0 || vm.page > 1)) ||
                         (!isEvent && (vm.filteredAnnouncements.length > 0 || vm.page > 1))
                     ) && (
-                        <div className="flex items-center justify-between bg-white border border-gray-100 p-4 rounded-2xl shadow-sm mt-6">
-                            <button
-                                onClick={vm.prevPage}
-                                disabled={vm.page === 1}
-                                className={`px-4 py-2 text-sm font-bold rounded-lg transition-colors ${
-                                    vm.page === 1 
-                                        ? 'text-gray-300 cursor-not-allowed bg-gray-50' 
-                                        : 'text-midnight-teal bg-soft-linen hover:bg-midnight-teal hover:text-soft-linen'
-                                }`}
-                            >
-                                Previous
-                            </button>
-                            <span className="text-sm font-bold text-gray-500">
-                                Page {vm.page}
-                            </span>
-                            <button
-                                onClick={vm.nextPage}
-                                disabled={!vm.hasMore}
-                                className={`px-4 py-2 text-sm font-bold rounded-lg transition-colors ${
-                                    !vm.hasMore 
-                                        ? 'text-gray-300 cursor-not-allowed bg-gray-50' 
-                                        : 'text-midnight-teal bg-soft-linen hover:bg-midnight-teal hover:text-soft-linen'
-                                }`}
-                            >
-                                Next
-                            </button>
-                        </div>
-                    )}
+                            <div className="flex items-center justify-between bg-white border border-gray-100 p-4 rounded-2xl shadow-sm mt-6">
+                                <button
+                                    onClick={vm.prevPage}
+                                    disabled={vm.page === 1}
+                                    className={`px-4 py-2 text-sm font-bold rounded-lg transition-colors ${vm.page === 1
+                                            ? 'text-gray-300 cursor-not-allowed bg-gray-50'
+                                            : 'text-midnight-teal bg-soft-linen hover:bg-midnight-teal hover:text-soft-linen'
+                                        }`}
+                                >
+                                    Previous
+                                </button>
+                                <span className="text-sm font-bold text-gray-500">
+                                    Page {vm.page}
+                                </span>
+                                <button
+                                    onClick={vm.nextPage}
+                                    disabled={!vm.hasMore}
+                                    className={`px-4 py-2 text-sm font-bold rounded-lg transition-colors ${!vm.hasMore
+                                            ? 'text-gray-300 cursor-not-allowed bg-gray-50'
+                                            : 'text-midnight-teal bg-soft-linen hover:bg-midnight-teal hover:text-soft-linen'
+                                        }`}
+                                >
+                                    Next
+                                </button>
+                            </div>
+                        )}
                 </main>
             </div>
 
@@ -289,7 +388,7 @@ function EmptyState({ label }: { label: string }) {
                 </svg>
             </div>
             <p className="font-serif text-lg text-midnight-teal">No {label}s found</p>
-            <p className="text-sm text-gray-400 mt-1">Try a different search, or add a new {label}.</p>
+            <p className="text-sm text-gray-400 mt-1">Try a different search or filter, or add a new {label}.</p>
         </div>
     );
 }
@@ -298,6 +397,9 @@ interface ContentCardProps {
     thumb: string;
     title: string;
     category?: string;
+    /** Formatted date string (conditional single-day vs multi-day) */
+    dateMeta: string | null;
+    /** Additional meta strings (location, status, etc.) */
     meta: string[];
     imageCount: number;
     description?: string;
@@ -305,7 +407,7 @@ interface ContentCardProps {
     onDelete: () => void;
 }
 
-function ContentCard({ thumb, title, category, meta, imageCount, description, onEdit, onDelete }: ContentCardProps) {
+function ContentCard({ thumb, title, category, dateMeta, meta, imageCount, description, onEdit, onDelete }: ContentCardProps) {
     return (
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4 p-4 hover:shadow-md transition-shadow group">
             {/* Thumbnail */}
@@ -330,8 +432,22 @@ function ContentCard({ thumb, title, category, meta, imageCount, description, on
                 </div>
 
                 <div className="flex items-center gap-3 flex-wrap text-xs text-gray-400 font-sans">
+                    {/* Date — rendered with slightly stronger colour for scannability */}
+                    {dateMeta && (
+                        <span className="text-gray-500 font-medium">{dateMeta}</span>
+                    )}
+                    {/* Other meta items (location, status…) */}
                     {meta.map((m, i) => (
-                        <span key={i}>{m}</span>
+                        <span key={i} className="flex items-center gap-1">
+                            {i === 0 && (
+                                // Location pin icon for the first extra meta item
+                                <svg className="w-3 h-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                            )}
+                            {m}
+                        </span>
                     ))}
                     {imageCount > 0 && (
                         <span className="flex items-center gap-1 text-green-500">
