@@ -30,7 +30,7 @@ export default function Login() {
                 localStorage.setItem('token', token);
             }
 
-            navigate('/admin/dashboard');
+            navigate('/admin/events');
         } catch (err) {
             console.error(err);
             setError('Network error');

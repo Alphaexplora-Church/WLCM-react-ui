@@ -11,17 +11,11 @@ export default function AdminSidebar({ className = '' }: AdminSidebarProps) {
                 WLCM Admin
             </div>
             <nav className="flex-1 p-6 space-y-4">
-                <Link to="/admin/dashboard" className="block hover:text-harvest-orange">
-                    Home
-                </Link>
                 <Link to="/admin/events" className="block hover:text-harvest-orange">
                     Content
                 </Link>
                 <Link to="/admin/registrations" className="block hover:text-harvest-orange">
                     Registrations
-                </Link>
-                <Link to="/admin/settings" className="block hover:text-harvest-orange">
-                    Settings
                 </Link>
             </nav>
         </aside>

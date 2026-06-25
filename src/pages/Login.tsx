@@ -37,7 +37,7 @@ export default function Login() {
                 if (data?.data?.user) {
                     localStorage.setItem('adminUser', JSON.stringify(data.data.user));
                 }
-                navigate('/admin/dashboard');
+                navigate('/admin/events');
             } else {
                 throw new Error('No valid token received from the server');
             }
