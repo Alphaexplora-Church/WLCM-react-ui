@@ -9,20 +9,20 @@ type ContentItem = ChurchEvent | Announcement;
 export type StatusFilter = 'all' | 'active' | 'completed';
 
 // ── Date helpers (work with the formatted {date, time, day} objects the API returns)
-function toDate(value: any): Date | null {
-    if (!value) return null;
-    // Formatted object from the backend service
-    if (typeof value === 'object' && value.date) {
-        const parsed = new Date(value.date);
-        return isNaN(parsed.getTime()) ? null : parsed;
-    }
-    // Raw ISO string fallback
-    if (typeof value === 'string') {
-        const parsed = new Date(value);
-        return isNaN(parsed.getTime()) ? null : parsed;
-    }
-    return null;
-}
+// function toDate(value: any): Date | null {
+//     if (!value) return null;
+//     // Formatted object from the backend service
+//     if (typeof value === 'object' && value.date) {
+//         const parsed = new Date(value.date);
+//         return isNaN(parsed.getTime()) ? null : parsed;
+//     }
+//     // Raw ISO string fallback
+//     if (typeof value === 'string') {
+//         const parsed = new Date(value);
+//         return isNaN(parsed.getTime()) ? null : parsed;
+//     }
+//     return null;
+// }
 
 function startOfDay(d: Date): Date {
     return new Date(d.getFullYear(), d.getMonth(), d.getDate());
@@ -154,9 +154,9 @@ export function useAdminEventsViewModel(): AdminEventsViewModel {
     const todayStart = startOfDay(now);
 
     // Start of current month
-    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-    // End of current month (exclusive)
-    const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+    // const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    // // End of current month (exclusive)
+    // const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 1);
 
     // Start of current week (Sunday)
     const weekStart = new Date(todayStart);
