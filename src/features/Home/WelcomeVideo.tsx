@@ -79,7 +79,7 @@ const WelcomeVideo = () => {
                 ) : (
                     <iframe
                         className="absolute inset-0 w-full h-full"
-                        src="https://www.youtube.com/embed/_sknSyZAgQs?si=tTvbdx8ZifY2Zy9U&start=2255"
+                        src="https://www.youtube.com/embed/O8-ijU41JUg?si=IXsxkPNFKWtbEd6p"
                         title="Welcome Video"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen

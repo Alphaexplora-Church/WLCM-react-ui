@@ -1,4 +1,16 @@
-export interface FormData {
+export interface DiscoverProgram {
+  id: string;
+  number: string;
+  title: string;
+  subtitle: string;
+  hookLine: string;
+  description: string;
+  closingLine: string;
+  ctaText: string;
+  tag: string;
+}
+
+export interface DiscoverFormData {
   firstName: string;
   lastName: string;
   email: string;
@@ -7,20 +19,14 @@ export interface FormData {
   hearAboutUs: string;
 }
 
-export interface Program {
-  number: string;
-  title: string;
-  description: string;
-  duration: string;
-  tag: string;
-}
-
 export interface DiscoverPurposeViewModelState {
-  form: FormData;
+  form: DiscoverFormData;
   isSubmitted: boolean;
   isLoading: boolean;
   error: string | null;
-  programs: Program[];
+  discoverPrograms: DiscoverProgram[];
+  expandedCardId: string | null;
+  setExpandedCardId: (id: string | null) => void;
   handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void;
   handleSubmit: (e: React.FormEvent) => Promise<void>;
   handleReset: () => void;

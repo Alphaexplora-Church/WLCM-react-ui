@@ -1,27 +1,15 @@
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navigation from '../../../components/Navigation';
-import { useDiscoverPurposeViewModel } from './viewmodels/useDiscoverPurposeViewModel';
-import DiscoverPurposeCard from './views/DiscoverPurposeCard';
+import { useFindFreedomViewModel } from './viewmodels/useFindFreedomViewModel';
 
-const DiscoverPurpose = () => {
-  const {
-    form,
-    isSubmitted,
-    isLoading,
-    error,
-    discoverPrograms,
-    expandedCardId,
-    setExpandedCardId,
-    handleChange,
-    handleSubmit,
-    handleReset,
-  } = useDiscoverPurposeViewModel();
+const FindFreedom = () => {
+  const { form, isSubmitted, isLoading, error, programs, handleChange, handleSubmit, handleReset } =
+    useFindFreedomViewModel();
+  const [expandedCard, setExpandedCard] = useState<number | null>(null);
 
-  const scrollToForm = () => {
-    const el = document.getElementById('grow-signup-form');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+  const toggleCard = (index: number) => {
+    setExpandedCard((prev) => (prev === index ? null : index));
   };
 
   return (
@@ -39,46 +27,123 @@ const DiscoverPurpose = () => {
               className="text-center"
             >
               <span className="text-harvest-orange uppercase tracking-[0.4em] text-[10px] font-bold mb-6 block">
-                Go Deeper
+                Your Journey Awaits
               </span>
               <h1
                 className="text-5xl md:text-8xl text-soft-linen lowercase tracking-tighter mb-6"
                 style={{ fontFamily: 'Vogun, serif' }}
               >
-                discover purpose
+                find freedom
               </h1>
-              <p className="text-soft-linen/60 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-                From building a strong foundation to raising leaders who multiply
-                God's Kingdom — each step prepares you for greater impact.
+              <p className="text-soft-linen/60 text-base md:text-lg max-w-xl mx-auto leading-relaxed">
+                Step into a transformative spiritual journey designed to help you
+                encounter God's purpose and grow deeper in your faith.
               </p>
             </motion.div>
           </div>
         </section>
 
-        {/* ── Growth Program Cards ────────────────────────────── */}
+        {/* ── Programs ─────────────────────────────────────────── */}
         <section className="pb-0 bg-midnight-teal">
-          <div className="max-w-4xl mx-auto px-6 md:px-12">
-            <div className="flex flex-col gap-4">
-              {discoverPrograms.map((program, index) => (
-                <DiscoverPurposeCard
-                  key={program.id}
-                  program={program}
-                  index={index}
-                  isExpanded={expandedCardId === program.id}
-                  onToggle={() =>
-                    setExpandedCardId(
-                      expandedCardId === program.id ? null : program.id
-                    )
-                  }
-                  onCtaClick={scrollToForm}
-                />
-              ))}
+          <div className="max-w-6xl mx-auto px-6 md:px-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+              {programs.map((program, index) => {
+                const isExpanded = expandedCard === index;
+                return (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.12, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                    onClick={() => toggleCard(index)}
+                    className={`group border rounded-2xl p-8 md:p-10 transition-all duration-500 bg-white/[0.03] cursor-pointer select-none ${
+                      isExpanded
+                        ? 'border-harvest-orange/40 bg-white/[0.055]'
+                        : 'border-soft-linen/10 hover:border-harvest-orange/40 hover:bg-white/[0.055]'
+                    }`}
+                  >
+                    {/* Card top row */}
+                    <div className="flex items-start justify-between mb-5">
+                      <div>
+                        <span className="text-harvest-orange text-[9px] uppercase tracking-[0.35em] font-bold block mb-3">
+                          {program.number}
+                        </span>
+                        <h2
+                          className="text-3xl md:text-4xl text-soft-linen tracking-tight leading-none"
+                          style={{ fontFamily: 'Vogun, serif' }}
+                        >
+                          {program.title}
+                        </h2>
+                      </div>
+                      <div className="flex items-center gap-3 shrink-0 mt-1">
+                        {/* Tag pill */}
+                        <span className="px-3 py-1 rounded-full bg-harvest-orange/10 text-harvest-orange text-[9px] uppercase tracking-widest font-bold border border-harvest-orange/20">
+                          {program.tag}
+                        </span>
+                        {/* Chevron indicator */}
+                        <motion.svg
+                          animate={{ rotate: isExpanded ? 180 : 0 }}
+                          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                          className="w-4 h-4 text-soft-linen/40"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                        </motion.svg>
+                      </div>
+                    </div>
+
+                    {/* Subtitle */}
+                    <p className="text-harvest-orange/80 text-sm md:text-base font-medium tracking-tight mb-3">
+                      {program.subtitle}
+                    </p>
+
+                    {/* Expandable content */}
+                    <AnimatePresence initial={false}>
+                      {isExpanded && (
+                        <motion.div
+                          key="content"
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                          className="overflow-hidden"
+                        >
+                          <p className="text-soft-linen/60 text-sm leading-relaxed mb-4">
+                            {program.description}
+                          </p>
+
+                          {/* Closing line */}
+                          <p className="text-harvest-orange/80 text-xs italic leading-relaxed mb-8">
+                            {program.closingLine}
+                          </p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+
+                    <div className="flex items-center justify-between pt-5 border-t border-soft-linen/10">
+                      <span className="text-soft-linen/35 text-[10px] uppercase tracking-widest font-semibold">
+                        {program.duration}
+                      </span>
+                      <button
+                        onClick={(e) => e.stopPropagation()}
+                        className="px-4 py-2 rounded-full bg-harvest-orange/10 text-harvest-orange text-[9px] uppercase tracking-[0.2em] font-bold border border-harvest-orange/25 hover:bg-harvest-orange hover:text-midnight-teal transition-all duration-300"
+                      >
+                        {program.cta}
+                      </button>
+                    </div>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </section>
 
         {/* ── Sign-Up Split Section ─────────────────────────────── */}
-        <section id="grow-signup-form" className="mt-20 bg-midnight-teal scroll-mt-8">
+        <section className="mt-6 bg-midnight-teal">
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -93,25 +158,25 @@ const DiscoverPurpose = () => {
               <div className="bg-white/[0.04] p-10 md:p-14 flex flex-col justify-between border-b md:border-b-0 md:border-r border-soft-linen/10">
                 <div>
                   <span className="text-harvest-orange text-[9px] uppercase tracking-[0.35em] font-bold block mb-6">
-                    Take Your Next Step
+                    Get Involved
                   </span>
                   <h2
                     className="text-3xl md:text-5xl text-soft-linen tracking-tight leading-[1.05] mb-5"
                     style={{ fontFamily: 'Vogun, serif' }}
                   >
-                    Ready to grow?
+                    Ready to begin?
                   </h2>
                   <p className="text-soft-linen/55 text-sm leading-relaxed">
-                    Fill out the form and we'll help you find the right program for
-                    where you are in your journey — whether you're just starting out
-                    or preparing to lead others.
+                    Fill out the form and we'll send you everything you need to
+                    know about the Pre-Encounter, Encounter, and Post-Encounter programs —
+                    and help you find the right fit for where you are right now.
                   </p>
                 </div>
 
                 {/* Program highlight list */}
                 <div className="mt-10 md:mt-0 pt-8 border-t border-soft-linen/10 flex flex-col gap-4">
-                  {discoverPrograms.map((p) => (
-                    <div key={p.id} className="flex items-center gap-4">
+                  {programs.map((p) => (
+                    <div key={p.number} className="flex items-center gap-4">
                       <div className="w-8 h-8 rounded-full bg-harvest-orange/10 border border-harvest-orange/25 flex items-center justify-center shrink-0">
                         <span className="text-harvest-orange text-[9px] font-bold">{p.number}</span>
                       </div>
@@ -122,9 +187,7 @@ const DiscoverPurpose = () => {
                         >
                           {p.title}
                         </p>
-                        <p className="text-soft-linen/35 text-[10px] uppercase tracking-widest">
-                          {p.tag}
-                        </p>
+                        <p className="text-soft-linen/35 text-[10px] uppercase tracking-widest">{p.duration}</p>
                       </div>
                     </div>
                   ))}
@@ -214,7 +277,7 @@ const DiscoverPurpose = () => {
                       {/* Inspiration */}
                       <div className="flex flex-col gap-1.5">
                         <label className="font-sans text-[9px] uppercase tracking-[0.25em] font-bold text-midnight-teal/50">
-                          What has inspired you to grow deeper in your faith? *
+                          What has inspired or moved you to start this journey with God? *
                         </label>
                         <textarea
                           name="inspiration"
@@ -226,6 +289,8 @@ const DiscoverPurpose = () => {
                           className="w-full px-4 py-3 rounded-xl border border-midnight-teal/12 bg-white focus:outline-none focus:border-harvest-orange focus:ring-2 focus:ring-harvest-orange/15 font-sans text-sm text-midnight-teal placeholder:text-midnight-teal/25 transition-all resize-none"
                         />
                       </div>
+
+
 
                       {/* How did you hear */}
                       <div className="flex flex-col gap-1.5">
@@ -330,4 +395,4 @@ const DiscoverPurpose = () => {
   );
 };
 
-export default DiscoverPurpose;
+export default FindFreedom;
