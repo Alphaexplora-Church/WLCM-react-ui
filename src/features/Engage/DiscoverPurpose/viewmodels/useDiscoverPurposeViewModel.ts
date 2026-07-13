@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { DiscoverFormData, DiscoverPurposeViewModelState } from '../types/discoverPurpose.types';
 import { DISCOVER_PROGRAMS, INITIAL_DISCOVER_FORM_STATE } from '../types/discoverPurpose.constants';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:4000';
+const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 export const useDiscoverPurposeViewModel = (): DiscoverPurposeViewModelState => {
   const [form, setForm] = useState<DiscoverFormData>(INITIAL_DISCOVER_FORM_STATE);
