@@ -11,7 +11,7 @@ export default function AdminHeader({ userName = 'Admin' }: AdminHeaderProps) {
         const token = localStorage.getItem('token');
         if (token) {
             try {
-                const apiUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000';
+                const apiUrl = import.meta.env.VITE_API_BASE_URL;
                 await fetch(`${apiUrl}/api/auth/logout`, {
                     method: 'POST',
                     headers: {
