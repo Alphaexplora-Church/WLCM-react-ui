@@ -27,7 +27,7 @@ const DiscoverPurpose = () => {
                 className="text-5xl md:text-8xl text-soft-linen lowercase tracking-tighter mb-6"
                 style={{ fontFamily: 'Vogun, serif' }}
               >
-                discover purpose.
+                find freedom
               </h1>
               <p className="text-soft-linen/60 text-base md:text-lg max-w-xl mx-auto leading-relaxed">
                 Step into a transformative spiritual journey designed to help you
