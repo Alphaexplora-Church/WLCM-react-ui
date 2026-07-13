@@ -35,7 +35,7 @@ const cards = [
     tagline: "You were made for more.",
     body: "Every person is created with intention. The WLCM Discipleship Journey helps you grow spiritually, understand your gifts, and discover how your life fits into God’s greater plan.",
     ctas: [
-      { label: "Deepen your Faith", action: "/" },
+      { label: "Discover Purpose", action: "/" },
     ],
     img: "/events/random-6.jpg",
   },
