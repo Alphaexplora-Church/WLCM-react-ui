@@ -30,6 +30,8 @@ export const useDiscoverPurposeViewModel = (): DiscoverPurposeViewModelState => 
         phone: form.phone || null,
         inspiration: form.inspiration,
         hearAboutUs: form.hearAboutUs || null,
+        formType: 'discover_purpose',
+        interestedIn: form.interestedIn || null,
       };
 
       console.log('Submitting discover-purpose payload:', payload);

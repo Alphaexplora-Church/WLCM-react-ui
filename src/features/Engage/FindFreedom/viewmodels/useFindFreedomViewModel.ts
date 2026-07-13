@@ -29,6 +29,8 @@ export const useFindFreedomViewModel = (): FindFreedomViewModelState => {
         phone: form.phone || null,
         inspiration: form.inspiration,
         hearAboutUs: form.hearAboutUs || null,
+        formType: 'find_freedom',
+        interestedIn: 'encounter',
       };
 
       console.log('Submitting encounter payload:', payload);

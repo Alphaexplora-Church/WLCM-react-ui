@@ -76,4 +76,5 @@ export const INITIAL_DISCOVER_FORM_STATE: DiscoverFormData = {
   phone: '',
   inspiration: '',
   hearAboutUs: '',
+  interestedIn: '',
 };

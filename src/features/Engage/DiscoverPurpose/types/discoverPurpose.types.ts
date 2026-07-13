@@ -17,6 +17,7 @@ export interface DiscoverFormData {
   phone: string;
   inspiration: string;
   hearAboutUs: string;
+  interestedIn: string;
 }
 
 export interface DiscoverPurposeViewModelState {

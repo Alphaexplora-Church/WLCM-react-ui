@@ -46,7 +46,7 @@ export const AdminRegistrationsService = {
      * GET /api/wlcm/encounter
      */
     fetchAllEncounter: async (page: number = 1, limit: number = 10): Promise<{ items: EncounterRegistration[]; total: number }> => {
-        const response = await fetch(`${API_BASE}/api/wlcm/encounter?page=${page}&limit=${limit}`, {
+        const response = await fetch(`${API_BASE}/api/wlcm/encounter/find-freedom?page=${page}&limit=${limit}`, {
             headers: authHeaders(),
         });
         if (!response.ok) throw new Error('Failed to fetch encounter registrations');

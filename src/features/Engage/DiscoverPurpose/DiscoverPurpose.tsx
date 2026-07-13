@@ -227,6 +227,36 @@ const DiscoverPurpose = () => {
                         />
                       </div>
 
+                      {/* Interested In */}
+                      <div className="flex flex-col gap-1.5">
+                        <label className="font-sans text-[9px] uppercase tracking-[0.25em] font-bold text-midnight-teal/50">
+                          What are you interested in? *
+                        </label>
+                        <div className="relative">
+                          <select
+                            name="interestedIn"
+                            required
+                            value={form.interestedIn}
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 rounded-xl border border-midnight-teal/12 bg-white focus:outline-none focus:border-harvest-orange focus:ring-2 focus:ring-harvest-orange/15 font-sans text-sm text-midnight-teal appearance-none transition-all"
+                          >
+                            <option value="">Select a class…</option>
+                            {discoverPrograms.map((p) => (
+                              <option key={p.id} value={p.id}>{p.title}</option>
+                            ))}
+                          </select>
+                          <svg
+                            className="absolute right-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-midnight-teal/35 pointer-events-none"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth={2.5}
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </div>
+                      </div>
+
                       {/* How did you hear */}
                       <div className="flex flex-col gap-1.5">
                         <label className="font-sans text-[9px] uppercase tracking-[0.25em] font-bold text-midnight-teal/50">
