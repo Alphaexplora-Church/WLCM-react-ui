@@ -45,7 +45,7 @@ const FooterCTA = () => {
                             Plan a Visit
                         </button>
                         <Link
-                            to="/discover-purpose"
+                            to="/find-freedom"
                             className="px-8 py-4 rounded-full border border-soft-linen/30 text-soft-linen font-sans text-[10px] uppercase tracking-[0.25em] font-bold hover:bg-soft-linen/10 active:scale-95 transition-all text-center"
                         >
                             Find Freedom

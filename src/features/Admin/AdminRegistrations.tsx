@@ -30,6 +30,16 @@ const TABS: { id: RegistrationTab; label: string; icon: React.ReactNode }[] = [
         ),
     },
     {
+        id: 'discover-purpose',
+        label: 'Discover Purpose',
+        icon: (
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+        ),
+    },
+    {
         id: 'discipleship',
         label: 'Discipleship',
         icon: (
@@ -63,6 +73,7 @@ export default function AdminRegistrations() {
     const tabCount = {
         'plan-a-visit': vm.registrations.length,
         'encounter': vm.encounterRegistrations.length,
+        'discover-purpose': vm.discoverPurposeRegistrations.length,
         'discipleship': vm.discipleshipRegistrations.length,
     };
 
@@ -143,6 +154,17 @@ export default function AdminRegistrations() {
                             </>
                         )}
 
+                        {vm.activeTab === 'discover-purpose' && (
+                            <>
+                                <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+                                    <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-1">
+                                        Discover Purpose Sign-ups
+                                    </p>
+                                    <p className="text-3xl font-serif text-harvest-orange">{vm.stats.statA}</p>
+                                </div>
+                            </>
+                        )}
+
                         {vm.activeTab === 'discipleship' && (
                             <>
                                 <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
@@ -210,6 +232,8 @@ export default function AdminRegistrations() {
                         <PlanAVisitTable rows={vm.paginatedRegistrations} />
                     ) : vm.activeTab === 'encounter' ? (
                         <EncounterTable rows={vm.paginatedEncounterRegistrations} />
+                    ) : vm.activeTab === 'discover-purpose' ? (
+                        <DiscoverPurposeTable rows={vm.paginatedDiscoverPurposeRegistrations} />
                     ) : (
                         <DiscipleshipTable rows={vm.paginatedDiscipleshipRegistrations} />
                     )}
@@ -390,6 +414,44 @@ function DiscipleshipTable({ rows }: { rows: DiscipleshipRegistration[] }) {
                         <td className="px-6 py-4">{reg.email ?? '—'}</td>
                         <td className="px-6 py-4 text-xs text-gray-400 max-w-sm">
                             {truncate(reg.message, 80)}
+                        </td>
+                        <td className="px-6 py-4 text-xs">{fmtDate(reg.submitted_at)}</td>
+                    </tr>
+                ))}
+            </tbody>
+        </TableWrapper>
+    );
+}
+
+// ─── Discover Purpose table ───────────────────────────────────────────────────
+function DiscoverPurposeTable({ rows }: { rows: EncounterRegistration[] }) {
+    if (rows.length === 0) return <EmptyState message="No discover purpose registrations found" />;
+
+    return (
+        <TableWrapper>
+            <thead className="text-xs text-gray-400 uppercase bg-gray-50 border-b border-gray-100">
+                <tr>
+                    <Th>Name</Th>
+                    <Th>Email</Th>
+                    <Th>Phone</Th>
+                    <Th>Class</Th>
+                    <Th>Inspiration</Th>
+                    <Th>Date</Th>
+                </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100">
+                {rows.map(reg => (
+                    <tr key={reg.id} className="hover:bg-gray-50 transition-colors">
+                        <td className="px-6 py-4 font-semibold text-midnight-teal">
+                            {reg.first_name} {reg.last_name}
+                        </td>
+                        <td className="px-6 py-4">{reg.email ?? '—'}</td>
+                        <td className="px-6 py-4">{reg.phone ?? '—'}</td>
+                        <td className="px-6 py-4 text-xs font-medium text-midnight-teal uppercase tracking-widest">
+                            {reg.interested_in ?? '—'}
+                        </td>
+                        <td className="px-6 py-4 text-xs text-gray-400 max-w-xs">
+                            {truncate(reg.inspiration)}
                         </td>
                         <td className="px-6 py-4 text-xs">{fmtDate(reg.submitted_at)}</td>
                     </tr>

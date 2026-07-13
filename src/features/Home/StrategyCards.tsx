@@ -25,7 +25,7 @@ const cards = [
     tagline: "You were never meant to do life alone.",
     body: "You were never meant to walk this alone. Through mentoring, Caregroups, and discipleship, we walk alongside you — in your faith, your relationships, and your personal growth. Whatever you're carrying right now, how can we help?",
     ctas: [
-      { label: "Start the Journey", action: "/discover-purpose" },
+      { label: "Start the Journey", action: "/find-freedom" },
     ],
     img: "/events/random-4.jpg",
   },
@@ -35,7 +35,7 @@ const cards = [
     tagline: "You were made for more.",
     body: "Every person is created with intention. The WLCM Discipleship Journey helps you grow spiritually, understand your gifts, and discover how your life fits into God’s greater plan.",
     ctas: [
-      { label: "Discover Purpose", action: "/" },
+      { label: "Discover Purpose", action: "/discover-purpose" },
     ],
     img: "/events/random-6.jpg",
   },

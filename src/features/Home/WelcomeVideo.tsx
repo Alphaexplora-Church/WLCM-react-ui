@@ -49,7 +49,7 @@ const WelcomeVideo = () => {
                 {!isPlaying ? (
                     <>
                         <img
-                            src="https://img.youtube.com/vi/_sknSyZAgQs/maxresdefault.jpg"
+                            src="https://img.youtube.com/vi/O8-ijU41JUg/maxresdefault.jpg"
                             alt="Watch our welcome video"
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                         />
@@ -79,7 +79,7 @@ const WelcomeVideo = () => {
                 ) : (
                     <iframe
                         className="absolute inset-0 w-full h-full"
-                        src="https://www.youtube.com/embed/_sknSyZAgQs?si=tTvbdx8ZifY2Zy9U&start=2255"
+                        src="https://www.youtube.com/embed/O8-ijU41JUg?si=IXsxkPNFKWtbEd6p"
                         title="Welcome Video"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen

@@ -46,10 +46,30 @@ export const AdminRegistrationsService = {
      * GET /api/wlcm/encounter
      */
     fetchAllEncounter: async (page: number = 1, limit: number = 10): Promise<{ items: EncounterRegistration[]; total: number }> => {
-        const response = await fetch(`${API_BASE}/api/wlcm/encounter?page=${page}&limit=${limit}`, {
+        const response = await fetch(`${API_BASE}/api/wlcm/encounter/find-freedom?page=${page}&limit=${limit}`, {
             headers: authHeaders(),
         });
         if (!response.ok) throw new Error('Failed to fetch encounter registrations');
+        const json = await response.json();
+        const { items, total } = parseTotalFromResponse<any>(json);
+        return {
+            items: items.map(item => ({
+                ...item,
+                submitted_at: item.submitted_at || item.created_at,
+            })),
+            total,
+        };
+    },
+
+    /**
+     * Fetches Discover Purpose registrations.
+     * GET /api/wlcm/encounter/discover-purpose
+     */
+    fetchAllDiscoverPurpose: async (page: number = 1, limit: number = 10): Promise<{ items: EncounterRegistration[]; total: number }> => {
+        const response = await fetch(`${API_BASE}/api/wlcm/encounter/discover-purpose?page=${page}&limit=${limit}`, {
+            headers: authHeaders(),
+        });
+        if (!response.ok) throw new Error('Failed to fetch discover purpose registrations');
         const json = await response.json();
         const { items, total } = parseTotalFromResponse<any>(json);
         return {

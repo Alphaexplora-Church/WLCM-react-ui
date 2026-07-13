@@ -1,15 +1,14 @@
 import { useState } from 'react';
-import type { DiscoverFormData, DiscoverPurposeViewModelState } from '../types/discoverPurpose.types';
-import { DISCOVER_PROGRAMS, INITIAL_DISCOVER_FORM_STATE } from '../types/discoverPurpose.constants';
+import type { FormData, FindFreedomViewModelState } from '../types/findFreedom.types';
+import { FIND_FREEDOM_PROGRAMS, INITIAL_FORM_STATE } from '../types/findFreedom.constants';
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:4000';
 
-export const useDiscoverPurposeViewModel = (): DiscoverPurposeViewModelState => {
-  const [form, setForm] = useState<DiscoverFormData>(INITIAL_DISCOVER_FORM_STATE);
+export const useFindFreedomViewModel = (): FindFreedomViewModelState => {
+  const [form, setForm] = useState<FormData>(INITIAL_FORM_STATE);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [expandedCardId, setExpandedCardId] = useState<string | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -30,11 +29,11 @@ export const useDiscoverPurposeViewModel = (): DiscoverPurposeViewModelState => 
         phone: form.phone || null,
         inspiration: form.inspiration,
         hearAboutUs: form.hearAboutUs || null,
-        formType: 'discover_purpose',
-        interestedIn: form.interestedIn || null,
+        formType: 'find_freedom',
+        interestedIn: 'encounter',
       };
 
-      console.log('Submitting discover-purpose payload:', payload);
+      console.log('Submitting encounter payload:', payload);
 
       const response = await fetch(`${API_BASE}/api/wlcm/encounter`, {
         method: 'POST',
@@ -51,7 +50,7 @@ export const useDiscoverPurposeViewModel = (): DiscoverPurposeViewModelState => 
       }
       setIsSubmitted(true);
     } catch (err) {
-      console.error('Network error submitting discover-purpose registration:', err);
+      console.error('Network error submitting encounter registration:', err);
       setError('A network error occurred. Please try again.');
     } finally {
       setIsLoading(false);
@@ -59,7 +58,7 @@ export const useDiscoverPurposeViewModel = (): DiscoverPurposeViewModelState => 
   };
 
   const handleReset = (): void => {
-    setForm(INITIAL_DISCOVER_FORM_STATE);
+    setForm(INITIAL_FORM_STATE);
     setIsSubmitted(false);
     setError(null);
   };
@@ -69,9 +68,7 @@ export const useDiscoverPurposeViewModel = (): DiscoverPurposeViewModelState => 
     isSubmitted,
     isLoading,
     error,
-    discoverPrograms: DISCOVER_PROGRAMS,
-    expandedCardId,
-    setExpandedCardId,
+    programs: FIND_FREEDOM_PROGRAMS,
     handleChange,
     handleSubmit,
     handleReset,

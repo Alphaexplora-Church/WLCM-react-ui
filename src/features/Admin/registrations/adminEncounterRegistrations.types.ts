@@ -8,5 +8,7 @@ export interface EncounterRegistration {
     phone: string | null;
     inspiration: string | null;
     hear_about_us: string | null;
+    form_type: string | null;
+    interested_in: string | null;
     submitted_at: string;
 }

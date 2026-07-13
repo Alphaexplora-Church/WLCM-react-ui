@@ -59,7 +59,7 @@ export default function Hero() {
         </div>
 
         <div className="text-center w-full">
-          <h1 className="font-serif text-[2.75rem] sm:text-[4rem] md:text-[6rem] lg:text-[8rem] leading-[1] text-soft-linen tracking-tighter uppercase">
+          <h1 className="font-serif text-[2.75rem] sm:text-[4rem] md:text-[6rem] lg:text-[8rem] leading-[1] text-soft-linen tracking-tighter lowercase">
             WORDS OF LIFE
           </h1>
           <p className="font-sans text-soft-linen uppercase tracking-[0.2em] sm:tracking-[0.35em] text-[12px] sm:text-[14px] md:text-[18px] mt-2 sm:mt-4 md:mt-6 font-semibold">

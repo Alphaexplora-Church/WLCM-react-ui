@@ -6,7 +6,7 @@ import type { EncounterRegistration } from './adminEncounterRegistrations.types'
 import type { DiscipleshipRegistration } from './adminDiscipleshipRegistrations.types';
 import { AdminRegistrationsService } from './adminRegistrations.service';
 
-export type RegistrationTab = 'plan-a-visit' | 'encounter' | 'discipleship';
+export type RegistrationTab = 'plan-a-visit' | 'encounter' | 'discover-purpose' | 'discipleship';
 
 export interface AdminRegistrationsViewModel {
     // Tab
@@ -16,11 +16,13 @@ export interface AdminRegistrationsViewModel {
     // Data
     registrations: Registration[];
     encounterRegistrations: EncounterRegistration[];
+    discoverPurposeRegistrations: EncounterRegistration[];
     discipleshipRegistrations: DiscipleshipRegistration[];
 
     // Filtered
     filteredRegistrations: Registration[];
     filteredEncounterRegistrations: EncounterRegistration[];
+    filteredDiscoverPurposeRegistrations: EncounterRegistration[];
     filteredDiscipleshipRegistrations: DiscipleshipRegistration[];
 
     // State
@@ -35,6 +37,7 @@ export interface AdminRegistrationsViewModel {
     totalPages: number;
     paginatedRegistrations: Registration[];
     paginatedEncounterRegistrations: EncounterRegistration[];
+    paginatedDiscoverPurposeRegistrations: EncounterRegistration[];
     paginatedDiscipleshipRegistrations: DiscipleshipRegistration[];
 
     // Stats (for active tab)
@@ -59,6 +62,7 @@ export function useAdminRegistrationsViewModel(): AdminRegistrationsViewModel {
 
     const [registrations, setRegistrations] = useState<Registration[]>([]);
     const [encounterRegistrations, setEncounterRegistrations] = useState<EncounterRegistration[]>([]);
+    const [discoverPurposeRegistrations, setDiscoverPurposeRegistrations] = useState<EncounterRegistration[]>([]);
     const [discipleshipRegistrations, setDiscipleshipRegistrations] = useState<DiscipleshipRegistration[]>([]);
 
     const [isLoading, setIsLoading] = useState(true);
@@ -68,17 +72,19 @@ export function useAdminRegistrationsViewModel(): AdminRegistrationsViewModel {
         setIsLoading(true);
         setError(null);
         try {
-            const [pav, enc, dis] = await Promise.allSettled([
+            const [pav, enc, dp, dis] = await Promise.allSettled([
                 AdminRegistrationsService.fetchAll(1, 1000), // Fetch up to 1000 to keep client-side stats working
                 AdminRegistrationsService.fetchAllEncounter(1, 1000),
+                AdminRegistrationsService.fetchAllDiscoverPurpose(1, 1000),
                 AdminRegistrationsService.fetchAllDiscipleship(1, 1000),
             ]);
             if (pav.status === 'fulfilled') setRegistrations(pav.value.items);
             if (enc.status === 'fulfilled') setEncounterRegistrations(enc.value.items);
+            if (dp.status === 'fulfilled') setDiscoverPurposeRegistrations(dp.value.items);
             if (dis.status === 'fulfilled') setDiscipleshipRegistrations(dis.value.items);
 
             // If ALL failed, surface an error
-            if (pav.status === 'rejected' && enc.status === 'rejected' && dis.status === 'rejected') {
+            if (pav.status === 'rejected' && enc.status === 'rejected' && dp.status === 'rejected' && dis.status === 'rejected') {
                 setError('Could not load registrations. Make sure the backend is running.');
             }
         } catch {
@@ -123,6 +129,12 @@ export function useAdminRegistrationsViewModel(): AdminRegistrationsViewModel {
         (r.email || '').toLowerCase().includes(q)
     );
 
+    const filteredDiscoverPurposeRegistrations = discoverPurposeRegistrations.filter(r =>
+        (r.first_name || '').toLowerCase().includes(q) ||
+        (r.last_name || '').toLowerCase().includes(q) ||
+        (r.email || '').toLowerCase().includes(q)
+    );
+
     const filteredDiscipleshipRegistrations = discipleshipRegistrations.filter(r =>
         (r.name || '').toLowerCase().includes(q) ||
         (r.email || '').toLowerCase().includes(q) ||
@@ -132,12 +144,14 @@ export function useAdminRegistrationsViewModel(): AdminRegistrationsViewModel {
     // ── Pagination ─────────────────────────────────────────────────────────────
     const paginatedRegistrations = filteredRegistrations.slice((page - 1) * limit, page * limit);
     const paginatedEncounterRegistrations = filteredEncounterRegistrations.slice((page - 1) * limit, page * limit);
+    const paginatedDiscoverPurposeRegistrations = filteredDiscoverPurposeRegistrations.slice((page - 1) * limit, page * limit);
     const paginatedDiscipleshipRegistrations = filteredDiscipleshipRegistrations.slice((page - 1) * limit, page * limit);
 
     const totalPages = Math.ceil(
         (activeTab === 'plan-a-visit' ? filteredRegistrations.length :
             activeTab === 'encounter' ? filteredEncounterRegistrations.length :
-                filteredDiscipleshipRegistrations.length) / limit
+                activeTab === 'discover-purpose' ? filteredDiscoverPurposeRegistrations.length :
+                    filteredDiscipleshipRegistrations.length) / limit
     ) || 1;
 
     // ── Stats (per active tab) ─────────────────────────────────────────────────
@@ -160,6 +174,15 @@ export function useAdminRegistrationsViewModel(): AdminRegistrationsViewModel {
                 statBLabel: '',
             };
         }
+        if (activeTab === 'discover-purpose') {
+            return {
+                total: discoverPurposeRegistrations.length,
+                statA: discoverPurposeRegistrations.length,
+                statALabel: 'Total Sign-ups',
+                statB: 0,
+                statBLabel: '',
+            };
+        }
         // discipleship
         return {
             total: discipleshipRegistrations.length,
@@ -175,9 +198,11 @@ export function useAdminRegistrationsViewModel(): AdminRegistrationsViewModel {
         setActiveTab,
         registrations,
         encounterRegistrations,
+        discoverPurposeRegistrations,
         discipleshipRegistrations,
         filteredRegistrations,
         filteredEncounterRegistrations,
+        filteredDiscoverPurposeRegistrations,
         filteredDiscipleshipRegistrations,
         isLoading,
         error,
@@ -188,6 +213,7 @@ export function useAdminRegistrationsViewModel(): AdminRegistrationsViewModel {
         totalPages,
         paginatedRegistrations,
         paginatedEncounterRegistrations,
+        paginatedDiscoverPurposeRegistrations,
         paginatedDiscipleshipRegistrations,
         stats,
         retry: loadAll,
