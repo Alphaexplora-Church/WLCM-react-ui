@@ -130,30 +130,15 @@ const DiscoverPurposeCard: React.FC<DiscoverPurposeCardProps> = ({
                 </div>
 
                 {/* CTA Button */}
-                <motion.button
+                <button
                   onClick={(e) => {
                     e.stopPropagation();
                     onCtaClick();
                   }}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.97 }}
-                  className="inline-flex items-center gap-3 px-7 py-3.5 rounded-xl bg-harvest-orange text-midnight-teal text-[11px] uppercase tracking-[0.25em] font-bold hover:bg-harvest-orange/90 transition-colors duration-300 shadow-lg shadow-harvest-orange/20"
+                  className="px-4 py-2 rounded-full bg-harvest-orange/10 text-white text-[9px] uppercase tracking-[0.2em] font-bold border border-harvest-orange/25 hover:bg-harvest-orange hover:text-midnight-teal transition-all duration-300"
                 >
                   {program.ctaText}
-                  <svg
-                    className="w-3.5 h-3.5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2.5}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M17 8l4 4m0 0l-4 4m4-4H3"
-                    />
-                  </svg>
-                </motion.button>
+                </button>
               </div>
             </motion.div>
           )}

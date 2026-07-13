@@ -130,7 +130,7 @@ const FindFreedom = () => {
                       </span>
                       <button
                         onClick={(e) => e.stopPropagation()}
-                        className="px-4 py-2 rounded-full bg-harvest-orange/10 text-harvest-orange text-[9px] uppercase tracking-[0.2em] font-bold border border-harvest-orange/25 hover:bg-harvest-orange hover:text-midnight-teal transition-all duration-300"
+                        className="px-4 py-2 rounded-full bg-harvest-orange/10 text-white text-[9px] uppercase tracking-[0.2em] font-bold border border-harvest-orange/25 hover:bg-harvest-orange hover:text-midnight-teal transition-all duration-300"
                       >
                         {program.cta}
                       </button>

@@ -49,7 +49,7 @@ const WelcomeVideo = () => {
                 {!isPlaying ? (
                     <>
                         <img
-                            src="https://img.youtube.com/vi/_sknSyZAgQs/maxresdefault.jpg"
+                            src="https://img.youtube.com/vi/O8-ijU41JUg/maxresdefault.jpg"
                             alt="Watch our welcome video"
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                         />
