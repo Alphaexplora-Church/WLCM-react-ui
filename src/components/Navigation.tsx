@@ -138,9 +138,9 @@ export default function Navigation({ lightMode = false }: NavigationProps) {
           <Link
             to="/"
             onClick={handleLogoClick}
-            className={`font-serif text-base md:text-xl tracking-tighter uppercase ${textBase} hover:opacity-70 transition-opacity shrink-0 cursor-pointer py-2 pr-2`}
+            className={`font-serif text-base md:text-xl tracking-tighter lowercase ${textBase} hover:opacity-70 transition-opacity shrink-0 cursor-pointer py-2 pr-2`}
           >
-            words of life.
+            words of life
           </Link>
 
           {/* Desktop nav — dropdowns */}
@@ -258,7 +258,7 @@ export default function Navigation({ lightMode = false }: NavigationProps) {
                 onClick={(e) => { setMenuOpen(false); handleLogoClick(e); }}
                 className="font-serif text-lg md:text-2xl tracking-tighter lowercase text-soft-linen hover:text-harvest-orange transition-colors cursor-pointer"
               >
-                words of life.
+                words of life
               </Link>
               <button onClick={() => setMenuOpen(false)} aria-label="Close menu"
                 className="group flex items-center gap-3 cursor-pointer">
