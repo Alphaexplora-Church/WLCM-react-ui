@@ -2,7 +2,7 @@
 import type { ChurchEvent, Announcement } from '../../Experience/events/events.types';
 import type { EventFormData } from './adminEvents.types';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:4000';
+const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 /** Retrieves the stored JWT and builds the Authorization header. */
 const getAuthHeaders = (isFormData: boolean = false): HeadersInit => {
@@ -118,5 +118,21 @@ export const AdminEventsService = {
             headers: getAuthHeaders(),
         });
         if (!response.ok) throw new Error('Failed to delete event');
+    },
+
+    /**
+     * Fetches DB-level KPI counts for both Events and Announcements dashboards.
+     * Returns accurate totals regardless of the current pagination page.
+     */
+    fetchStats: async (): Promise<{
+        events: { upcomingMonth: number; thisWeek: number; completedMonth: number };
+        announcements: { activeLive: number; postedThisMonth: number; activeCategories: number };
+    }> => {
+        const response = await fetch(`${API_BASE}/api/contents/admin/stats`, {
+            headers: getAuthHeaders(),
+        });
+        if (!response.ok) throw new Error('Failed to fetch stats');
+        const json = await response.json();
+        return json.data;
     },
 };

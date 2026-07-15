@@ -7,7 +7,21 @@ interface AdminHeaderProps {
 export default function AdminHeader({ userName = 'Admin' }: AdminHeaderProps) {
     const navigate = useNavigate();
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            try {
+                const apiUrl = import.meta.env.VITE_API_BASE_URL;
+                await fetch(`${apiUrl}/api/auth/logout`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+            } catch (error) {
+                console.error('Logout failed', error);
+            }
+        }
         localStorage.removeItem('token');
         navigate('/login');
     };

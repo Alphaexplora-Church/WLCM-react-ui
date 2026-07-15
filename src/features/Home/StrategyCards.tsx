@@ -15,7 +15,7 @@ const cards = [
     body: "A warm invitation to experience a real relationship with God. Our weekend gatherings are welcoming, Bible-centered, and designed to help you encounter Jesus in a meaningful way. Whether you are exploring faith or growing deeper in your walk, there is a place for you here. ",
     ctas: [
       { label: "Plan a Visit", action: "plan-visit" },
-      { label: "Watch Live", action: "/watch" },
+      { label: "Join a Care Group", action: "/engage" },
     ],
     img: "https://images.unsplash.com/photo-1504052434569-70ad5836ab65?auto=format&fit=crop&q=80&w=1200",
   },
@@ -25,7 +25,7 @@ const cards = [
     tagline: "You were never meant to do life alone.",
     body: "You were never meant to walk this alone. Through mentoring, Caregroups, and discipleship, we walk alongside you — in your faith, your relationships, and your personal growth. Whatever you're carrying right now, how can we help?",
     ctas: [
-      { label: "Join a Caregroup", action: "/engage" },
+      { label: "Start the Journey", action: "/find-freedom" },
     ],
     img: "/events/random-4.jpg",
   },
@@ -35,7 +35,7 @@ const cards = [
     tagline: "You were made for more.",
     body: "Every person is created with intention. The WLCM Discipleship Journey helps you grow spiritually, understand your gifts, and discover how your life fits into God’s greater plan.",
     ctas: [
-      { label: "Start the Journey", action: "/discover-purpose" },
+      { label: "Discover Purpose", action: "/discover-purpose" },
     ],
     img: "/events/random-6.jpg",
   },

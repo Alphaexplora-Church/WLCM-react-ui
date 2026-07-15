@@ -11,6 +11,7 @@ import Give from './pages/Give';
 import Watch from './pages/Watch';
 import PrayerWall from './features/Engage/PrayerWall';
 import Contact from './features/Engage/Contact/index';
+import FindFreedom from './features/Engage/FindFreedom';
 import DiscoverPurpose from './features/Engage/DiscoverPurpose';
 import Login from './pages/Login';
 import AdminDashboard from './features/Admin/AdminDashboard';
@@ -35,6 +36,7 @@ export default function App() {
         <Route path="/sermons" element={<Engage />} />
         <Route path="/give" element={<Give />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/find-freedom" element={<FindFreedom />} />
         <Route path="/discover-purpose" element={<DiscoverPurpose />} />
         <Route path="/churches" element={<AboutUs />} />
         <Route path="/watch" element={<Watch />} />
