@@ -36,21 +36,24 @@ export default function Hero() {
               className="absolute w-[150%] h-[150%] bg-soft-linen rounded-full blur-[40px] md:blur-[60px] z-0 pointer-events-none"
             />
 
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="relative z-10 w-full h-full object-contain mix-blend-lighten scale-[1.5] md:scale-[1.8]"
-            >
-              <source src="/INTRO.webm" type="video/webm" />
-              {/* iOS Safari fallback — WebM is not supported on iOS */}
-              <img
-                src="/logo_transparent.png"
-                alt="Words of Life Christian Ministries"
-                className="w-full h-full object-contain"
-              />
-            </video>
+            {/* Wrapper to force hardware acceleration for iOS Safari mix-blend-mode fix */}
+            <div className="relative z-10 w-full h-full mix-blend-screen [transform:translate3d(0,0,0)]">
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="w-full h-full object-contain scale-[1.5] md:scale-[1.8]"
+              >
+                <source src="/INTRO.webm" type="video/webm" />
+                {/* Fallback image */}
+                <img
+                  src="/logo_transparent.png"
+                  alt="Words of Life Christian Ministries"
+                  className="w-full h-full object-contain"
+                />
+              </video>
+            </div>
           </div>
 
           <span className="font-sans text-soft-linen font-semibold tracking-[0.2em] sm:tracking-[0.3em] text-[10px] sm:text-xs md:text-sm uppercase">
