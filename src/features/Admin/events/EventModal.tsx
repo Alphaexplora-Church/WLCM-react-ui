@@ -48,7 +48,19 @@ export function EventModal({ open, title, isAnnouncement, initial, onClose, onSa
             let message = raw;
             try {
                 const parsed = JSON.parse(raw.replace(/^Failed to (create|update) event: /, ''));
-                message = parsed?.error ?? raw;
+                if (parsed?.error) {
+                    if (parsed.error.details && Array.isArray(parsed.error.details)) {
+                        message = parsed.error.details.map((d: any) => d.message).join(', ');
+                    } else if (typeof parsed.error.message === 'string') {
+                        message = parsed.error.message;
+                    } else if (typeof parsed.error === 'string') {
+                        message = parsed.error;
+                    } else {
+                        message = raw;
+                    }
+                } else if (typeof parsed?.message === 'string') {
+                    message = parsed.message;
+                }
             } catch {
                 // Not JSON — keep as-is, but strip verbose prefix if present
                 message = raw.replace(/^Failed to (create|update) event: /, '');
