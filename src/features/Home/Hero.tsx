@@ -45,8 +45,7 @@ export default function Hero() {
                 playsInline
                 className="w-full h-full object-contain scale-[1.5] md:scale-[1.8]"
               >
-                {/* <source src="/INTRO.webm" type="video/webm" /> */}
-                <source src="/tree.mp4" type="video/mp4" />
+                <source src="/INTRO.webm" type="video/webm" />
                 {/* Fallback image */}
                 <img
                   src="/logo_transparent.png"
