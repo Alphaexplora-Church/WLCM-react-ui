@@ -45,8 +45,7 @@ export default function Hero() {
                 playsInline
                 className="w-full h-full object-contain scale-[1.5] md:scale-[1.8]"
               >
-                <source src="https://res.cloudinary.com/ldbgnurm/video/upload/q_auto/v1784123899/INTRO_vujklg.webm" type="video/webm" />
-                <source src="https://res.cloudinary.com/ldbgnurm/video/upload/f_mp4,q_auto/v1784123899/INTRO_vujklg.webm" type="video/mp4" />
+                <source src="https://res.cloudinary.com/ldbgnurm/video/upload/v1784180515/tree_k8icru.mp4" type="video/mp4" />
                 {/* Fallback image */}
                 <img
                   src="/logo_transparent.png"
