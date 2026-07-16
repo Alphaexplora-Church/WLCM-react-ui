@@ -47,6 +47,7 @@ export function usePlanVisitViewModel(): PlanVisitViewModel {
                 service_type: form.service,
                 adult_count: isNaN(adults) ? null : adults,
                 child_count: isNaN(kids) ? null : kids,
+                attend_date: form.attend_date,
                 // Map UI guestType → API visitor_status
                 visitor_status: form.guestType as VisitorStatus,
             });
