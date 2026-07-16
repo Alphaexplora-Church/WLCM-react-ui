@@ -1,16 +1,81 @@
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 
-export default function Hero() {
-  const [isIOS, setIsIOS] = useState(false);
+// Canvas-based transparent video renderer.
+// Works on ALL browsers (including iOS Safari) by manually removing
+// black pixels frame-by-frame — no codec or CSS blend-mode dependency.
+function TransparentVideo({ src, className }: { src: string; className?: string }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const rafRef = useRef<number>(0);
 
   useEffect(() => {
-    const ua = navigator.userAgent || navigator.vendor;
-    if (/iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) {
-      setIsIOS(true);
-    }
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    if (!video || !canvas) return;
+
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    if (!ctx) return;
+
+    const render = () => {
+      if (video.readyState >= video.HAVE_CURRENT_DATA) {
+        canvas.width = video.videoWidth || 512;
+        canvas.height = video.videoHeight || 512;
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        const frame = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = frame.data;
+
+        // Remove dark/black pixels — threshold tuned for near-black backgrounds
+        for (let i = 0; i < data.length; i += 4) {
+          const r = data[i];
+          const g = data[i + 1];
+          const b = data[i + 2];
+          const brightness = (r + g + b) / 3;
+          if (brightness < 40) {
+            data[i + 3] = 0; // fully transparent
+          } else if (brightness < 80) {
+            // Soft edge anti-aliasing
+            data[i + 3] = Math.round(((brightness - 40) / 40) * 255);
+          }
+        }
+
+        ctx.putImageData(frame, 0, 0);
+      }
+      rafRef.current = requestAnimationFrame(render);
+    };
+
+    video.addEventListener('play', () => {
+      rafRef.current = requestAnimationFrame(render);
+    });
+
+    video.play().catch(() => {});
+
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+    };
   }, []);
 
+  return (
+    <>
+      {/* Hidden video element — just used as pixel source */}
+      <video
+        ref={videoRef}
+        src={src}
+        autoPlay
+        muted
+        loop
+        playsInline
+        style={{ display: 'none' }}
+        crossOrigin="anonymous"
+      />
+      {/* Canvas renders the video with black pixels stripped */}
+      <canvas ref={canvasRef} className={className} />
+    </>
+  );
+}
+
+export default function Hero() {
   return (
     <section className="h-screen w-full flex flex-col items-center justify-center relative px-4 sm:px-6 overflow-hidden">
 
@@ -37,7 +102,7 @@ export default function Hero() {
           </span>
 
           {/* CENTRAL VIDEO/LOGO CONTAINER */}
-          <div className="relative w-40 sm:w-56 md:w-80 lg:w-96 aspect-square flex items-center justify-center">
+          <div className="relative w-60 sm:w-64 md:w-80 lg:w-96 aspect-square flex items-center justify-center">
 
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
@@ -46,30 +111,11 @@ export default function Hero() {
               className="absolute w-[150%] h-[150%] bg-soft-linen rounded-full blur-[40px] md:blur-[60px] z-0 pointer-events-none"
             />
 
-            {isIOS ? (
-              // iOS: Cloudinary converts the WebM to an animated transparent WebP on-the-fly
-              <img
-                src="https://res.cloudinary.com/ldbgnurm/video/upload/f_webp,fl_awebp,q_auto/v1784123899/INTRO_vujklg.webp"
-                alt="Words of Life Christian Ministries"
-                className="relative z-10 w-full h-full object-contain scale-[1.5] md:scale-[1.8]"
-              />
-            ) : (
-              // Chrome / Firefox / Android: native transparent WebM video
-              <video
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="relative z-10 w-full h-full object-contain scale-[1.5] md:scale-[1.8]"
-              >
-                <source src="https://res.cloudinary.com/ldbgnurm/video/upload/q_auto/v1784123899/INTRO_vujklg.webm" type="video/webm" />
-                <img
-                  src="/logo_transparent.png"
-                  alt="Words of Life Christian Ministries"
-                  className="w-full h-full object-contain"
-                />
-              </video>
-            )}
+            {/* Canvas-based transparent video — works on iOS Safari, Android, and all browsers */}
+            <TransparentVideo
+              src="https://res.cloudinary.com/ldbgnurm/video/upload/v1784180515/tree_k8icru.mp4"
+              className="relative z-10 w-full h-full object-contain scale-[1.8] md:scale-[1.8]"
+            />
           </div>
 
           <span className="font-sans text-soft-linen font-semibold tracking-[0.2em] sm:tracking-[0.3em] text-[10px] sm:text-xs md:text-sm uppercase">
