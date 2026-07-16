@@ -210,7 +210,7 @@ export default function AdminRegistrations() {
                                 vm.activeTab === 'plan-a-visit' ? 'Search by name or email…' :
                                     'Search by name, email or message…'
                             }
-                            className="w-full bg-white border border-gray-200 rounded-xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-midnight-teal/30 shadow-sm"
+                            className="w-full bg-white border border-gray-200 rounded-xl pl-11 pr-4 py-3 text-sm text-midnight-teal focus:outline-none focus:ring-2 focus:ring-midnight-teal/30 shadow-sm"
                         />
                     </div>
 
