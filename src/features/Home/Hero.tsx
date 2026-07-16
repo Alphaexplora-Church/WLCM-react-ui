@@ -36,24 +36,24 @@ export default function Hero() {
               className="absolute w-[150%] h-[150%] bg-soft-linen rounded-full blur-[40px] md:blur-[60px] z-0 pointer-events-none"
             />
 
-            {/* Wrapper to force hardware acceleration for iOS Safari mix-blend-mode fix */}
-            <div className="relative z-10 w-full h-full mix-blend-screen [transform:translate3d(0,0,0)]">
-              <video
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="w-full h-full object-contain scale-[1.5] md:scale-[1.8]"
-              >
-                <source src="https://res.cloudinary.com/ldbgnurm/video/upload/v1784180515/tree_k8icru.mp4" type="video/mp4" />
-                {/* Fallback image */}
-                <img
-                  src="/logo_transparent.png"
-                  alt="Words of Life Christian Ministries"
-                  className="w-full h-full object-contain"
-                />
-              </video>
-            </div>
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="relative z-10 w-full h-full object-contain scale-[1.5] md:scale-[1.8]"
+            >
+              {/* Native transparent HEVC video for macOS/iOS Safari */}
+              <source src="/tree.mov" type='video/quicktime' />
+              {/* Native transparent WebM video for Chrome/Firefox/Android */}
+              <source src="/INTRO.webm" type="video/webm" />
+              {/* Fallback image */}
+              <img
+                src="/logo_transparent.png"
+                alt="Words of Life Christian Ministries"
+                className="w-full h-full object-contain"
+              />
+            </video>
           </div>
 
           <span className="font-sans text-soft-linen font-semibold tracking-[0.2em] sm:tracking-[0.3em] text-[10px] sm:text-xs md:text-sm uppercase">
