@@ -1,6 +1,16 @@
 import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 
 export default function Hero() {
+  const [isIOS, setIsIOS] = useState(false);
+
+  useEffect(() => {
+    const ua = navigator.userAgent || navigator.vendor;
+    if (/iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) {
+      setIsIOS(true);
+    }
+  }, []);
+
   return (
     <section className="h-screen w-full flex flex-col items-center justify-center relative px-4 sm:px-6 overflow-hidden">
 
@@ -36,24 +46,30 @@ export default function Hero() {
               className="absolute w-[150%] h-[150%] bg-soft-linen rounded-full blur-[40px] md:blur-[60px] z-0 pointer-events-none"
             />
 
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="relative z-10 w-full h-full object-contain scale-[1.5] md:scale-[1.8]"
-            >
-              {/* Native transparent HEVC video for macOS/iOS Safari */}
-              <source src="https://res.cloudinary.com/ldbgnurm/video/upload/q_auto/v1784181987/tree_scc6db.mov" type='video/quicktime' />
-              {/* Native transparent WebM video for Chrome/Firefox/Android */}
-              <source src="https://res.cloudinary.com/ldbgnurm/video/upload/q_auto/v1784123899/INTRO_vujklg.webm" type="video/webm" />
-              {/* Fallback image */}
+            {isIOS ? (
+              // iOS: Cloudinary converts the WebM to an animated transparent WebP on-the-fly
               <img
-                src="/logo_transparent.png"
+                src="https://res.cloudinary.com/ldbgnurm/video/upload/f_webp,fl_awebp,q_auto/v1784123899/INTRO_vujklg.webp"
                 alt="Words of Life Christian Ministries"
-                className="w-full h-full object-contain"
+                className="relative z-10 w-full h-full object-contain scale-[1.5] md:scale-[1.8]"
               />
-            </video>
+            ) : (
+              // Chrome / Firefox / Android: native transparent WebM video
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="relative z-10 w-full h-full object-contain scale-[1.5] md:scale-[1.8]"
+              >
+                <source src="https://res.cloudinary.com/ldbgnurm/video/upload/q_auto/v1784123899/INTRO_vujklg.webm" type="video/webm" />
+                <img
+                  src="/logo_transparent.png"
+                  alt="Words of Life Christian Ministries"
+                  className="w-full h-full object-contain"
+                />
+              </video>
+            )}
           </div>
 
           <span className="font-sans text-soft-linen font-semibold tracking-[0.2em] sm:tracking-[0.3em] text-[10px] sm:text-xs md:text-sm uppercase">
