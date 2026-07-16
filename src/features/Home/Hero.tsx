@@ -44,9 +44,9 @@ export default function Hero() {
               className="relative z-10 w-full h-full object-contain scale-[1.5] md:scale-[1.8]"
             >
               {/* Native transparent HEVC video for macOS/iOS Safari */}
-              <source src="/tree.mov" type='video/quicktime' />
+              <source src="https://res.cloudinary.com/ldbgnurm/video/upload/q_auto/v1784181987/tree_scc6db.mov" type='video/quicktime' />
               {/* Native transparent WebM video for Chrome/Firefox/Android */}
-              <source src="/INTRO.webm" type="video/webm" />
+              <source src="https://res.cloudinary.com/ldbgnurm/video/upload/q_auto/v1784123899/INTRO_vujklg.webm" type="video/webm" />
               {/* Fallback image */}
               <img
                 src="/logo_transparent.png"
