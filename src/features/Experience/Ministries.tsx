@@ -13,17 +13,77 @@ interface Ministry {
 
 const ministriesData: Ministry[] = [
   // Life Ministries
-  { title: "Seasoned", tagline: "Wisdom & Legacy", category: "Life", story: "A community for mature believers to share wisdom, build lasting friendships, and continue growing in faith.", image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=800" },
-  { title: "Modern Day Knights", tagline: "Men of Purpose", category: "Life", story: "Equipping men to lead with integrity, faith, and courage in every area of life — home, work, and community.", image: "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?q=80&w=800" },
-  { title: "At The Well", tagline: "Women of God", category: "Life", story: "A gathering place where women encounter God, build authentic friendships, and discover their God-given identity.", image: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?q=80&w=800" },
-  { title: "Pulse Youth", tagline: "Next Generation", category: "Life", story: "Where students find belonging, navigate real-life issues with biblical truth, and discover how faith shapes every part of life.", image: "https://images.unsplash.com/photo-1507692049790-de58293a4699?q=80&w=800" },
+  {
+    title: "Seasoned",
+    tagline: "Wisdom & Legacy",
+    category: "Life",
+    story: "A community for mature believers to share wisdom, build lasting friendships, and continue growing in faith.",
+    image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=800",
+  },
+  {
+    title: "Modern Day Knights",
+    tagline: "Men of Purpose",
+    category: "Life",
+    story: "Equipping men to lead with integrity, faith, and courage in every area of life — home, work, and community.",
+    image: "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?q=80&w=800",
+  },
+  {
+    title: "At The Well",
+    tagline: "Women of God",
+    category: "Life",
+    story: "A gathering place where women encounter God, build authentic friendships, and discover their God-given identity.",
+    image: "/gallery/at the well.jpg",
+  },
+  {
+    title: "Pulse Youth",
+    tagline: "Next Generation",
+    category: "Life",
+    story: "Where students find belonging, navigate real-life issues with biblical truth, and discover how faith shapes every part of life.",
+    image: "/events/pulse-4.jpg",
+  },
   // Service Ministries
-  { title: "Kids Church", tagline: "Start Them Young", category: "Service", story: "A safe, vibrant environment where children discover the love of Jesus through age-appropriate teaching and activities.", image: "https://images.unsplash.com/photo-1485546246426-74dc88dec4d9?q=80&w=800" },
-  { title: "Heavensound Worship", tagline: "Excellence in Praise", category: "Service", story: "Musicians and creatives united in leading the whole church into God's presence through heartfelt, skillful worship.", image: "/events/heavensound-3.jpg" },
-  { title: "Hospitality", tagline: "Welcome & Care", category: "Service", story: "Making every guest feel seen, valued, and at home from the moment they step through the door.", image: "/events/hospitality-2.jpg" },
-  { title: "PTV", tagline: "Media & Production", category: "Service", story: "Serving the church through professional audio, visual, and broadcast production for worship and online reach.", image: "/events/ptv-1.jpg" },
-  { title: "Buhat Brigade", category: "Service", tagline: "Hands That Serve", story: "The backbone of every service — the team that sets up, breaks down, and ensures everything runs smoothly for the glory of God.", image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=800" },
-  { title: "Gathering Grounds", category: "Service", tagline: "Community & Connection", story: "Creating spaces where people naturally connect — from coffee corners to community gatherings — so no one feels like a stranger.", image: "https://images.unsplash.com/photo-1483971896012-0e41ce0d380a?q=80&w=800" },
+  {
+    title: "Kids Church",
+    tagline: "Start Them Young",
+    category: "Service",
+    story: "A safe, vibrant environment where children discover the love of Jesus through age-appropriate teaching and activities.",
+    image: "/gallery/kids church.jpg",
+  },
+  {
+    title: "Heavensound Worship",
+    tagline: "Excellence in Praise",
+    category: "Service",
+    story: "Musicians and creatives united in leading the whole church into God's presence through heartfelt, skillful worship.",
+    image: "/gallery/heavensound.jpg",
+  },
+  {
+    title: "Hospitality",
+    tagline: "Welcome & Care",
+    category: "Service",
+    story: "Making every guest feel seen, valued, and at home from the moment they step through the door.",
+    image: "/gallery/hospitality.jpg",
+  },
+  {
+    title: "PTV",
+    tagline: "Media & Production",
+    category: "Service",
+    story: "Serving the church through professional audio, visual, and broadcast production for worship and online reach.",
+    image: "/events/ptv-2.jpg",
+  },
+  {
+    title: "Buhat Brigade",
+    tagline: "Hands That Serve",
+    category: "Service",
+    story: "The backbone of every service — the team that sets up, breaks down, and ensures everything runs smoothly for the glory of God.",
+    image: "/gallery/buhat brigade.jpg",
+  },
+  {
+    title: "Gathering Grounds",
+    tagline: "Community & Connection",
+    category: "Service",
+    story: "Creating spaces where people naturally connect — from coffee corners to community gatherings — so no one feels like a stranger.",
+    image: "/gallery/gathering grounds-2.jpg",
+  },
 ];
 
 const Ministries: React.FC = () => {

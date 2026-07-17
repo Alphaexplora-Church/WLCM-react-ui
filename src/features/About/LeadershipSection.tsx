@@ -2,14 +2,14 @@ import { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const nationalTeam = [
-  { name: "Pastor Grace Zabarte", role: "Ministries Department Head", img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800" },
-  { name: "Pastor Josef Zabarte", role: "Senior Pastor", img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800" },
-  { name: "Doc. Angel Concepcion", role: "Management Department Head", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800" },
-  { name: "Pastor Jude Orbiso", role: "Missions Department Head", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=800" },
-  { name: "Nice Pacis", role: "Membership Department Head", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=800" },
-  { name: "Pastor Yoly Iriman", role: "Maturity Department Head", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=800" },
-  { name: "Pastor Arnold Pacis", role: "Magnification Department Head", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800" },
-];
+  { name: "Pastor Josef Zabarte", role: "Senior Pastor", img: "/pastors/josef.webp" },
+  { name: "Pastor Grace Zabarte", role: "Ministries Department Head", img: "/pastors/grace.webp" },
+  { name: "Pastor Jude Orbiso", role: "Missions Department Head", img: "/pastors/jude.webp" },
+  { name: "Pastor Arnold Pacis", role: "Magnification Department Head", img: "/pastors/arnold.webp" },
+  { name: "Doc. Angel Concepcion", role: "Management Department Head", img: "/pastors/angel.webp" },
+  { name: "Pastor Yoly Iriman", role: "Maturity Department Head", img: "/pastors/yoly.webp" },
+  { name: "Vanessa Pacis", role: "Membership Department Head", img: "/pastors/nice.webp" },
+]
 
 
 export default function LeadershipSection() {
@@ -53,7 +53,7 @@ export default function LeadershipSection() {
                 <img
                   src={leader.img}
                   alt={leader.name}
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 pointer-events-none"
+                  className="w-full h-full object-cover pointer-events-none"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-midnight-teal/90 via-transparent to-transparent opacity-90" />
                 <div className="absolute bottom-8 left-8">
