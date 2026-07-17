@@ -100,7 +100,7 @@ export default function DaughterChurchesSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
           {/* Featured image card */}
-          <div className="relative h-[300px] md:h-auto rounded-2xl overflow-hidden">
+          <div className="relative h-[300px] md:h-[500px] rounded-2xl overflow-hidden">
             <AnimatePresence mode="wait">
               <motion.img
                 key={activeRegion}
@@ -122,7 +122,7 @@ export default function DaughterChurchesSection() {
           </div>
 
           {/* Church list */}
-          <div className="flex flex-col gap-0 max-h-[500px] overflow-y-auto pr-2 scrollbar-thin">
+          <div className="flex flex-col gap-0 h-[400px] md:h-[500px] overflow-y-auto pr-4">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeRegion}
