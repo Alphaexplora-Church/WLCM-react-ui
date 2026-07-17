@@ -18,85 +18,85 @@ interface PhotoDef {
 const PHOTOS: PhotoDef[] = [
   // ── Over "W" — large worship gathering, hands raised ──────────────────────
   {
-    url: 'https://images.unsplash.com/photo-1478147427282-58a87a120781?q=80&w=900',
+    url: 'https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784276758/gallery-7_vc8mtl.jpg ',
     top: '7%', left: '1%',
     wClass: 'w-[26vw] md:w-[12vw]', hClass: 'h-[13vh] md:h-[34vh]',
     rotate: -3, z: 3,
   },
   // ── Over "RDS" — community fellowship, people laughing ────────────────────
   {
-    url: 'https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?q=80&w=900',
+    url: 'https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784261456/baptism_bj5pfd.jpg',
     bottom: '7%', left: '18%',
     wClass: 'w-[34vw] md:w-[17vw]', hClass: 'h-[10vh] md:h-[21vh]',
     rotate: 2.5, z: 2,
   },
   // ── Over "OF" — worship band on stage, Praise Chapel ─────────────────────
   {
-    url: 'https://images.unsplash.com/photo-1507692049790-de58290a4334?q=80&w=900',
+    url: 'https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784261454/kids_church-1_fhaha2.heic',
     top: '5%', left: '40%',
     wClass: 'w-[22vw] md:w-[11vw]', hClass: 'h-[14vh] md:h-[36vh]',
     rotate: -2, z: 3,
   },
   // ── Between "OF" and "LIFE" — crowd hands raised in worship ───────────────
   {
-    url: 'https://images.unsplash.com/photo-1522158637959-30385a09e0da?q=80&w=900',
+    url: 'https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784261455/kids_church_teachers_pfpo0a.jpg',
     bottom: '6%', left: '53%',
     wClass: 'w-[28vw] md:w-[15vw]', hClass: 'h-[11vh] md:h-[23vh]',
     rotate: 1.5, z: 2,
   },
   // ── Over "LI" — woman taking notes at church service ─────────────────────
   {
-    url: 'https://images.unsplash.com/photo-1529070538774-1843cb3265df?q=80&w=900',
+    url: 'https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784277401/gallery-8_mab27s.jpg',
     top: '4%', left: '67%',
     wClass: 'w-[24vw] md:w-[12vw]', hClass: 'h-[13vh] md:h-[34vh]',
     rotate: -3.5, z: 3,
   },
   // ── Over "FE" — two men embracing at community event ─────────────────────
   {
-    url: 'https://images.unsplash.com/photo-1565813086292-604790c8a97b?q=80&w=900',
+    url: 'https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784275414/gallery-2_isabxx.jpg',
     bottom: '8%', left: '79%',
     wClass: 'w-[30vw] md:w-[15vw]', hClass: 'h-[10vh] md:h-[20vh]',
     rotate: 2, z: 2,
   },
   // ── Tail — group hands raised indoors, worship ────────────────────────────
   {
-    url: 'https://images.unsplash.com/photo-1477281765962-ef34e8bb0967?q=80&w=900',
+    url: 'https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784275415/gallery-3_mgyyol.jpg',
     top: '8%', left: '90%',
     wClass: 'w-[22vw] md:w-[11vw]', hClass: 'h-[12vh] md:h-[32vh]',
     rotate: -2.5, z: 3,
   },
   {
-    url: 'https://images.unsplash.com/photo-1580243152089-98da42694285?q=80&w=900',
+    url: 'https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784275415/gallery-4_gky9o8.jpg',
     bottom: '9%', left: '99%',
     wClass: 'w-[32vw] md:w-[16vw]', hClass: 'h-[11vh] md:h-[22vh]',
     rotate: 1, z: 2,
   },
   {
-    url: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=900',
+    url: 'https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784275419/gallery-5_rvmp6k.jpg',
     top: '5%', left: '110%',
     wClass: 'w-[24vw] md:w-[12vw]', hClass: 'h-[13vh] md:h-[35vh]',
     rotate: -1.5, z: 3,
   },
   {
-    url: 'https://images.unsplash.com/photo-1579975096649-e773152b04cb?q=80&w=900',
+    url: 'https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784275419/gallery-6_t3iajd.jpg',
     bottom: '7%', left: '119%',
     wClass: 'w-[31vw] md:w-[15vw]', hClass: 'h-[11vh] md:h-[21vh]',
     rotate: 2.5, z: 2,
   },
   {
-    url: 'https://images.unsplash.com/photo-1543702404-38c2035462ad?q=80&w=900',
+    url: 'https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784277401/gallery-9_u8pflw.jpg ',
     top: '6%', left: '129%',
     wClass: 'w-[23vw] md:w-[11vw]', hClass: 'h-[12vh] md:h-[33vh]',
     rotate: -3, z: 3,
   },
   {
-    url: 'https://images.unsplash.com/photo-1620495137036-fccf4af581bf?q=80&w=900',
+    url: 'https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784278231/gallery-11_klki3w.jpg  ',
     bottom: '8%', left: '139%',
     wClass: 'w-[29vw] md:w-[14vw]', hClass: 'h-[10vh] md:h-[20vh]',
     rotate: 1.5, z: 2,
   },
   {
-    url: 'https://images.unsplash.com/photo-1614915760393-96de312e2bf5?q=80&w=900',
+    url: 'https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784275414/gallery-1_wqjogo.jpg',
     top: '7%', left: '149%',
     wClass: 'w-[25vw] md:w-[12vw]', hClass: 'h-[13vh] md:h-[34vh]',
     rotate: -2, z: 3,
@@ -109,11 +109,11 @@ const stageVariants = {
   visible: { transition: { staggerChildren: 0.08 } },
 };
 const textVariants = {
-  hidden:  { opacity: 0 },
+  hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { duration: 1.4, ease: EASE_OUT } },
 };
 const photoVariants = {
-  hidden:  { opacity: 0, scale: 0.93, y: 14 },
+  hidden: { opacity: 0, scale: 0.93, y: 14 },
   visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.75, ease: EASE_OUT } },
 };
 
@@ -159,19 +159,19 @@ function Photo({ def }: { def: PhotoDef }) {
 // Row heights vary to avoid a monotonous grid — shorter rows offset the taller ones.
 const GRID_ITEMS: { url: string; colSpan: number; height: string }[] = [
   // Row 1 — 2 + 1 + 1 (48vh)
-  { url: PHOTOS[0].url,  colSpan: 2, height: '48vh' },
-  { url: PHOTOS[1].url,  colSpan: 1, height: '48vh' },
-  { url: PHOTOS[2].url,  colSpan: 1, height: '48vh' },
+  { url: PHOTOS[0].url, colSpan: 2, height: '48vh' },
+  { url: PHOTOS[1].url, colSpan: 1, height: '48vh' },
+  { url: PHOTOS[2].url, colSpan: 1, height: '48vh' },
   // Row 2 — 1 + 2 + 1 (56vh — tallest, draws the eye)
-  { url: PHOTOS[3].url,  colSpan: 1, height: '56vh' },
-  { url: PHOTOS[4].url,  colSpan: 2, height: '56vh' },
-  { url: PHOTOS[5].url,  colSpan: 1, height: '56vh' },
+  { url: PHOTOS[3].url, colSpan: 1, height: '56vh' },
+  { url: PHOTOS[4].url, colSpan: 2, height: '56vh' },
+  { url: PHOTOS[5].url, colSpan: 1, height: '56vh' },
   // Row 3 — 1 + 1 + 2 (40vh — short, breathing room)
-  { url: PHOTOS[6].url,  colSpan: 1, height: '40vh' },
-  { url: PHOTOS[7].url,  colSpan: 1, height: '40vh' },
-  { url: PHOTOS[8].url,  colSpan: 2, height: '40vh' },
+  { url: PHOTOS[6].url, colSpan: 1, height: '40vh' },
+  { url: PHOTOS[7].url, colSpan: 1, height: '40vh' },
+  { url: PHOTOS[8].url, colSpan: 2, height: '40vh' },
   // Row 4 — 2 + 1 + 1 (52vh)
-  { url: PHOTOS[9].url,  colSpan: 2, height: '52vh' },
+  { url: PHOTOS[9].url, colSpan: 2, height: '52vh' },
   { url: PHOTOS[10].url, colSpan: 1, height: '52vh' },
   { url: PHOTOS[11].url, colSpan: 1, height: '52vh' },
   // Row 5 — full-width banner close
@@ -264,22 +264,22 @@ function DesktopGridSection() {
 //   full-width     → 52vw tall  (≈ 16:9 landscape)
 const MOBILE_GRID_ITEMS: { url: string; colSpan: 1 | 2; height: string; isFirst?: boolean }[] = [
   // Row 1 — full-width hero
-  { url: PHOTOS[0].url,  colSpan: 2, height: '56vw', isFirst: true },
+  { url: PHOTOS[0].url, colSpan: 2, height: '56vw', isFirst: true },
   // Row 2 — portrait pair
-  { url: PHOTOS[1].url,  colSpan: 1, height: '62vw' },
-  { url: PHOTOS[2].url,  colSpan: 1, height: '62vw' },
+  { url: PHOTOS[1].url, colSpan: 1, height: '62vw' },
+  { url: PHOTOS[2].url, colSpan: 1, height: '62vw' },
   // Row 3 — full-width
-  { url: PHOTOS[3].url,  colSpan: 2, height: '50vw' },
+  { url: PHOTOS[3].url, colSpan: 2, height: '50vw' },
   // Row 4 — portrait pair (slightly taller)
-  { url: PHOTOS[4].url,  colSpan: 1, height: '68vw' },
-  { url: PHOTOS[5].url,  colSpan: 1, height: '68vw' },
+  { url: PHOTOS[4].url, colSpan: 1, height: '68vw' },
+  { url: PHOTOS[5].url, colSpan: 1, height: '68vw' },
   // Row 5 — full-width
-  { url: PHOTOS[6].url,  colSpan: 2, height: '52vw' },
+  { url: PHOTOS[6].url, colSpan: 2, height: '52vw' },
   // Row 6 — portrait pair
-  { url: PHOTOS[7].url,  colSpan: 1, height: '64vw' },
-  { url: PHOTOS[8].url,  colSpan: 1, height: '64vw' },
+  { url: PHOTOS[7].url, colSpan: 1, height: '64vw' },
+  { url: PHOTOS[8].url, colSpan: 1, height: '64vw' },
   // Row 7 — full-width
-  { url: PHOTOS[9].url,  colSpan: 2, height: '48vw' },
+  { url: PHOTOS[9].url, colSpan: 2, height: '48vw' },
   // Row 8 — portrait pair
   { url: PHOTOS[10].url, colSpan: 1, height: '66vw' },
   { url: PHOTOS[11].url, colSpan: 1, height: '66vw' },

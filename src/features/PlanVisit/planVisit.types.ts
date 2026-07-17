@@ -11,6 +11,7 @@ export interface PlanVisitForm {
     service: string;
     adults: string;
     kids: string;
+    attend_date: string;
     /** Internal UI radio value — maps to visitor_status in the API payload. */
     guestType: VisitorStatus;
 }
@@ -23,6 +24,7 @@ export interface RegistrationPayload {
     service_type: string;
     adult_count: number | null;
     child_count: number | null;
+    attend_date: string;
     visitor_status: VisitorStatus;
 }
 
@@ -33,5 +35,6 @@ export const EMPTY_PLAN_VISIT_FORM: PlanVisitForm = {
     service: '',
     adults: '1',
     kids: '0',
+    attend_date: '',
     guestType: 'first_time',
 };

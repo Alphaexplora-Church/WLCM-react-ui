@@ -27,7 +27,7 @@ const cards = [
     ctas: [
       { label: "Start the Journey", action: "/find-freedom" },
     ],
-    img: "/events/random-4.jpg",
+    img: "https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784261368/random-4_yu9wms.jpg",
   },
   {
     number: "03",
@@ -37,7 +37,7 @@ const cards = [
     ctas: [
       { label: "Discover Purpose", action: "/discover-purpose" },
     ],
-    img: "/events/random-6.jpg",
+    img: "https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784261369/random-6_pptks6.jpg",
   },
   {
     number: "04",
@@ -47,7 +47,7 @@ const cards = [
     ctas: [
       { label: "Explore Ministries", action: "/experience#ministries" },
     ],
-    img: "/events/heavensound-3.jpg",
+    img: "https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784261370/heavensound-3_rwa46l.jpg",
   },
 ];
 

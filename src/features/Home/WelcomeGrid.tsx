@@ -7,19 +7,19 @@ import { motion } from 'framer-motion';
  */
 const photos = [
   {
-    src: "/events/random-5.jpg",
+    src: "https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784261342/random-5_j4iklf.jpg",
     alt: "People in community",
     caption: "You belong here.",
     size: "tall", // col-span-1, row-span-2
   },
   {
-    src: "/events/random-3.jpg",
+    src: "https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784261342/random-3_cfbx9s.jpg",
     alt: "Friends laughing",
     caption: "Real friendships await.",
     size: "regular",
   },
   {
-    src: "/events/passover-3.jpg",
+    src: "https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784261364/passover-3_btqly2.jpg",
     alt: "Helping hands",
     caption: "A love that changes lives.",
     size: "regular",

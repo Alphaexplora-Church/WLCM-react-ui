@@ -31,6 +31,20 @@ const expectations = [
   }
 ];
 
+const getNextThreeSundays = () => {
+  const dates = [];
+  const d = new Date();
+  // If today is Sunday (0), it stays today. Otherwise it moves to the next Sunday.
+  d.setDate(d.getDate() + ((7 - d.getDay()) % 7));
+  
+  for (let i = 0; i < 3; i++) {
+    const formatted = d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    const isoDate = d.toISOString().split('T')[0];
+    dates.push({ label: `Sunday, ${formatted}`, value: isoDate });
+    d.setDate(d.getDate() + 7);
+  }
+  return dates;
+};
 
 const PlanVisitModal = ({ isOpen, onClose }: PlanVisitModalProps) => {
   const vm = usePlanVisitViewModel();
@@ -128,13 +142,35 @@ const PlanVisitModal = ({ isOpen, onClose }: PlanVisitModalProps) => {
                         />
                       </div>
 
+                      {/* Attend Date */}
+                      <div className="flex flex-col gap-1">
+                        <label className="font-sans text-[9px] sm:text-[10px] uppercase tracking-[0.2em] font-bold text-midnight-teal/60">
+                          Which Sunday? *
+                        </label>
+                        <select
+                          name="attend_date"
+                          required
+                          value={vm.form.attend_date}
+                          onChange={vm.handleChange}
+                          className="w-full px-3 sm:px-5 py-2.5 sm:py-3.5 rounded-lg md:rounded-xl border border-midnight-teal/10 bg-white focus:outline-none focus:border-harvest-orange font-sans text-xs sm:text-sm text-midnight-teal transition-colors appearance-none"
+                        >
+                          <option value="">Select a date</option>
+                          {getNextThreeSundays().map(date => (
+                            <option key={date.value} value={date.value}>
+                              {date.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
                       {/* Service */}
                       <div className="flex flex-col gap-1">
                         <label className="font-sans text-[9px] sm:text-[10px] uppercase tracking-[0.2em] font-bold text-midnight-teal/60">
-                          Preferred Service
+                          Preferred Service *
                         </label>
                         <select
                           name="service"
+                          required
                           value={vm.form.service}
                           onChange={vm.handleChange}
                           className="w-full px-3 sm:px-5 py-2.5 sm:py-3.5 rounded-lg md:rounded-xl border border-midnight-teal/10 bg-white focus:outline-none focus:border-harvest-orange font-sans text-xs sm:text-sm text-midnight-teal transition-colors appearance-none"

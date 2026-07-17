@@ -210,7 +210,7 @@ export default function AdminRegistrations() {
                                 vm.activeTab === 'plan-a-visit' ? 'Search by name or email…' :
                                     'Search by name, email or message…'
                             }
-                            className="w-full bg-white border border-gray-200 rounded-xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-midnight-teal/30 shadow-sm"
+                            className="w-full bg-white border border-gray-200 rounded-xl pl-11 pr-4 py-3 text-sm text-midnight-teal focus:outline-none focus:ring-2 focus:ring-midnight-teal/30 shadow-sm"
                         />
                     </div>
 
@@ -315,7 +315,13 @@ function PlanAVisitTable({ rows }: { rows: Registration[] }) {
     const serviceLabel = (s: string | null) => {
         if (s === 'sunday-10am') return '10:00 AM';
         if (s === 'sunday-2pm') return '2:00 PM';
+        if (s === 'sunday-4pm') return '4:00 PM';
         return s ?? '—';
+    };
+
+    const fmtAttendDate = (d: string | null) => {
+        if (!d) return '—';
+        return new Date(d + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
     };
 
     return (
@@ -324,10 +330,11 @@ function PlanAVisitTable({ rows }: { rows: Registration[] }) {
                 <tr>
                     <Th>Name</Th>
                     <Th>Contact</Th>
+                    <Th>Attend Date</Th>
                     <Th>Service</Th>
                     <Th>Guests</Th>
                     <Th>Type</Th>
-                    <Th>Date</Th>
+                    <Th>Submitted</Th>
                 </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -337,6 +344,12 @@ function PlanAVisitTable({ rows }: { rows: Registration[] }) {
                             {reg.first_name} {reg.last_name}
                         </td>
                         <td className="px-6 py-4">{reg.email}</td>
+                        <td className="px-6 py-4">
+                            <span className="inline-flex items-center gap-1 font-medium text-midnight-teal">
+                                <svg className="w-3.5 h-3.5 text-harvest-orange shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                {fmtAttendDate(reg.attend_date)}
+                            </span>
+                        </td>
                         <td className="px-6 py-4">{serviceLabel(reg.service_type)}</td>
                         <td className="px-6 py-4">
                             {reg.adult_count ?? 0} Adults, {reg.child_count ?? 0} Kids

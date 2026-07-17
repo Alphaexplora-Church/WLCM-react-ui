@@ -19,7 +19,7 @@ const formatTime = (timeString?: string) => {
     const minutes = match[2];
     const ampm = hours >= 12 ? 'PM' : 'AM';
     hours = hours % 12;
-    hours = hours ? hours : 12; 
+    hours = hours ? hours : 12;
     return `${hours}:${minutes} ${ampm}`;
   }
   return timeString;
@@ -44,14 +44,14 @@ const formatEventTimeRange = (start?: EventDate | null, end?: EventDate | null) 
 };
 
 const Events = () => {
-  const { 
-    events, 
-    announcements, 
-    isLoadingEvents, 
-    errorEvents, 
-    eventsPage, 
-    nextEventsPage, 
-    prevEventsPage, 
+  const {
+    events,
+    announcements,
+    isLoadingEvents,
+    errorEvents,
+    eventsPage,
+    nextEventsPage,
+    prevEventsPage,
     hasMoreEvents,
     isLoadingAnnouncements,
     errorAnnouncements,
@@ -136,7 +136,7 @@ const Events = () => {
               const color = i % 2 === 0 ? 'orange' : 'teal';
               const bgImage = event.media && event.media.length > 0
                 ? event.media[0].file_url
-                : 'https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=2000&auto=format&fit=crop';
+                : 'https://res.cloudinary.com/ldbgnurm/image/upload/v1784183381/476101441_1017940960371707_6341065751658890887_n_mgazo0.jpg';
 
               return (
                 <motion.div
@@ -145,13 +145,13 @@ const Events = () => {
                   whileHover={{ scale: 1.01 }}
                   className={`relative h-48 md:h-56 rounded-2xl overflow-hidden flex ${align === 'left' ? 'flex-row' : 'flex-row-reverse'} items-center group cursor-pointer border border-[#E6EDEF]/10 shadow-2xl`}
                 >
-                  <img 
-                    src={bgImage} 
-                    alt={event.title} 
+                  <img
+                    src={bgImage}
+                    alt={event.title}
                     className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
                     onError={(e) => {
                       console.error('Image failed to load:', bgImage);
-                      e.currentTarget.src = 'https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=2000&auto=format&fit=crop';
+                      e.currentTarget.src = 'https://res.cloudinary.com/ldbgnurm/image/upload/v1784183381/476101441_1017940960371707_6341065751658890887_n_mgazo0.jpg';
                     }}
                   />
                   <div className={`absolute inset-0 mix-blend-multiply transition-opacity duration-500 opacity-90 group-hover:opacity-80
@@ -214,11 +214,10 @@ const Events = () => {
             <button
               onClick={prevEventsPage}
               disabled={eventsPage === 1}
-              className={`px-6 py-2 rounded-full font-bold uppercase tracking-wider text-sm transition-all ${
-                eventsPage === 1
+              className={`px-6 py-2 rounded-full font-bold uppercase tracking-wider text-sm transition-all ${eventsPage === 1
                   ? 'bg-[#E6EDEF]/10 text-[#E6EDEF]/30 cursor-not-allowed'
                   : 'bg-[#004e5e] text-[#E6EDEF] hover:bg-[#005e70] shadow-lg'
-              }`}
+                }`}
             >
               Previous
             </button>
@@ -228,11 +227,10 @@ const Events = () => {
             <button
               onClick={nextEventsPage}
               disabled={!hasMoreEvents}
-              className={`px-6 py-2 rounded-full font-bold uppercase tracking-wider text-sm transition-all ${
-                !hasMoreEvents
+              className={`px-6 py-2 rounded-full font-bold uppercase tracking-wider text-sm transition-all ${!hasMoreEvents
                   ? 'bg-[#E6EDEF]/10 text-[#E6EDEF]/30 cursor-not-allowed'
                   : 'bg-[#F5841A] text-white hover:bg-[#ff9533] shadow-lg'
-              }`}
+                }`}
             >
               Next
             </button>
@@ -322,11 +320,10 @@ const Events = () => {
               <button
                 onClick={prevAnnouncementsPage}
                 disabled={announcementsPage === 1}
-                className={`px-6 py-2 rounded-full font-bold uppercase tracking-wider text-sm transition-all ${
-                  announcementsPage === 1
+                className={`px-6 py-2 rounded-full font-bold uppercase tracking-wider text-sm transition-all ${announcementsPage === 1
                     ? 'bg-[#E6EDEF]/10 text-[#E6EDEF]/30 cursor-not-allowed'
                     : 'bg-[#004e5e] text-[#E6EDEF] hover:bg-[#005e70] shadow-lg'
-                }`}
+                  }`}
               >
                 Previous
               </button>
@@ -336,11 +333,10 @@ const Events = () => {
               <button
                 onClick={nextAnnouncementsPage}
                 disabled={!hasMoreAnnouncements}
-                className={`px-6 py-2 rounded-full font-bold uppercase tracking-wider text-sm transition-all ${
-                  !hasMoreAnnouncements
+                className={`px-6 py-2 rounded-full font-bold uppercase tracking-wider text-sm transition-all ${!hasMoreAnnouncements
                     ? 'bg-[#E6EDEF]/10 text-[#E6EDEF]/30 cursor-not-allowed'
                     : 'bg-[#F5841A] text-white hover:bg-[#ff9533] shadow-lg'
-                }`}
+                  }`}
               >
                 Next
               </button>

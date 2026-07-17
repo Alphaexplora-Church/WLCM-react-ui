@@ -9,5 +9,6 @@ export interface Registration {
     adult_count: number | null;
     child_count: number | null;
     visitor_status: 'first_time' | 'returning' | null;
+    attend_date: string | null;
     submitted_at: string;
 }

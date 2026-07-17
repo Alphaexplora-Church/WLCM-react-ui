@@ -7,7 +7,7 @@ export default function Manifesto() {
       {/* Static background image */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <img
-          src="/events/nat_con-3.jpg"
+          src="https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:best,w_1200/v1784262423/nat_con-3_isoyky.jpg"
           className="w-full h-full object-cover grayscale-[30%] blur-[2px]"
           alt="Background Texture"
         />

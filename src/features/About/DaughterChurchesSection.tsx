@@ -34,9 +34,9 @@ const regionChurches: Record<Region, { name: string; lead: string }[]> = {
 };
 
 const regionImages: Record<Region, string> = {
-  Luzon: "/events/luzon-map.jpg",
-  Visayas: "/events/visayas-map.png",
-  Mindanao: "/events/mindanao-map.png",
+  Luzon: "https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:best,w_1200/v1784261476/luzon-map_dqxcac.jpg",
+  Visayas: "https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:best,w_1200/v1784261481/visayas-map_tgr3wj.png",
+  Mindanao: "https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:best,w_1200/v1784261480/mindanao-map_mfx6mc.png",
 };
 
 export default function DaughterChurchesSection() {
