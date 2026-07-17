@@ -2,13 +2,13 @@ import { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const nationalTeam = [
-  { name: "Pastor Josef Zabarte", role: "Senior Pastor", img: "/pastors/josef.webp" },
-  { name: "Pastor Grace Zabarte", role: "Ministries Department Head", img: "/pastors/grace.webp" },
-  { name: "Pastor Jude Orbiso", role: "Missions Department Head", img: "/pastors/jude.webp" },
-  { name: "Pastor Arnold Pacis", role: "Magnification Department Head", img: "/pastors/arnold.webp" },
-  { name: "Doc. Angel Concepcion", role: "Management Department Head", img: "/pastors/angel.webp" },
-  { name: "Pastor Yoly Iriman", role: "Maturity Department Head", img: "/pastors/yoly.webp" },
-  { name: "Vanessa Pacis", role: "Membership Department Head", img: "/pastors/nice.webp" },
+  { name: "Pastor Josef Zabarte", role: "Senior Pastor", img: "https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784258770/josef_frdjyn.webp" },
+  { name: "Pastor Grace Zabarte", role: "Ministries Department Head", img: "https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784258769/grace_wxoify.webp" },
+  { name: "Pastor Jude Orbiso", role: "Missions Department Head", img: "https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784258770/jude_ftpu6d.webp" },
+  { name: "Pastor Arnold Pacis", role: "Magnification Department Head", img: "https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784258769/arnold_bemoka.webp" },
+  { name: "Doc. Angel Concepcion", role: "Management Department Head", img: "https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784258769/angel_rwy2vg.webp" },
+  { name: "Pastor Yoly Iriman", role: "Maturity Department Head", img: "https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784258769/yoly_p5kfkv.webp" },
+  { name: "Vanessa Pacis", role: "Membership Department Head", img: "https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784258769/nice_gtybqi.webp" },
 ]
 
 
