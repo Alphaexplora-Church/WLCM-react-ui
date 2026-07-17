@@ -30,7 +30,7 @@ const WelcomeExperienceFlow = () => {
             {/* Full-width photo band */}
             <div className="relative h-[50vw] md:h-[38vw] max-h-[480px] min-h-[280px]">
                 <img
-                    src="/events/random-10.jpg"
+                    src="https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784262303/random-10_zuaxh4.jpg"
                     alt="Church community"
                     className="w-full h-full object-cover object-top"
                 />

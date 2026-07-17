@@ -6,17 +6,17 @@ import { motion } from 'framer-motion';
  */
 const expects = [
     {
-        img: "/events/passover-4.jpg",
+        img: "https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784261422/passover-4_ukeodw.jpg",
         label: "The Service",
         title: "30 min worship and 45 min message and teaching.",
     },
     {
-        img: "/events/pulse-1.jpg",
+        img: "https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784261424/pulse-1_x3asdo.jpg",
         label: "Kids & Youth",
         title: "Safe, fun, age-appropriate programs.",
     },
     {
-        img: "/events/hospitality-2.jpg",
+        img: "https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784261422/hospitality-2_t9glay.jpg",
         label: "First-Time Guests",
         title: "Our team will find you at the door.",
     },

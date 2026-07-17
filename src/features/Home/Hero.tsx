@@ -49,7 +49,7 @@ function TransparentVideo({ src, className }: { src: string; className?: string 
       rafRef.current = requestAnimationFrame(render);
     });
 
-    video.play().catch(() => {});
+    video.play().catch(() => { });
 
     return () => {
       cancelAnimationFrame(rafRef.current);
@@ -82,7 +82,7 @@ export default function Hero() {
       {/* BACKGROUND */}
       <div className="absolute inset-0 z-0">
         <img
-          src="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?auto=format&fit=crop&q=80&w=2000"
+
           alt="Welcome Background"
           className="w-full h-full object-cover blur-[6px] scale-105 grayscale-[30%] opacity-40"
         />
