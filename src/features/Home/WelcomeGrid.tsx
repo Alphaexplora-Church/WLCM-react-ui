@@ -46,9 +46,9 @@ const WelcomeGrid = () => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
-          className="font-sans text-midnight-teal/50 text-sm md:text-base max-w-xs leading-relaxed italic font-light"
+          className="font-sans text-midnight-teal/50 text-sm md:text-base max-w-xs leading-relaxed font-light"
         >
-          No perfect people. No dress code. Just a God who loves you and a family ready to welcome you.
+          No perfect people. No dress code.<br />Just a God who loves you and<br />a family ready to welcome you.
         </motion.p>
       </div>
 
@@ -70,7 +70,7 @@ const WelcomeGrid = () => {
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-midnight-teal/70 via-transparent to-transparent" />
-            <p className="absolute bottom-6 left-6 font-serif text-soft-linen text-2xl md:text-3xl leading-tight">
+            <p className="absolute bottom-6 left-6 font-serif text-soft-linen text-xl md:text-2xl leading-tight">
               {photos[0].caption}
             </p>
           </motion.div>
@@ -115,7 +115,7 @@ const WelcomeGrid = () => {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.07 }}
-              className="flex items-center gap-2.5 py-4 md:py-5 px-0 md:px-6 border-b md:border-b-0 border-midnight-teal/10"
+              className={`flex items-center gap-2.5 py-4 md:py-5 ${i % 2 === 0 ? 'pr-4 md:px-6' : 'pl-4 md:px-6'} border-b md:border-b-0 border-midnight-teal/10`}
             >
               <span className="text-harvest-orange text-[10px]">{item.icon}</span>
               <span className="font-sans text-[11px] md:text-xs text-midnight-teal/60 uppercase tracking-[0.2em] font-bold">{item.text}</span>

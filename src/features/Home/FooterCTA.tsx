@@ -19,7 +19,7 @@ const FooterCTA = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-midnight-teal via-midnight-teal/60 to-midnight-teal/10" />
 
                 {/* Content */}
-                <div className="relative z-10 w-full px-6 md:px-14 lg:px-20 pb-12 md:pb-20 flex flex-col md:flex-row md:items-end md:justify-between gap-8">
+                <div className="relative z-10 w-full px-6 md:px-14 lg:px-20 pb-16 md:pb-20 flex flex-col md:flex-row md:items-end md:justify-between gap-8">
 
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}

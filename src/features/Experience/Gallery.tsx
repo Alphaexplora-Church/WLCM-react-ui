@@ -53,7 +53,7 @@ const PHOTOS: PhotoDef[] = [
   },
   // ── Over "FE" — two men embracing at community event ─────────────────────
   {
-    url: 'https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784275414/gallery-2_isabxx.jpg',
+    url: 'https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784299626/gallery-13_rw0f3o.jpg ',
     bottom: '8%', left: '79%',
     wClass: 'w-[30vw] md:w-[15vw]', hClass: 'h-[10vh] md:h-[20vh]',
     rotate: 2, z: 2,
@@ -84,13 +84,13 @@ const PHOTOS: PhotoDef[] = [
     rotate: 2.5, z: 2,
   },
   {
-    url: 'https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784277401/gallery-9_u8pflw.jpg ',
+    url: 'https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784299595/gallery-12_rxheoq.jpg',
     top: '6%', left: '129%',
     wClass: 'w-[23vw] md:w-[11vw]', hClass: 'h-[12vh] md:h-[33vh]',
     rotate: -3, z: 3,
   },
   {
-    url: 'https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784278231/gallery-11_klki3w.jpg  ',
+    url: 'https://res.cloudinary.com/ldbgnurm/image/upload/f_auto,q_auto:good,w_1000/v1784299812/gallery-14_mysftk.jpg',
     bottom: '8%', left: '139%',
     wClass: 'w-[29vw] md:w-[14vw]', hClass: 'h-[10vh] md:h-[20vh]',
     rotate: 1.5, z: 2,

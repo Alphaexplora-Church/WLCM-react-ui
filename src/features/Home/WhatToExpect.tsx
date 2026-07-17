@@ -32,10 +32,10 @@ const WhatToExpect = () => {
                     initial={{ opacity: 0, y: 16 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="font-serif text-4xl md:text-6xl text-midnight-teal lowercase tracking-tighter leading-[0.9]"
+                    className="font-serif text-4xl md:text-6xl text-midnight-teal tracking-tighter leading-[0.9]"
                     style={{ fontFamily: 'Vogun, serif' }}
                 >
-                    What to expect<br />on Sunday.
+                    what to expect<br />on Sunday.
                 </motion.h2>
             </div>
 
