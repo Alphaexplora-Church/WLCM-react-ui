@@ -318,24 +318,6 @@ function MobileGridPhoto({
       />
       <PhotoOverlay />
 
-      {/* Hero scrim + title on first card only */}
-      {item.isFirst && (
-        <>
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{ background: 'linear-gradient(to top, rgba(0,46,56,0.85) 0%, rgba(0,46,56,0.20) 55%, transparent 80%)' }}
-          />
-          <div className="absolute bottom-4 left-4 right-4 z-10 pointer-events-none select-none">
-            <h2 style={{
-              fontFamily: 'Vogun, serif', fontWeight: 500,
-              fontSize: '8vw', lineHeight: 1, letterSpacing: '-0.02em',
-              color: 'rgba(230,237,239,0.92)',
-            }}>
-              words of life.
-            </h2>
-          </div>
-        </>
-      )}
 
       {/* Counter */}
       <div className="absolute bottom-2.5 right-3 z-10 pointer-events-none select-none">
@@ -418,7 +400,7 @@ function DesktopGallery() {
   return (
     <section
       ref={containerRef}
-      className="relative hidden md:block h-[350vh] bg-[#002E38]"
+      className="relative hidden [@media(min-width:1900px)_and_(min-height:900px)]:block h-[350vh] bg-[#002E38]"
     >
       <div className="sticky top-0 h-[100dvh] w-full overflow-x-hidden flex items-center no-scrollbar">
 

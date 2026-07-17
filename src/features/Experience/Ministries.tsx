@@ -145,7 +145,7 @@ const Ministries: React.FC = () => {
       <div className="flex-1 w-full px-6 flex flex-col items-center justify-center relative z-10">
         <div className="text-center mb-8">
           <p className="font-sans text-[10px] tracking-[0.4em] uppercase mb-2 opacity-60">Our Community</p>
-          <h2 className="font-serif text-5xl md:text-7xl uppercase tracking-tighter leading-none mb-6">MINISTRIES</h2>
+          <h2 className="font-serif text-5xl md:text-7xl lowercase tracking-tighter leading-none mb-6">MINISTRIES</h2>
 
           {/* Category tabs */}
           <div className="flex gap-2 p-1 bg-[#E6EDEF]/5 rounded-full w-fit mx-auto">
