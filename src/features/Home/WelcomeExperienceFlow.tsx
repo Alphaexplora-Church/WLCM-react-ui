@@ -19,7 +19,7 @@ const WelcomeExperienceFlow = () => {
         },
         {
             number: "03",
-            label: "New Comer's Kit",
+            label: "Newcomer's Kit",
             line: "We'll prepare a personal welcome.",
         },
     ];
@@ -45,10 +45,10 @@ const WelcomeExperienceFlow = () => {
                     className="absolute left-6 md:left-14 lg:left-20 bottom-8 md:bottom-12"
                 >
                     <h2
-                        className="font-serif text-4xl md:text-6xl lg:text-7xl text-soft-linen lowercase tracking-tighter leading-[0.9]"
+                        className="font-serif text-4xl md:text-6xl lg:text-7xl text-soft-linen tracking-tighter leading-[0.9]"
                         style={{ fontFamily: 'Vogun, serif' }}
                     >
-                        Your first<br />Sunday.
+                        your first<br />Sunday.
                     </h2>
                 </motion.div>
             </div>
