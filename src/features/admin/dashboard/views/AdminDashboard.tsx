@@ -1,24 +1,16 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import AdminSidebar from './AdminSidebar';
-import AdminHeader from './AdminHeader';
+import AdminSidebar from '../../components/AdminSidebar';
+import AdminHeader from '../../components/AdminHeader';
+import { useAdminDashboardViewModel } from '../viewModels/useAdminDashboardViewModel';
 
 export default function AdminDashboard() {
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            navigate('/login');
-        }
-    }, [navigate]);
+    const { userName } = useAdminDashboardViewModel();
 
     return (
         <div className="flex min-h-screen bg-soft-linen">
             <AdminSidebar />
 
             <div className="flex-1 flex flex-col">
-                <AdminHeader userName="Admin" />
+                <AdminHeader userName={userName} />
 
                 <main className="p-6 flex-1 bg-white/50">
                     <h1 className="text-2xl font-serif text-midnight-teal">Dashboard Home</h1>

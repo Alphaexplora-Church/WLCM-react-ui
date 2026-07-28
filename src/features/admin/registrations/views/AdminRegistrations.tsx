@@ -1,6 +1,6 @@
 // ─── Admin Registrations: View ──────────────────────────────────────────────
-import AdminSidebar from './AdminSidebar';
-import AdminHeader from './AdminHeader';
+import AdminSidebar from '../../components/AdminSidebar';
+import AdminHeader from '../../components/AdminHeader';
 import { useAdminRegistrationsViewModel } from '../viewModels/useAdminRegistrationsViewModel';
 import type { RegistrationTab } from '../viewModels/useAdminRegistrationsViewModel';
 import type { Registration } from '../models/adminRegistrations.types';

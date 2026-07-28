@@ -14,9 +14,9 @@ import Contact from './features/engage/views/Contact';
 import FindFreedom from './features/engage/views/FindFreedom';
 import DiscoverPurpose from './features/engage/views/DiscoverPurpose';
 import Login from './features/auth/views/Login';
-import AdminDashboard from './features/admin/views/AdminDashboard';
-import AdminEvents from './features/admin/views/AdminEvents';
-import AdminRegistrations from './features/admin/views/AdminRegistrations';
+import AdminDashboard from './features/admin/dashboard/views/AdminDashboard';
+import AdminEvents from './features/admin/events/views/AdminEvents';
+import AdminRegistrations from './features/admin/registrations/views/AdminRegistrations';
 
 export default function App() {
   const location = useLocation();

@@ -1,7 +1,7 @@
 // ─── Admin Events: ViewModel ─────────────────────────────────────────────────
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { ChurchEvent, Announcement } from '../../experience/models/events.types';
+import type { ChurchEvent, Announcement } from '../../../experience/models/events.types';
 import type { ContentTab, EventFormData } from '../models/adminEvents.types';
 import { AdminEventsService } from '../models/adminEvents.api';
 

@@ -1,5 +1,5 @@
 // ─── Admin Events: Service (Model) ──────────────────────────────────────────
-import type { ChurchEvent, Announcement } from '../../experience/models/events.types';
+import type { ChurchEvent, Announcement } from '../../../experience/models/events.types';
 import type { EventFormData } from './adminEvents.types';
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL;

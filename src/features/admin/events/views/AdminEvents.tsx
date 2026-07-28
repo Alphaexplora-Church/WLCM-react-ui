@@ -1,6 +1,6 @@
 // ─── Admin Events: View ──────────────────────────────────────────────────────
-import AdminSidebar from './AdminSidebar';
-import AdminHeader from './AdminHeader';
+import AdminSidebar from '../../components/AdminSidebar';
+import AdminHeader from '../../components/AdminHeader';
 import { useAdminEventsViewModel } from '../viewModels/useAdminEventsViewModel';
 import type { StatusFilter } from '../viewModels/useAdminEventsViewModel';
 import { EventModal } from './EventModal';
