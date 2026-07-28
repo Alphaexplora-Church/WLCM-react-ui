@@ -1,22 +1,22 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
-import ScrollToTop from './components/ScrollToTop'; //
+import ScrollToTop from './shared/components/ScrollToTop';
 
 // --- IMPORT YOUR PAGES ---
-import Home from './pages/Home';
-import AboutUs from './pages/AboutUs';
-import Experience from './pages/Experience';
-import Engage from './pages/Engage';
-import Give from './pages/Give';
-import Watch from './pages/Watch';
-import PrayerWall from './features/Engage/PrayerWall';
-import Contact from './features/Engage/Contact/index';
-import FindFreedom from './features/Engage/FindFreedom';
-import DiscoverPurpose from './features/Engage/DiscoverPurpose';
-import Login from './pages/Login';
-import AdminDashboard from './features/Admin/AdminDashboard';
-import AdminEvents from './features/Admin/AdminEvents';
-import AdminRegistrations from './features/Admin/AdminRegistrations';
+import Home from './features/home/views/Home';
+import AboutUs from './features/about/views/AboutUs';
+import Experience from './features/experience/views/Experience';
+import Engage from './features/engage/views/Engage';
+import Give from './features/give/views/Give';
+import Watch from './features/watch/views/Watch';
+import PrayerWall from './features/engage/views/PrayerWall';
+import Contact from './features/engage/views/Contact';
+import FindFreedom from './features/engage/views/FindFreedom';
+import DiscoverPurpose from './features/engage/views/DiscoverPurpose';
+import Login from './features/auth/views/Login';
+import AdminDashboard from './features/admin/views/AdminDashboard';
+import AdminEvents from './features/admin/views/AdminEvents';
+import AdminRegistrations from './features/admin/views/AdminRegistrations';
 
 export default function App() {
   const location = useLocation();
