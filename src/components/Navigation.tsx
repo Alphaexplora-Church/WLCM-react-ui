@@ -34,6 +34,8 @@ const navItems = [
   },
   { label: 'Give', path: '/give' },
   { label: 'Contact', path: '/engage#contact' },
+  { label: 'Sermons', path: '/sermons' },
+
   // {
   //   label: 'Next Steps',
   //   path: '/engage',
